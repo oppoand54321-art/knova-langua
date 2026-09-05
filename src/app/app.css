@@ -1,0 +1,564 @@
+/* ================================
+   KNova Lingua
+   Main Application Styling
+================================ */
+
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.lingua-shell {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(80, 110, 255, 0.12),
+      transparent 35%
+    ),
+    #080b12;
+  color: #ffffff;
+  padding: 0 22px 22px;
+}
+
+
+/* ================================
+   Header
+================================ */
+
+.lingua-header {
+  height: 78px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+}
+
+.brand-main {
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  background: linear-gradient(90deg, #ffffff, #8ea2ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.brand-by {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.42);
+  letter-spacing: 0.4px;
+}
+
+.brand-by strong {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+
+/* ================================
+   Language Selection
+================================ */
+
+.language-bar {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  padding: 18px 0;
+}
+
+.language-box {
+  min-width: 0;
+  padding: 13px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.035);
+  backdrop-filter: blur(12px);
+}
+
+.language-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.language-label span {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.language-label small {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.language-select {
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  outline: none;
+  background: #101521;
+  color: #ffffff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.language-select:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.language-select:focus {
+  border-color: rgba(142, 162, 255, 0.65);
+  box-shadow: 0 0 0 3px rgba(142, 162, 255, 0.08);
+}
+
+.language-select option {
+  background: #101521;
+  color: #ffffff;
+}
+
+.language-select:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+}
+
+.fixed-language {
+  border-color: rgba(100, 220, 160, 0.22);
+}
+
+
+/* ================================
+   Main Workspace
+================================ */
+
+.lingua-workspace {
+  min-height: calc(100vh - 160px);
+  display: grid;
+  grid-template-columns: 1fr 330px;
+  gap: 18px;
+}
+
+
+/* ================================
+   Call Panel
+================================ */
+
+.call-panel {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.call-screen {
+  position: relative;
+  flex: 1;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(80, 110, 255, 0.08),
+      transparent 48%
+    ),
+    #0c1019;
+}
+
+.call-placeholder {
+  text-align: center;
+}
+
+.call-avatar {
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    #27345f,
+    #121827
+  );
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.35);
+}
+
+.call-avatar span {
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.call-placeholder h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.call-placeholder p {
+  margin: 8px 0 0;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 13px;
+}
+
+.selected-contact {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 13px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+}
+
+.selected-name {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.selected-number {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.42);
+}
+
+
+/* ================================
+   Call Controls
+================================ */
+
+.call-controls {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.call-button {
+  width: 82px;
+  height: 70px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.045);
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  transition: 0.2s ease;
+}
+
+.call-button span {
+  font-size: 23px;
+}
+
+.call-button small {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.call-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.call-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+
+/* ================================
+   Quick Messages
+================================ */
+
+.quick-messages {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.quick-messages button {
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.035);
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.quick-messages button:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+}
+
+.quick-messages button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+
+/* ================================
+   Contacts Panel
+================================ */
+
+.contacts-panel {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.025);
+  overflow: hidden;
+}
+
+
+/* ================================
+   Contact Search
+================================ */
+
+.search-box {
+  height: 58px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.search-icon {
+  font-size: 22px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.search-box input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #ffffff;
+  font-size: 12px;
+}
+
+.search-box input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+
+/* ================================
+   Contacts List
+================================ */
+
+.contacts-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.contact-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 10px;
+  margin-bottom: 3px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  color: #ffffff;
+  text-align: left;
+  cursor: pointer;
+}
+
+.contact-item:hover {
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.contact-item.active {
+  background: rgba(110, 130, 255, 0.09);
+  border-color: rgba(110, 130, 255, 0.18);
+}
+
+.contact-avatar {
+  width: 39px;
+  height: 39px;
+  flex: 0 0 39px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #171e31;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.contact-info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.contact-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.contact-number {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.empty-contacts {
+  padding: 30px 15px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 11px;
+}
+
+
+/* ================================
+   Scrollbar
+================================ */
+
+.contacts-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.contacts-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.contacts-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+}
+
+
+/* ================================
+   Mobile
+================================ */
+
+@media (max-width: 760px) {
+
+  .lingua-shell {
+    padding: 0 12px 15px;
+  }
+
+  .lingua-header {
+    height: 68px;
+  }
+
+  .brand-main {
+    font-size: 32px;
+  }
+
+  .language-bar {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 12px 0;
+  }
+
+  .language-box {
+    padding: 10px;
+  }
+
+  .language-label {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .language-label span {
+    font-size: 11px;
+  }
+
+  .language-label small {
+    font-size: 9px;
+  }
+
+  .language-select {
+    height: 39px;
+    font-size: 11px;
+  }
+
+  .lingua-workspace {
+    grid-template-columns: 1fr 42%;
+    gap: 9px;
+    min-height: calc(100vh - 135px);
+  }
+
+  .call-screen {
+    min-height: 350px;
+    border-radius: 15px;
+  }
+
+  .contacts-panel {
+    border-radius: 15px;
+  }
+
+  .search-box {
+    height: 50px;
+    padding: 0 10px;
+  }
+
+  .search-icon {
+    font-size: 18px;
+  }
+
+  .contact-item {
+    padding: 8px 5px;
+  }
+
+  .contact-avatar {
+    width: 32px;
+    height: 32px;
+    flex-basis: 32px;
+    font-size: 11px;
+  }
+
+  .contact-name {
+    font-size: 10px;
+  }
+
+  .contact-number {
+    font-size: 8px;
+  }
+
+  .call-button {
+    width: 72px;
+    height: 62px;
+  }
+
+  .quick-messages button {
+    font-size: 9px;
+    padding: 7px 9px;
+  }
+}
