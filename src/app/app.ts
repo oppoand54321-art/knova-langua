@@ -1,12 +1,13 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
+type CallMode = 'audio' | 'video' | null;
+type CallState = 'idle' | 'calling' | 'ringing' | 'connected';
 
 interface Contact {
   name?: string;
   number: string;
   language: string;
-  favorite?: boolean;
 }
 
 interface Language {
@@ -14,226 +15,77 @@ interface Language {
   name: string;
 }
 
-type CallMode = 'audio' | 'video' | null;
-type CallState = 'idle' | 'calling' | 'ringing' | 'connected';
-type Screen = 'home' | 'credits';
-
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App implements OnDestroy {
+export class App {
+  activeScreen: 'home' | 'credits' = 'home';
 
-  // =========================================================
-  // SCREEN / MODALS
-  // =========================================================
-
-  activeScreen: Screen = 'home';
-
-  showDialer = false;
-  showMessageBox = false;
-
-  // =========================================================
-  // USER IDENTITY
-  // =========================================================
-
+  // Identity
   profileName = 'LANG User';
-
   myLangNumber = '+92-925-600-000';
-
   verifiedIdentity = true;
 
-  // =========================================================
-  // PACKAGES / CREDITS
-  // =========================================================
-
-  hasLocalPackage = true;
-  hasTranslationPackage = false;
-
-  localCredits = 1000;
-  translationCredits = 0;
-  messageCredits = 0;
-
-  packageName = 'Local Annual Package';
-
-  packageExpiry = 'Not connected to backend yet';
-
-  get totalCredits(): number {
-    return (
-      this.localCredits +
-      this.translationCredits +
-      this.messageCredits
-    );
-  }
-
-  get sendMessageEnabled(): boolean {
-    return (
-      this.hasTranslationPackage &&
-      !!this.selectedContact
-    );
-  }
-
-  // =========================================================
-  // LANGUAGE STATE
-  // =========================================================
-
+  // Languages
   myLanguage = 'ur';
-  theirLanguage = 'en';
-
-  // =========================================================
-  // CONTACT SEARCH
-  // =========================================================
-
-  searchTerm = '';
-
-  // =========================================================
-  // DIALER
-  // =========================================================
-
-  dialedNumber = '';
-
-  newContactName = '';
-
-  // =========================================================
-  // CALL STATE
-  // =========================================================
-
-  callState: CallState = 'idle';
-
-  callMode: CallMode = null;
-
-  callDuration = 0;
-
-  private callTimer: ReturnType<typeof setInterval> | null = null;
-
-  // =========================================================
-  // INCOMING CALL
-  // =========================================================
-
-  incomingCallVisible = false;
-
-  incomingCallMode: 'audio' | 'video' = 'audio';
-
-  incomingCaller: Contact = {
-    name: 'Ahmed Khan',
-    number: '+92-925-600-125',
-    language: 'ur',
-    favorite: true
-  };
-
-  // =========================================================
-  // CONTACTS
-  // =========================================================
-
-  contacts: Contact[] = [
-    {
-      name: 'Ahmed Khan',
-      number: '+92-925-600-125',
-      language: 'ur',
-      favorite: true
-    },
-    {
-      name: 'Sarah Ahmed',
-      number: '+92-925-600-126',
-      language: 'ur',
-      favorite: true
-    },
-    {
-      name: 'Mohammed Ali',
-      number: '+966-925-600-127',
-      language: 'ar',
-      favorite: false
-    },
-    {
-      name: 'John Smith',
-      number: '+44-925-600-128',
-      language: 'en',
-      favorite: false
-    },
-    {
-      name: 'Li Wei',
-      number: '+86-925-600-129',
-      language: 'zh',
-      favorite: false
-    },
-    {
-      name: 'Kenji Tanaka',
-      number: '+81-925-600-130',
-      language: 'ja',
-      favorite: false
-    },
-    {
-      name: 'Maria Garcia',
-      number: '+34-925-600-131',
-      language: 'es',
-      favorite: false
-    },
-    {
-      name: 'Jean Martin',
-      number: '+33-925-600-132',
-      language: 'fr',
-      favorite: false
-    },
-    {
-      name: 'Omar Hassan',
-      number: '+20-925-600-133',
-      language: 'ar',
-      favorite: false
-    },
-    {
-      name: 'David Miller',
-      number: '+1-925-600-134',
-      language: 'en',
-      favorite: false
-    }
-  ];
-
-  selectedContact: Contact | null = null;
-
-  // =========================================================
-  // LANGUAGES
-  // =========================================================
+  theirLanguage = 'ur';
 
   languages: Language[] = [
-
     { code: 'ur', name: 'Urdu' },
     { code: 'en', name: 'English' },
     { code: 'ar', name: 'Arabic' },
-    { code: 'zh', name: 'Chinese (Mandarin)' },
-    { code: 'hi', name: 'Hindi' },
-    { code: 'bn', name: 'Bengali' },
-    { code: 'pa', name: 'Punjabi' },
-    { code: 'fa', name: 'Persian' },
-    { code: 'tr', name: 'Turkish' },
-    { code: 'ru', name: 'Russian' },
+    { code: 'zh', name: 'Chinese' },
     { code: 'es', name: 'Spanish' },
     { code: 'fr', name: 'French' },
     { code: 'de', name: 'German' },
     { code: 'it', name: 'Italian' },
     { code: 'pt', name: 'Portuguese' },
+    { code: 'ru', name: 'Russian' },
     { code: 'ja', name: 'Japanese' },
     { code: 'ko', name: 'Korean' },
-    { code: 'vi', name: 'Vietnamese' },
-    { code: 'th', name: 'Thai' },
+    { code: 'hi', name: 'Hindi' },
+    { code: 'bn', name: 'Bengali' },
+    { code: 'pa', name: 'Punjabi' },
+    { code: 'fa', name: 'Persian' },
+    { code: 'tr', name: 'Turkish' },
     { code: 'id', name: 'Indonesian' },
     { code: 'ms', name: 'Malay' },
-    { code: 'fil', name: 'Filipino' },
+    { code: 'vi', name: 'Vietnamese' },
+    { code: 'th', name: 'Thai' },
     { code: 'nl', name: 'Dutch' },
     { code: 'pl', name: 'Polish' },
     { code: 'uk', name: 'Ukrainian' },
     { code: 'ro', name: 'Romanian' },
     { code: 'el', name: 'Greek' },
-    { code: 'cs', name: 'Czech' },
-    { code: 'sk', name: 'Slovak' },
-    { code: 'hu', name: 'Hungarian' },
+    { code: 'he', name: 'Hebrew' },
     { code: 'sv', name: 'Swedish' },
     { code: 'no', name: 'Norwegian' },
     { code: 'da', name: 'Danish' },
     { code: 'fi', name: 'Finnish' },
-    { code: 'he', name: 'Hebrew' },
+    { code: 'cs', name: 'Czech' },
+    { code: 'sk', name: 'Slovak' },
+    { code: 'hu', name: 'Hungarian' },
+    { code: 'bg', name: 'Bulgarian' },
+    { code: 'sr', name: 'Serbian' },
+    { code: 'hr', name: 'Croatian' },
+    { code: 'sl', name: 'Slovenian' },
+    { code: 'bs', name: 'Bosnian' },
+    { code: 'sq', name: 'Albanian' },
+    { code: 'mk', name: 'Macedonian' },
+    { code: 'et', name: 'Estonian' },
+    { code: 'lv', name: 'Latvian' },
+    { code: 'lt', name: 'Lithuanian' },
+    { code: 'is', name: 'Icelandic' },
+    { code: 'ga', name: 'Irish' },
+    { code: 'cy', name: 'Welsh' },
+    { code: 'ca', name: 'Catalan' },
+    { code: 'eu', name: 'Basque' },
+    { code: 'gl', name: 'Galician' },
+    { code: 'af', name: 'Afrikaans' },
     { code: 'sw', name: 'Swahili' },
     { code: 'am', name: 'Amharic' },
     { code: 'so', name: 'Somali' },
@@ -242,36 +94,14 @@ export class App implements OnDestroy {
     { code: 'ig', name: 'Igbo' },
     { code: 'zu', name: 'Zulu' },
     { code: 'xh', name: 'Xhosa' },
-    { code: 'af', name: 'Afrikaans' },
-    { code: 'sq', name: 'Albanian' },
-    { code: 'hy', name: 'Armenian' },
-    { code: 'az', name: 'Azerbaijani' },
-    { code: 'eu', name: 'Basque' },
-    { code: 'be', name: 'Belarusian' },
-    { code: 'bs', name: 'Bosnian' },
-    { code: 'bg', name: 'Bulgarian' },
-    { code: 'ca', name: 'Catalan' },
-    { code: 'hr', name: 'Croatian' },
-    { code: 'et', name: 'Estonian' },
-    { code: 'ka', name: 'Georgian' },
-    { code: 'is', name: 'Icelandic' },
-    { code: 'ga', name: 'Irish' },
-    { code: 'lv', name: 'Latvian' },
-    { code: 'lt', name: 'Lithuanian' },
-    { code: 'mk', name: 'Macedonian' },
-    { code: 'mt', name: 'Maltese' },
-    { code: 'sr', name: 'Serbian' },
-    { code: 'sl', name: 'Slovenian' },
-    { code: 'cy', name: 'Welsh' },
-    { code: 'gl', name: 'Galician' },
-    { code: 'eo', name: 'Esperanto' },
-    { code: 'la', name: 'Latin' },
+    { code: 'rw', name: 'Kinyarwanda' },
+    { code: 'mg', name: 'Malagasy' },
     { code: 'ne', name: 'Nepali' },
     { code: 'si', name: 'Sinhala' },
     { code: 'ta', name: 'Tamil' },
     { code: 'te', name: 'Telugu' },
-    { code: 'ml', name: 'Malayalam' },
     { code: 'kn', name: 'Kannada' },
+    { code: 'ml', name: 'Malayalam' },
     { code: 'mr', name: 'Marathi' },
     { code: 'gu', name: 'Gujarati' },
     { code: 'or', name: 'Odia' },
@@ -281,17 +111,23 @@ export class App implements OnDestroy {
     { code: 'lo', name: 'Lao' },
     { code: 'mn', name: 'Mongolian' },
     { code: 'ka', name: 'Georgian' },
+    { code: 'hy', name: 'Armenian' },
+    { code: 'az', name: 'Azerbaijani' },
     { code: 'kk', name: 'Kazakh' },
+    { code: 'uz', name: 'Uzbek' },
+    { code: 'tk', name: 'Turkmen' },
     { code: 'ky', name: 'Kyrgyz' },
     { code: 'tg', name: 'Tajik' },
-    { code: 'tk', name: 'Turkmen' },
-    { code: 'uz', name: 'Uzbek' },
     { code: 'ps', name: 'Pashto' },
     { code: 'ku', name: 'Kurdish' },
     { code: 'sd', name: 'Sindhi' },
     { code: 'bal', name: 'Balochi' },
-    { code: 'ckb', name: 'Central Kurdish' },
-    { code: 'dv', name: 'Dhivehi' },
+    { code: 'prs', name: 'Dari' },
+    { code: 'ug', name: 'Uyghur' },
+    { code: 'yi', name: 'Yiddish' },
+    { code: 'fa', name: 'Farsi' },
+    { code: 'fil', name: 'Filipino' },
+    { code: 'tl', name: 'Tagalog' },
     { code: 'jv', name: 'Javanese' },
     { code: 'su', name: 'Sundanese' },
     { code: 'ceb', name: 'Cebuano' },
@@ -300,128 +136,219 @@ export class App implements OnDestroy {
     { code: 'sm', name: 'Samoan' },
     { code: 'to', name: 'Tongan' },
     { code: 'fj', name: 'Fijian' },
-    { code: 'mg', name: 'Malagasy' },
-    { code: 'ny', name: 'Chichewa' },
-    { code: 'rw', name: 'Kinyarwanda' },
+    { code: 'la', name: 'Latin' },
+    { code: 'eo', name: 'Esperanto' },
+    { code: 'af', name: 'Afrikaans' },
+    { code: 'sw', name: 'Swahili' },
+    { code: 'yo', name: 'Yoruba' },
+    { code: 'ig', name: 'Igbo' },
+    { code: 'ha', name: 'Hausa' },
     { code: 'sn', name: 'Shona' },
+    { code: 'ny', name: 'Chichewa' },
     { code: 'st', name: 'Sesotho' },
     { code: 'tn', name: 'Tswana' },
     { code: 'ts', name: 'Tsonga' },
+    { code: 've', name: 'Venda' },
     { code: 'wo', name: 'Wolof' },
-    { code: 'yo', name: 'Yoruba' },
-    { code: 'ig', name: 'Igbo' },
+    { code: 'ee', name: 'Ewe' },
     { code: 'ln', name: 'Lingala' },
     { code: 'lu', name: 'Luba-Katanga' },
     { code: 'co', name: 'Corsican' },
     { code: 'fy', name: 'Frisian' },
     { code: 'lb', name: 'Luxembourgish' },
-    { code: 'oc', name: 'Occitan' },
+    { code: 'mt', name: 'Maltese' },
+    { code: 'cy', name: 'Welsh' },
     { code: 'br', name: 'Breton' },
-    { code: 'gd', name: 'Scottish Gaelic' },
-    { code: 'fo', name: 'Faroese' },
-    { code: 'bs', name: 'Bosnian' },
-    { code: 'nn', name: 'Norwegian Nynorsk' },
+    { code: 'oc', name: 'Occitan' },
+    { code: 'rm', name: 'Romansh' },
+    { code: 'ka', name: 'Georgian' },
+    { code: 'be', name: 'Belarusian' },
+    { code: 'mo', name: 'Moldovan' },
     { code: 'jv', name: 'Javanese' },
-    { code: 'su', name: 'Sundanese' },
-    { code: 'hmn', name: 'Hmong' },
-    { code: 'la', name: 'Latin' },
-    { code: 'yi', name: 'Yiddish' },
     { code: 'ht', name: 'Haitian Creole' },
-    { code: 'haw', name: 'Hawaiian' },
-    { code: 'pap', name: 'Papiamento' },
-    { code: 'af', name: 'Afrikaans' },
     { code: 'sw', name: 'Swahili' },
-    { code: 'am', name: 'Amharic' },
-    { code: 'ti', name: 'Tigrinya' },
-    { code: 'om', name: 'Oromo' },
-    { code: 'ee', name: 'Ewe' },
-    { code: 'tw', name: 'Twi' },
-    { code: 'lg', name: 'Luganda' },
-    { code: 'ak', name: 'Akan' },
-    { code: 'bm', name: 'Bambara' },
-    { code: 'ff', name: 'Fulah' },
-    { code: 'rn', name: 'Kirundi' },
-    { code: 'sg', name: 'Sango' },
-    { code: 'ss', name: 'Swati' },
-    { code: 've', name: 'Venda' },
-    { code: 'nr', name: 'Southern Ndebele' },
-    { code: 'dz', name: 'Dzongkha' },
+    { code: 'ps', name: 'Pashto' },
+    { code: 'dv', name: 'Dhivehi' },
     { code: 'bo', name: 'Tibetan' },
-    { code: 'ug', name: 'Uyghur' },
-    { code: 'malt', name: 'Maltese' },
-    { code: 'fo', name: 'Faroese' },
-    { code: 'ku', name: 'Kurdish' },
-    { code: 'prs', name: 'Dari' },
-    { code: 'az', name: 'Azerbaijani' },
+    { code: 'dz', name: 'Dzongkha' },
+    { code: 'kk', name: 'Kazakh' },
     { code: 'tk', name: 'Turkmen' },
     { code: 'uz', name: 'Uzbek' },
-    { code: 'kk', name: 'Kazakh' },
-    { code: 'ky', name: 'Kyrgyz' },
-    { code: 'tg', name: 'Tajik' },
-    { code: 'mn', name: 'Mongolian' },
-    { code: 'tatar', name: 'Tatar' },
-    { code: 'ba', name: 'Bashkir' },
     { code: 'tt', name: 'Tatar' },
-    { code: 'cv', name: 'Chuvash' },
+    { code: 'ba', name: 'Bashkir' },
     { code: 'os', name: 'Ossetian' },
     { code: 'ab', name: 'Abkhazian' },
     { code: 'ce', name: 'Chechen' },
-    { code: 'av', name: 'Avar' },
-    { code: 'lez', name: 'Lezghian' },
+    { code: 'cv', name: 'Chuvash' },
     { code: 'sah', name: 'Yakut' },
-    { code: 'rom', name: 'Romani' },
-    { code: 'tl', name: 'Tagalog' },
-    { code: 'brx', name: 'Bodo' },
-    { code: 'mai', name: 'Maithili' },
-    { code: 'bho', name: 'Bhojpuri' },
-    { code: 'doi', name: 'Dogri' },
-    { code: 'kok', name: 'Konkani' },
-    { code: 'mni', name: 'Manipuri' },
-    { code: 'sat', name: 'Santali' },
-    { code: 'syr', name: 'Syriac' },
-    { code: 'arc', name: 'Aramaic' },
-    { code: 'he', name: 'Hebrew' },
-    { code: 'fa', name: 'Persian' },
-    { code: 'ps', name: 'Pashto' },
-    { code: 'sd', name: 'Sindhi' },
-    { code: 'ur', name: 'Urdu' }
+    { code: 'fo', name: 'Faroese' },
+    { code: 'gd', name: 'Scottish Gaelic' },
+    { code: 'yi', name: 'Yiddish' },
+    { code: 'am', name: 'Amharic' },
+    { code: 'ti', name: 'Tigrinya' },
+    { code: 'om', name: 'Oromo' },
+    { code: 'arq', name: 'Algerian Arabic' },
+    { code: 'arz', name: 'Egyptian Arabic' },
+    { code: 'ary', name: 'Moroccan Arabic' },
+    { code: 'acm', name: 'Iraqi Arabic' },
+    { code: 'apc', name: 'Levantine Arabic' }
   ];
 
-  // =========================================================
-  // FILTERED CONTACTS
-  // =========================================================
+  // Contacts
+  contacts: Contact[] = [
+    {
+      name: 'Ahmed Khan',
+      number: '+92-925-600-125',
+      language: 'ur'
+    },
+    {
+      name: 'Ali Raza',
+      number: '+92-925-600-126',
+      language: 'ur'
+    },
+    {
+      name: 'Sara Ahmed',
+      number: '+92-925-600-127',
+      language: 'ur'
+    },
+    {
+      name: 'Omar Hassan',
+      number: '+966-925-600-128',
+      language: 'ar'
+    },
+    {
+      name: 'John Smith',
+      number: '+44-925-600-129',
+      language: 'en'
+    },
+    {
+      name: 'Chen Wei',
+      number: '+86-925-600-130',
+      language: 'zh'
+    },
+    {
+      name: 'Yuki Tanaka',
+      number: '+81-925-600-131',
+      language: 'ja'
+    },
+    {
+      name: 'David Miller',
+      number: '+1-925-600-132',
+      language: 'en'
+    },
+    {
+      name: 'Maria Garcia',
+      number: '+34-925-600-133',
+      language: 'es'
+    },
+    {
+      name: 'Pierre Martin',
+      number: '+33-925-600-134',
+      language: 'fr'
+    }
+  ];
+
+  selectedContact: Contact | null = null;
+  searchTerm = '';
+
+  // Dialer
+  showDialer = false;
+  dialedNumber = '';
+  newContactName = '';
+
+  // Message box
+  showMessageBox = false;
+
+  // Credits / Packages
+  hasLocalPackage = true;
+  hasTranslationPackage = false;
+
+  localCredits = 1000;
+  translationCredits = 0;
+  messageCredits = 0;
+
+  packageName = 'Local Annual Package';
+  packageExpiry = 'Not connected to backend yet';
+
+  // Call
+  callState: CallState = 'idle';
+  callMode: CallMode = null;
+  callDuration = 0;
+
+  private callTimer: ReturnType<typeof setInterval> | null = null;
+  private connectionTimer: ReturnType<typeof setTimeout> | null = null;
+
+  // Incoming call
+  incomingCallVisible = false;
+  incomingCaller: Contact | null = null;
+  incomingCallMode: CallMode = null;
+
+  get totalCredits(): number {
+    return (
+      this.localCredits +
+      this.translationCredits +
+      this.messageCredits
+    );
+  }
+
+  get currentMode(): 'local' | 'translation' {
+    return this.myLanguage === this.theirLanguage
+      ? 'local'
+      : 'translation';
+  }
+
+  get sendMessageEnabled(): boolean {
+    return (
+      this.hasTranslationPackage &&
+      !!this.selectedContact &&
+      this.messageCredits > 0
+    );
+  }
 
   get filteredContacts(): Contact[] {
+    const term = this.searchTerm.trim().toLowerCase();
 
-    const query = this.searchTerm
-      .trim()
-      .toLowerCase();
-
-    if (!query) {
+    if (!term) {
       return this.contacts;
     }
 
-    return this.contacts.filter((contact) => {
-
-      const name = (contact.name || '').toLowerCase();
-
-      const number = contact.number.toLowerCase();
-
-      const language = this
-        .getLanguageName(contact.language)
-        .toLowerCase();
-
-      return (
-        name.includes(query) ||
-        number.includes(query) ||
-        language.includes(query)
-      );
-    });
+    return this.contacts.filter(contact =>
+      (contact.name || '').toLowerCase().includes(term) ||
+      contact.number.toLowerCase().includes(term)
+    );
   }
 
-  // =========================================================
-  // SCREEN METHODS
-  // =========================================================
+  get callStateLabel(): string {
+    switch (this.callState) {
+      case 'calling':
+        return 'Calling...';
+
+      case 'ringing':
+        return 'Ringing...';
+
+      case 'connected':
+        return 'Connected';
+
+      default:
+        return 'Ready';
+    }
+  }
+
+  get formattedCallDuration(): string {
+    return this.formatCallDuration(this.callDuration);
+  }
+
+  get selectedContactName(): string {
+    if (!this.selectedContact) {
+      return 'No contact selected';
+    }
+
+    return this.displayName(this.selectedContact);
+  }
+
+  // -------------------------
+  // Screen
+  // -------------------------
 
   openCredits(): void {
     this.activeScreen = 'credits';
@@ -431,9 +358,9 @@ export class App implements OnDestroy {
     this.activeScreen = 'home';
   }
 
-  // =========================================================
-  // CONTACT METHODS
-  // =========================================================
+  // -------------------------
+  // Contacts
+  // -------------------------
 
   selectContact(contact: Contact): void {
     this.selectedContact = contact;
@@ -444,39 +371,28 @@ export class App implements OnDestroy {
   }
 
   displayName(contact: Contact): string {
-    return contact.name?.trim()
-      ? contact.name
-      : contact.number;
+    const name = contact.name?.trim();
+
+    return name || contact.number;
   }
 
   getInitial(contact: Contact): string {
-
-    const name = contact.name?.trim();
+    const name = this.displayName(contact).trim();
 
     if (!name) {
-      return contact.number.charAt(0) || 'L';
-    }
-
-    const parts = name
-      .split(' ')
-      .filter(Boolean);
-
-    if (parts.length >= 2) {
-      return (
-        parts[0].charAt(0) +
-        parts[parts.length - 1].charAt(0)
-      ).toUpperCase();
+      return '#';
     }
 
     return name.charAt(0).toUpperCase();
   }
 
-  // =========================================================
-  // DIALER
-  // =========================================================
+  // -------------------------
+  // Dialer
+  // -------------------------
 
   openDialer(): void {
     this.showDialer = true;
+    this.newContactName = '';
   }
 
   closeDialer(): void {
@@ -484,7 +400,6 @@ export class App implements OnDestroy {
   }
 
   dialKey(key: string): void {
-
     if (this.dialedNumber.length >= 20) {
       return;
     }
@@ -493,13 +408,11 @@ export class App implements OnDestroy {
   }
 
   backspaceDialer(): void {
-
     if (!this.dialedNumber) {
       return;
     }
 
-    this.dialedNumber =
-      this.dialedNumber.slice(0, -1);
+    this.dialedNumber = this.dialedNumber.slice(0, -1);
   }
 
   clearDialer(): void {
@@ -507,183 +420,73 @@ export class App implements OnDestroy {
   }
 
   saveDialedContact(): void {
-
     const number = this.dialedNumber.trim();
 
     if (!number) {
       return;
     }
 
-    const exists = this.contacts.some(
+    const existing = this.contacts.find(
       contact => contact.number === number
     );
 
-    if (exists) {
+    if (existing) {
+      if (this.newContactName.trim()) {
+        existing.name = this.newContactName.trim();
+      }
+
+      this.selectedContact = existing;
+      this.theirLanguage = existing.language || this.detectLanguageFromNumber(number);
+
+      this.showDialer = false;
+      this.newContactName = '';
+
       return;
     }
 
-    const detectedLanguage =
-      this.detectLanguageFromNumber(number);
+    const language = this.detectLanguageFromNumber(number);
 
     const contact: Contact = {
-      name: this.newContactName.trim() || undefined,
+      name: this.newContactName.trim() || number,
       number,
-      language: detectedLanguage,
-      favorite: false
+      language
     };
 
     this.contacts.unshift(contact);
-
     this.selectedContact = contact;
+    this.theirLanguage = language;
 
-    this.theirLanguage = detectedLanguage;
-
+    this.showDialer = false;
+    this.dialedNumber = '';
     this.newContactName = '';
-
-    this.closeDialer();
   }
 
-  // =========================================================
-  // COUNTRY CODE → DEFAULT LANGUAGE
-  // =========================================================
-
-  detectLanguageFromNumber(number: string): string {
-
-    const cleanNumber =
-      number.replace(/\s/g, '');
-
-    const countryMap: Record<string, string> = {
-
-      '+92': 'ur',
-      '+966': 'ar',
-      '+971': 'ar',
-      '+974': 'ar',
-      '+973': 'ar',
-      '+965': 'ar',
-      '+968': 'ar',
-      '+962': 'ar',
-      '+964': 'ar',
-      '+20': 'ar',
-      '+86': 'zh',
-      '+81': 'ja',
-      '+82': 'ko',
-      '+44': 'en',
-      '+1': 'en',
-      '+61': 'en',
-      '+64': 'en',
-      '+27': 'en',
-      '+91': 'hi',
-      '+880': 'bn',
-      '+93': 'ps',
-      '+98': 'fa',
-      '+90': 'tr',
-      '+7': 'ru',
-      '+380': 'uk',
-      '+49': 'de',
-      '+33': 'fr',
-      '+34': 'es',
-      '+39': 'it',
-      '+351': 'pt',
-      '+55': 'pt',
-      '+31': 'nl',
-      '+46': 'sv',
-      '+47': 'no',
-      '+45': 'da',
-      '+358': 'fi',
-      '+48': 'pl',
-      '+40': 'ro',
-      '+30': 'el',
-      '+420': 'cs',
-      '+421': 'sk',
-      '+36': 'hu',
-      '+43': 'de',
-      '+41': 'de',
-      '+32': 'nl',
-      '+52': 'es',
-      '+54': 'es',
-      '+57': 'es',
-      '+56': 'es',
-      '+51': 'es',
-      '+58': 'es',
-      '+62': 'id',
-      '+60': 'ms',
-      '+63': 'fil',
-      '+66': 'th',
-      '+84': 'vi',
-      '+94': 'si',
-      '+95': 'my',
-      '+977': 'ne',
-      '+212': 'ar',
-      '+213': 'ar',
-      '+216': 'ar',
-      '+218': 'ar',
-      '+249': 'ar',
-      '+254': 'sw',
-      '+255': 'sw',
-      '+256': 'en',
-      '+260': 'en',
-      '+263': 'en',
-      '+234': 'en',
-      '+233': 'en',
-      '+221': 'fr',
-      '+225': 'fr',
-      '+237': 'fr',
-      '+250': 'rw',
-      '+258': 'pt',
-      '+244': 'pt'
-    };
-
-    const matchedCode =
-      Object.keys(countryMap)
-        .sort((a, b) => b.length - a.length)
-        .find(code => cleanNumber.startsWith(code));
-
-    return matchedCode
-      ? countryMap[matchedCode]
-      : 'en';
-  }
-
-  // =========================================================
-  // DIALER CALL
-  // =========================================================
-
-  useDialedNumberForCall(
-    mode: 'audio' | 'video'
-  ): void {
-
+  useDialedNumberForCall(mode: 'audio' | 'video'): void {
     const number = this.dialedNumber.trim();
 
     if (!number) {
       return;
     }
 
-    const existingContact =
-      this.contacts.find(
-        contact => contact.number === number
-      );
+    let contact = this.contacts.find(
+      item => item.number === number
+    );
 
-    if (existingContact) {
-
-      this.selectedContact = existingContact;
-
-      this.theirLanguage =
-        existingContact.language;
-
-    } else {
-
-      const detectedLanguage =
-        this.detectLanguageFromNumber(number);
-
-      this.selectedContact = {
+    if (!contact) {
+      contact = {
+        name: number,
         number,
-        language: detectedLanguage
+        language: this.detectLanguageFromNumber(number)
       };
 
-      this.theirLanguage =
-        detectedLanguage;
+      this.contacts.unshift(contact);
     }
 
-    this.closeDialer();
+    this.selectedContact = contact;
+    this.theirLanguage =
+      contact.language || this.detectLanguageFromNumber(number);
+
+    this.showDialer = false;
 
     if (mode === 'audio') {
       this.startAudioCall();
@@ -692,226 +495,313 @@ export class App implements OnDestroy {
     }
   }
 
-  // =========================================================
-  // LANGUAGE
-  // =========================================================
+  // -------------------------
+  // Language
+  // -------------------------
 
   getLanguageName(code: string): string {
-
-    const language =
-      this.languages.find(
-        item => item.code === code
-      );
+    const language = this.languages.find(
+      item => item.code === code
+    );
 
     return language?.name || code;
   }
 
-  selectTheirLanguage(code: string): void {
+  setMyLanguage(code: string): void {
+    this.myLanguage = code;
+  }
+
+  setTheirLanguage(code: string): void {
     this.theirLanguage = code;
   }
 
-  get currentMode(): 'local' | 'translation' {
+  detectLanguageFromNumber(number: string): string {
+    const normalized = number.replace(/\s/g, '');
 
-    return this.myLanguage === this.theirLanguage
-      ? 'local'
-      : 'translation';
-  }
-
-  // =========================================================
-  // CALLS
-  // =========================================================
-
-  startAudioCall(): void {
-
-    if (!this.selectedContact) {
-      this.openDialer();
-      return;
+    if (
+      normalized.startsWith('+92') ||
+      normalized.startsWith('0092')
+    ) {
+      return 'ur';
     }
 
+    if (
+      normalized.startsWith('+966') ||
+      normalized.startsWith('00966')
+    ) {
+      return 'ar';
+    }
+
+    if (
+      normalized.startsWith('+86') ||
+      normalized.startsWith('0086')
+    ) {
+      return 'zh';
+    }
+
+    if (
+      normalized.startsWith('+81') ||
+      normalized.startsWith('0081')
+    ) {
+      return 'ja';
+    }
+
+    if (
+      normalized.startsWith('+82') ||
+      normalized.startsWith('0082')
+    ) {
+      return 'ko';
+    }
+
+    if (
+      normalized.startsWith('+44') ||
+      normalized.startsWith('0044')
+    ) {
+      return 'en';
+    }
+
+    if (
+      normalized.startsWith('+1') ||
+      normalized.startsWith('001')
+    ) {
+      return 'en';
+    }
+
+    if (
+      normalized.startsWith('+33') ||
+      normalized.startsWith('0033')
+    ) {
+      return 'fr';
+    }
+
+    if (
+      normalized.startsWith('+49') ||
+      normalized.startsWith('0049')
+    ) {
+      return 'de';
+    }
+
+    if (
+      normalized.startsWith('+34') ||
+      normalized.startsWith('0034')
+    ) {
+      return 'es';
+    }
+
+    if (
+      normalized.startsWith('+39') ||
+      normalized.startsWith('0039')
+    ) {
+      return 'it';
+    }
+
+    if (
+      normalized.startsWith('+7') ||
+      normalized.startsWith('007')
+    ) {
+      return 'ru';
+    }
+
+    if (
+      normalized.startsWith('+90') ||
+      normalized.startsWith('0090')
+    ) {
+      return 'tr';
+    }
+
+    if (
+      normalized.startsWith('+91') ||
+      normalized.startsWith('0091')
+    ) {
+      return 'hi';
+    }
+
+    if (
+      normalized.startsWith('+880') ||
+      normalized.startsWith('00880')
+    ) {
+      return 'bn';
+    }
+
+    return 'en';
+  }
+
+  // -------------------------
+  // Calling
+  // -------------------------
+
+  startAudioCall(): void {
     this.startCall('audio');
   }
 
   startVideoCall(): void {
+    this.startCall('video');
+  }
 
+  private startCall(mode: 'audio' | 'video'): void {
     if (!this.selectedContact) {
       this.openDialer();
       return;
     }
 
-    this.startCall('video');
-  }
-
-  private startCall(
-    mode: 'audio' | 'video'
-  ): void {
-
-    if (this.callState !== 'idle') {
+    if (!this.canStartCall()) {
       return;
     }
 
-    this.callMode = mode;
+    this.clearCallTimers();
 
+    this.callMode = mode;
+    this.callState = 'calling';
     this.callDuration = 0;
 
-    this.callState = 'calling';
+    this.connectionTimer = setTimeout(() => {
+      if (this.callState !== 'calling') {
+        return;
+      }
 
-    this.startCallTimer();
+      this.callState = 'connected';
+      this.startCallTimer();
+    }, 1200);
+  }
 
-    /*
-     * Backend integration point:
-     *
-     * 1. Create call session
-     * 2. Validate recipient
-     * 3. Determine Local / Translation mode
-     * 4. Reserve required credits
-     * 5. Establish WebRTC connection
-     * 6. Connect LANG WebSocket signaling
-     * 7. Connect KNova Core only when translation is required
-     */
+  private canStartCall(): boolean {
+    if (this.currentMode === 'local') {
+      return this.hasLocalPackage && this.localCredits > 0;
+    }
+
+    return this.hasTranslationPackage &&
+      this.translationCredits > 0;
   }
 
   disconnectCall(): void {
-
-    this.stopCallTimer();
+    this.clearCallTimers();
 
     this.callState = 'idle';
-
     this.callMode = null;
-
     this.callDuration = 0;
   }
 
-  // =========================================================
-  // CALL TIMER
-  // =========================================================
+  // -------------------------
+  // Call Timer
+  // -------------------------
 
   private startCallTimer(): void {
-
     this.stopCallTimer();
 
     this.callTimer = setInterval(() => {
+      this.callDuration++;
 
-      if (
-        this.callState === 'calling' ||
-        this.callState === 'ringing' ||
-        this.callState === 'connected'
-      ) {
-        this.callDuration++;
+      if (this.callDuration > 0 && this.callDuration % 30 === 0) {
+        this.consumeCallCredit();
       }
-
-      /*
-       * Demo behavior:
-       * After a short simulated ringing period,
-       * the call becomes connected.
-       *
-       * This will be removed when WebRTC/backend
-       * signaling is connected.
-       */
-      if (
-        this.callState === 'calling' &&
-        this.callDuration >= 2
-      ) {
-        this.callState = 'connected';
-      }
-
     }, 1000);
   }
 
   private stopCallTimer(): void {
-
     if (this.callTimer) {
       clearInterval(this.callTimer);
       this.callTimer = null;
     }
   }
 
-  formatCallDuration(): string {
+  private clearCallTimers(): void {
+    this.stopCallTimer();
 
-    const minutes =
-      Math.floor(this.callDuration / 60);
-
-    const seconds =
-      this.callDuration % 60;
-
-    return (
-      `${minutes.toString().padStart(2, '0')}:` +
-      `${seconds.toString().padStart(2, '0')}`
-    );
-  }
-
-  callStateLabel(): string {
-
-    switch (this.callState) {
-
-      case 'calling':
-        return 'Calling…';
-
-      case 'ringing':
-        return 'Ringing…';
-
-      case 'connected':
-        return 'Connected';
-
-      default:
-        return '';
+    if (this.connectionTimer) {
+      clearTimeout(this.connectionTimer);
+      this.connectionTimer = null;
     }
   }
 
-  // =========================================================
-  // INCOMING CALL
-  // =========================================================
+  private consumeCallCredit(): void {
+    if (!this.callMode) {
+      return;
+    }
+
+    const units = this.callMode === 'video' ? 2 : 1;
+
+    if (this.currentMode === 'local') {
+      this.localCredits = Math.max(
+        0,
+        this.localCredits - units
+      );
+
+      if (this.localCredits === 0) {
+        this.disconnectCall();
+      }
+
+      return;
+    }
+
+    this.translationCredits = Math.max(
+      0,
+      this.translationCredits - units
+    );
+
+    if (this.translationCredits === 0) {
+      this.disconnectCall();
+    }
+  }
+
+  private formatCallDuration(seconds: number): string {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+
+    return `${String(mins).padStart(2, '0')}:${String(
+      secs
+    ).padStart(2, '0')}`;
+  }
+
+  // -------------------------
+  // Incoming Calls
+  // -------------------------
 
   receiveIncomingCall(
-    caller?: Contact,
-    mode: 'audio' | 'video' = 'audio'
+    contact: Contact,
+    mode: 'audio' | 'video'
   ): void {
-
-    if (caller) {
-      this.incomingCaller = caller;
-    }
-
+    this.incomingCaller = contact;
     this.incomingCallMode = mode;
-
     this.incomingCallVisible = true;
+    this.callState = 'ringing';
   }
 
   answerIncomingCall(): void {
+    if (!this.incomingCaller) {
+      return;
+    }
 
-    this.selectedContact =
-      this.incomingCaller;
+    this.selectedContact = this.incomingCaller;
 
-    this.theirLanguage =
-      this.incomingCaller.language;
+    if (this.incomingCaller.language) {
+      this.theirLanguage = this.incomingCaller.language;
+    }
 
-    this.incomingCallVisible = false;
-
-    this.callMode =
-      this.incomingCallMode;
-
+    this.callMode = this.incomingCallMode;
     this.callState = 'connected';
-
     this.callDuration = 0;
 
+    this.incomingCallVisible = false;
     this.startCallTimer();
   }
 
   rejectIncomingCall(): void {
-
     this.incomingCallVisible = false;
+    this.incomingCaller = null;
+    this.incomingCallMode = null;
+
+    this.clearCallTimers();
 
     this.callState = 'idle';
-
     this.callMode = null;
-
-    this.stopCallTimer();
+    this.callDuration = 0;
   }
 
-  // =========================================================
-  // MESSAGE BOX
-  // =========================================================
+  // -------------------------
+  // Messages
+  // -------------------------
 
   openMessageBox(): void {
-
     if (!this.sendMessageEnabled) {
       return;
     }
@@ -924,85 +814,44 @@ export class App implements OnDestroy {
   }
 
   startVoiceMessage(): void {
-
     if (!this.sendMessageEnabled) {
       return;
     }
 
-    /*
-     * Future backend integration:
-     *
-     * MediaRecorder
-     * ↓
-     * max 30 seconds
-     * ↓
-     * upload / realtime transport
-     * ↓
-     * KNova Core translation
-     * ↓
-     * TTS
-     * ↓
-     * recipient
-     *
-     * 1 message credit per 30 seconds.
-     */
-
-    console.log(
-      'Voice message recording will start here.'
-    );
+    // Backend / MediaRecorder integration will be added in Phase 2.
+    console.log('Voice message recording will start here.');
   }
 
-  // =========================================================
-  // FIXED QUICK MESSAGES
-  // =========================================================
+  // -------------------------
+  // Fixed Quick Messages
+  // -------------------------
 
-  sendQuickMessage(
-    message: 'Call Me' | 'Help Me' | 'I’ll Call You Back'
-  ): void {
+  sendQuickMessage(message: string): void {
+    if (!this.selectedContact) {
+      return;
+    }
 
-    /*
-     * Fixed messages are:
-     *
-     * FREE
-     * No AI
-     * No translation credit
-     * No message credit
-     *
-     * Backend will later enforce:
-     * maximum 3 quick messages / 24 hours.
-     */
-
+    // These messages are free and do not use AI or credits.
     console.log(
       'Quick message:',
       message,
       'to:',
-      this.selectedContact?.number
+      this.selectedContact.number
     );
   }
 
-  // =========================================================
-  // DEMO TRANSLATION PACKAGE
-  // =========================================================
+  // -------------------------
+  // Translation Package Demo
+  // -------------------------
 
   enableTranslationDemo(): void {
-
     this.hasTranslationPackage = true;
+    this.translationCredits = 100;
+    this.messageCredits = 10;
 
-    this.translationCredits = 500;
+    this.packageName = 'Translation Demo Package';
+    this.packageExpiry = 'Demo balance';
 
-    this.messageCredits = 50;
-
-    this.packageName =
-      'Local + Translation Demo Package';
-
-    
-  }
-
-  // =========================================================
-  // CLEANUP
-  // =========================================================
-
-  ngOnDestroy(): void {
-    this.stopCallTimer();
+    this.showMessageBox = false;
   }
 }
