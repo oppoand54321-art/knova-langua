@@ -1,252 +1,1033 @@
 <div class="lingua-shell">
 
-  <!-- Header -->
+  <!-- =========================
+       HEADER
+  ========================== -->
   <header class="lingua-header">
+
     <div class="brand">
-      <span class="brand-main">Lingua</span>
-      <span class="brand-by">by <strong>KNova.work</strong></span>
+      <div class="brand-main">LANG</div>
+      <div class="brand-by">by KNova.work</div>
     </div>
+
+    <div class="identity-area">
+      <div class="identity-info">
+        <span class="profile-name">{{ profileName }}</span>
+        <span class="lang-number">{{ myLangNumber }}</span>
+
+        <span
+          class="verified-badge"
+          *ngIf="verifiedIdentity"
+        >
+          ✓ Verified
+        </span>
+      </div>
+
+      <button
+        class="credits-button"
+        type="button"
+        (click)="openCredits()"
+      >
+        <span>Credits</span>
+        <strong>{{ totalCredits }}</strong>
+      </button>
+    </div>
+
   </header>
 
 
-  <!-- Language Selection -->
-  <section class="language-bar">
+  <!-- =========================
+       CREDITS SCREEN
+  ========================== -->
+  <section
+    class="credits-page"
+    *ngIf="activeScreen === 'credits'"
+  >
 
-    <!-- My Language -->
-    <div class="language-box my-language-box">
+    <div class="credits-page-header">
+      <button
+        class="back-button"
+        type="button"
+        (click)="closeCredits()"
+      >
+        ← Back
+      </button>
 
-      <div class="language-label">
-        <span>My Language</span>
-        <small>Fixed</small>
+      <div>
+        <h1>Credits & Packages</h1>
+        <p>Manage your LANG calling and translation balance.</p>
+      </div>
+    </div>
+
+
+    <!-- Total -->
+    <div class="credits-total-card">
+      <div>
+        <span class="credits-card-label">Total Available</span>
+        <strong>{{ totalCredits }}</strong>
+        <small>Credits</small>
       </div>
 
-      <select
-        class="language-select fixed-language"
-        [(ngModel)]="myLanguage"
-        [disabled]="myLanguageLocked"
-      >
-        @for (language of languages; track language.code) {
-          <option [value]="language.code">
-            {{ language.name }}
-          </option>
-        }
-      </select>
+      <div class="credits-total-status">
+        <span>Current Package</span>
+        <strong>{{ packageName }}</strong>
+        <small>{{ packageExpiry }}</small>
+      </div>
+    </div>
+
+
+    <!-- Balance Cards -->
+    <div class="balance-grid">
+
+      <div class="balance-card local">
+        <span class="balance-icon">☎</span>
+        <span class="balance-label">Local Balance</span>
+        <strong>{{ localCredits }}</strong>
+        <small>Local audio/video calling</small>
+      </div>
+
+      <div class="balance-card translation">
+        <span class="balance-icon">⇄</span>
+        <span class="balance-label">Translation Calls</span>
+        <strong>{{ translationCredits }}</strong>
+        <small>Cross-language calls</small>
+      </div>
+
+      <div class="balance-card messages">
+        <span class="balance-icon">🎙</span>
+        <span class="balance-label">Voice Messages</span>
+        <strong>{{ messageCredits }}</strong>
+        <small>Translated voice messages</small>
+      </div>
 
     </div>
 
 
-    <!-- Their Language -->
-    <div class="language-box">
+    <!-- Usage Rules -->
+    <div class="credits-section">
 
-      <div class="language-label">
-        <span>Their Language</span>
-        <small>Change anytime</small>
+      <div class="section-heading">
+        <h2>Usage Rules</h2>
+        <p>Credits are consumed only when the corresponding service is used.</p>
       </div>
 
-      <select
-        class="language-select"
-        [(ngModel)]="theirLanguage"
-      >
-        @for (language of languages; track language.code) {
-          <option [value]="language.code">
-            {{ language.name }}
-          </option>
-        }
-      </select>
+      <div class="usage-grid">
 
+        <div class="usage-item">
+          <strong>Local Audio Call</strong>
+          <span>30 seconds = 1 Local Credit</span>
+        </div>
+
+        <div class="usage-item">
+          <strong>Local Video Call</strong>
+          <span>30 seconds = 2 Local Credits</span>
+        </div>
+
+        <div class="usage-item">
+          <strong>Translation Audio Call</strong>
+          <span>30 seconds = 1 Translation Credit</span>
+        </div>
+
+        <div class="usage-item">
+          <strong>Translation Video Call</strong>
+          <span>30 seconds = 2 Translation Credits</span>
+        </div>
+
+        <div class="usage-item">
+          <strong>Translated Voice Message</strong>
+          <span>Up to 30 seconds = 1 Message Credit</span>
+        </div>
+
+        <div class="usage-item">
+          <strong>Fixed Quick Messages</strong>
+          <span>FREE — no credit required</span>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Packages -->
+    <div class="credits-section">
+
+      <div class="section-heading">
+        <h2>Available Packages</h2>
+        <p>Prepaid packages. No monthly unlimited subscription.</p>
+      </div>
+
+
+      <div class="packages-grid">
+
+        <!-- Local Package -->
+        <div class="package-card">
+
+          <div class="package-top">
+            <div>
+              <span class="package-tag">LOCAL</span>
+              <h3>Local Annual Package</h3>
+            </div>
+
+            <span
+              class="package-active"
+              *ngIf="hasLocalPackage"
+            >
+              Active
+            </span>
+          </div>
+
+          <p>
+            Make same-language LANG audio and video calls
+            using your local calling balance.
+          </p>
+
+          <div class="package-credit-line">
+            <strong>1,000</strong>
+            <span>Local Credits</span>
+          </div>
+
+          <ul>
+            <li>Same-language audio calls</li>
+            <li>Same-language video calls</li>
+            <li>Direct WebRTC calling</li>
+            <li>No AI translation required</li>
+            <li>Annual access</li>
+          </ul>
+
+          <button
+            class="package-button"
+            type="button"
+            [disabled]="hasLocalPackage"
+          >
+            {{ hasLocalPackage ? 'Currently Active' : 'Get Local Package' }}
+          </button>
+
+        </div>
+
+
+        <!-- Translation Package -->
+        <div class="package-card translation-package">
+
+          <div class="package-top">
+            <div>
+              <span class="package-tag">TRANSLATION</span>
+              <h3>Translation Package</h3>
+            </div>
+
+            <span
+              class="package-active"
+              *ngIf="hasTranslationPackage"
+            >
+              Active
+            </span>
+          </div>
+
+          <p>
+            Use cross-language calling and translated voice
+            messages through the LANG translation engine.
+          </p>
+
+          <div class="package-credit-line">
+            <strong>Translation</strong>
+            <span>Prepaid Credits</span>
+          </div>
+
+          <ul>
+            <li>Cross-language audio calls</li>
+            <li>Cross-language video calls</li>
+            <li>Live translated subtitles</li>
+            <li>Translated voice messages</li>
+            <li>KNova AI translation pipeline</li>
+          </ul>
+
+          <button
+            class="package-button"
+            type="button"
+            (click)="enableTranslationDemo()"
+            [disabled]="hasTranslationPackage"
+          >
+            {{ hasTranslationPackage ? 'Currently Active' : 'Activate Demo Package' }}
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="backend-note">
+      <strong>Backend Integration</strong>
+      <span>
+        Package purchase, credit deduction, expiry and transaction
+        history will be controlled by the LANG backend.
+      </span>
     </div>
 
   </section>
 
 
-  <!-- Main Workspace -->
-  <main class="lingua-workspace">
+  <!-- =========================
+       HOME SCREEN
+  ========================== -->
+  <main
+    class="home-screen"
+    *ngIf="activeScreen === 'home'"
+  >
 
-    <!-- Calling Area -->
-    <section class="call-panel">
+    <!-- =========================
+         LANGUAGE BAR
+    ========================== -->
+    <section class="language-bar">
 
-      <div class="call-screen">
+      <div class="language-box">
 
-        @if (selectedContact) {
+        <span class="language-label">
+          My Language
+        </span>
 
-          <div class="call-placeholder">
-
-            <div class="call-avatar">
-              <span>{{ getInitial(selectedContact) }}</span>
-            </div>
-
-            <h2>{{ displayName(selectedContact) }}</h2>
-
-            <p>{{ selectedContact.number }}</p>
-
-          </div>
-
-        } @else {
-
-          <div class="call-placeholder">
-
-            <div class="call-avatar">
-              <span>L</span>
-            </div>
-
-            <h2>Ready to Call</h2>
-
-            <p>Select a saved number from your contacts.</p>
-
-          </div>
-
-        }
-
-
-        @if (selectedContact) {
-
-          <div class="selected-contact">
-
-            <span class="selected-name">
-              {{ displayName(selectedContact) }}
-            </span>
-
-            <span class="selected-number">
-              {{ selectedContact.number }}
-            </span>
-
-          </div>
-
-        }
+        <select
+          class="language-select"
+          [(ngModel)]="myLanguage"
+        >
+          <option
+            *ngFor="let language of languages"
+            [value]="language.code"
+          >
+            {{ language.name }}
+          </option>
+        </select>
 
       </div>
 
 
-      <!-- Call Buttons -->
-      <div class="call-controls">
+      <div class="language-arrow">
+        ⇄
+      </div>
 
-        <button
-          class="call-button audio-call"
-          type="button"
-          (click)="startAudioCall()"
-          [disabled]="!selectedContact"
-        >
-          <span>☎</span>
-          <small>Call</small>
-        </button>
 
-        <button
-          class="call-button video-call"
-          type="button"
-          (click)="startVideoCall()"
-          [disabled]="!selectedContact"
+      <div class="language-box">
+
+        <span class="language-label">
+          Their Language
+        </span>
+
+        <select
+          class="language-select"
+          [(ngModel)]="theirLanguage"
         >
-          <span>▣</span>
-          <small>Video</small>
-        </button>
+          <option
+            *ngFor="let language of languages"
+            [value]="language.code"
+          >
+            {{ language.name }}
+          </option>
+        </select>
 
       </div>
 
 
-      <!-- Fixed Call Messages -->
-      <div class="quick-messages">
-
-        <button
-          type="button"
-          (click)="sendQuickMessage('Call Me')"
-          [disabled]="!selectedContact"
-        >
-          Call Me
-        </button>
-
-        <button
-          type="button"
-          (click)="sendQuickMessage('Urgent Call')"
-          [disabled]="!selectedContact"
-        >
-          Urgent Call
-        </button>
-
-        <button
-          type="button"
-          (click)="sendQuickMessage('Call When You’re Free')"
-          [disabled]="!selectedContact"
-        >
-          Call When You’re Free
-        </button>
-
-        <button
-          type="button"
-          (click)="sendQuickMessage('Help Me')"
-          [disabled]="!selectedContact"
-        >
-          Help Me
-        </button>
-
+      <div
+        class="mode-pill"
+        [class.translation-mode]="currentMode === 'translation'"
+      >
+        {{ currentMode === 'local' ? 'LOCAL MODE' : 'TRANSLATION MODE' }}
       </div>
 
     </section>
 
 
-    <!-- Contacts -->
-    <aside class="contacts-panel">
-
-      <!-- Search -->
-      <div class="search-box">
-
-        <span class="search-icon">⌕</span>
-
-        <input
-          type="search"
-          [(ngModel)]="searchTerm"
-          placeholder="Search name or number..."
-          aria-label="Search contacts"
-        />
-
-      </div>
+    <!-- =========================
+         MAIN WORKSPACE
+    ========================== -->
+    <section class="lingua-workspace">
 
 
-      <!-- Contact List -->
-      <div class="contacts-list">
+      <!-- =========================
+           CALL PANEL
+      ========================== -->
+      <section class="call-panel">
 
-        @if (filteredContacts.length > 0) {
+        <div class="call-screen">
 
-          @for (contact of filteredContacts; track contact.number) {
+
+          <!-- Empty State -->
+          <div
+            class="call-placeholder"
+            *ngIf="!selectedContact && callState === 'idle'"
+          >
+
+            <div class="call-avatar large">
+              LANG
+            </div>
+
+            <h2>Ready to Call</h2>
+
+            <p>
+              Select a contact or open the dialer to start a call.
+            </p>
 
             <button
-              class="contact-item"
+              class="primary-action"
               type="button"
-              (click)="selectContact(contact)"
-              [class.active]="selectedContact?.number === contact.number"
+              (click)="openDialer()"
             >
-
-              <div class="contact-avatar">
-                {{ getInitial(contact) }}
-              </div>
-
-              <div class="contact-info">
-
-                <span class="contact-name">
-                  {{ displayName(contact) }}
-                </span>
-
-                <span class="contact-number">
-                  {{ contact.number }}
-                </span>
-
-              </div>
-
+              Open Dialer
             </button>
 
-          }
-
-        } @else {
-
-          <div class="empty-contacts">
-            <span>No contact found</span>
           </div>
 
-        }
+
+          <!-- Selected Contact / Active Call -->
+          <div
+            class="active-call-view"
+            *ngIf="selectedContact || callState !== 'idle'"
+          >
+
+            <div class="call-avatar">
+              {{ selectedContact ? getInitial(selectedContact) : 'L' }}
+            </div>
+
+            <h2>
+              {{ selectedContact ? displayName(selectedContact) : 'LANG Call' }}
+            </h2>
+
+            <div
+              class="selected-number"
+              *ngIf="selectedContact"
+            >
+              {{ selectedContact.number }}
+            </div>
+
+
+            <div
+              class="call-status"
+              *ngIf="callState !== 'idle'"
+            >
+              {{ callStateLabel() }}
+            </div>
+
+
+            <div
+              class="call-duration"
+              *ngIf="callState === 'connected'"
+            >
+              {{ formatCallDuration() }}
+            </div>
+
+
+            <div
+              class="connection-status"
+              *ngIf="callState !== 'idle'"
+            >
+              <span class="status-dot"></span>
+              Secure connection
+            </div>
+
+
+            <div
+              class="translation-status"
+              *ngIf="callState !== 'idle'"
+            >
+              <span>
+                {{ currentMode === 'local'
+                  ? 'Direct local audio'
+                  : 'Live translation enabled' }}
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- =========================
+             FOUR MAIN BUTTONS
+        ========================== -->
+        <div class="call-controls">
+
+          <!-- 1. Send Message -->
+          <button
+            class="call-button message-call-button"
+            type="button"
+            [disabled]="!sendMessageEnabled"
+            (click)="openMessageBox()"
+          >
+            <span class="button-icon">🎙</span>
+            <span>Send Message</span>
+          </button>
+
+
+          <!-- 2. Audio Call -->
+          <button
+            class="call-button audio-call-button"
+            type="button"
+            (click)="startAudioCall()"
+          >
+            <span class="button-icon">☎</span>
+            <span>Audio Call</span>
+          </button>
+
+
+          <!-- 3. Disconnect / Dialer -->
+          <button
+            *ngIf="callState !== 'idle'"
+            class="call-button disconnect-button"
+            type="button"
+            (click)="disconnectCall()"
+          >
+            <span class="button-icon">✕</span>
+            <span>Disconnect</span>
+          </button>
+
+          <button
+            *ngIf="callState === 'idle'"
+            class="call-button dialer-call-button"
+            type="button"
+            (click)="openDialer()"
+          >
+            <span class="button-icon">⌨</span>
+            <span>Dialer</span>
+          </button>
+
+
+          <!-- 4. Video Call -->
+          <button
+            class="call-button video-call-button"
+            type="button"
+            (click)="startVideoCall()"
+          >
+            <span class="button-icon">🎥</span>
+            <span>Video Call</span>
+          </button>
+
+        </div>
+
+
+        <!-- =========================
+             CALL INFO
+        ========================== -->
+        <div
+          class="call-info-bar"
+          *ngIf="callState !== 'idle'"
+        >
+
+          <span>
+            {{ callMode === 'video' ? 'Video Call' : 'Audio Call' }}
+          </span>
+
+          <span>
+            {{ currentMode === 'local'
+              ? 'Local'
+              : 'Translated' }}
+          </span>
+
+          <span>
+            {{ getLanguageName(myLanguage) }}
+            →
+            {{ getLanguageName(theirLanguage) }}
+          </span>
+
+        </div>
+
+
+        <!-- =========================
+             QUICK MESSAGES
+        ========================== -->
+        <section class="quick-messages">
+
+          <div class="section-heading">
+            <div>
+              <h3>Quick Messages</h3>
+              <p>Free fixed messages — no AI or message credits.</p>
+            </div>
+          </div>
+
+
+          <div class="quick-message-grid">
+
+            <button
+              type="button"
+              (click)="sendQuickMessage('Call Me')"
+            >
+              Call Me
+            </button>
+
+            <button
+              type="button"
+              (click)="sendQuickMessage('Help Me')"
+            >
+              Help Me
+            </button>
+
+            <button
+              type="button"
+              (click)="sendQuickMessage('I’ll Call You Back')"
+            >
+              I’ll Call You Back
+            </button>
+
+          </div>
+
+        </section>
+
+      </section>
+
+
+      <!-- =========================
+           CONTACTS PANEL
+      ========================== -->
+      <aside class="contacts-panel">
+
+        <div class="contacts-header">
+
+          <div>
+            <h2>Contacts</h2>
+            <span>{{ contacts.length }} saved</span>
+          </div>
+
+          <button
+            class="add-contact-button"
+            type="button"
+            (click)="openDialer()"
+          >
+            + Dial
+          </button>
+
+        </div>
+
+
+        <!-- Search -->
+        <div class="search-box">
+
+          <span class="search-icon">⌕</span>
+
+          <input
+            type="text"
+            [(ngModel)]="searchTerm"
+            placeholder="Search name or LANG number..."
+          />
+
+        </div>
+
+
+        <!-- Contacts -->
+        <div class="contacts-list">
+
+          <button
+            class="contact-item"
+            type="button"
+            *ngFor="let contact of filteredContacts"
+            [class.selected]="selectedContact?.number === contact.number"
+            (click)="selectContact(contact)"
+          >
+
+            <div class="contact-avatar">
+              {{ getInitial(contact) }}
+            </div>
+
+
+            <div class="contact-info">
+
+              <strong>
+                {{ displayName(contact) }}
+              </strong>
+
+              <span>
+                {{ contact.number }}
+              </span>
+
+              <small>
+                {{ getLanguageName(contact.language) }}
+              </small>
+
+            </div>
+
+
+            <div class="contact-actions">
+
+              <button
+                type="button"
+                class="mini-call-button"
+                title="Audio Call"
+                (click)="startAudioCall(); $event.stopPropagation()"
+              >
+                ☎
+              </button>
+
+              <button
+                type="button"
+                class="mini-video-button"
+                title="Video Call"
+                (click)="startVideoCall(); $event.stopPropagation()"
+              >
+                🎥
+              </button>
+
+            </div>
+
+          </button>
+
+
+          <div
+            class="empty-contacts"
+            *ngIf="filteredContacts.length === 0"
+          >
+            <span>⌕</span>
+            <strong>No contacts found</strong>
+            <p>Try another name or LANG number.</p>
+          </div>
+
+        </div>
+
+      </aside>
+
+    </section>
+
+  </main>
+
+
+  <!-- =========================
+       DIALER MODAL
+  ========================== -->
+  <div
+    class="modal-overlay"
+    *ngIf="showDialer"
+    (click)="closeDialer()"
+  >
+
+    <div
+      class="dialer-modal"
+      (click)="$event.stopPropagation()"
+    >
+
+      <div class="modal-header">
+
+        <div>
+          <span class="modal-kicker">LANG TELEPHONE</span>
+          <h2>Dialer</h2>
+        </div>
+
+        <button
+          class="modal-close"
+          type="button"
+          (click)="closeDialer()"
+        >
+          ×
+        </button>
 
       </div>
 
-    </aside>
 
-  </main>
+      <!-- Display -->
+      <div class="dialer-display">
+
+        <span
+          *ngIf="!dialedNumber"
+          class="dialer-placeholder"
+        >
+          Enter LANG number
+        </span>
+
+        <strong *ngIf="dialedNumber">
+          {{ dialedNumber }}
+        </strong>
+
+        <button
+          *ngIf="dialedNumber"
+          type="button"
+          class="dialer-backspace"
+          (click)="backspaceDialer()"
+        >
+          ⌫
+        </button>
+
+      </div>
+
+
+      <!-- Keypad -->
+      <div class="dialer-keypad">
+
+        <button type="button" (click)="dialKey('1')">
+          <strong>1</strong>
+        </button>
+
+        <button type="button" (click)="dialKey('2')">
+          <strong>2</strong>
+          <small>ABC</small>
+        </button>
+
+        <button type="button" (click)="dialKey('3')">
+          <strong>3</strong>
+          <small>DEF</small>
+        </button>
+
+
+        <button type="button" (click)="dialKey('4')">
+          <strong>4</strong>
+          <small>GHI</small>
+        </button>
+
+        <button type="button" (click)="dialKey('5')">
+          <strong>5</strong>
+          <small>JKL</small>
+        </button>
+
+        <button type="button" (click)="dialKey('6')">
+          <strong>6</strong>
+          <small>MNO</small>
+        </button>
+
+
+        <button type="button" (click)="dialKey('7')">
+          <strong>7</strong>
+          <small>PQRS</small>
+        </button>
+
+        <button type="button" (click)="dialKey('8')">
+          <strong>8</strong>
+          <small>TUV</small>
+        </button>
+
+        <button type="button" (click)="dialKey('9')">
+          <strong>9</strong>
+          <small>WXYZ</small>
+        </button>
+
+
+        <button type="button" (click)="dialKey('*')">
+          <strong>*</strong>
+        </button>
+
+        <button type="button" (click)="dialKey('0')">
+          <strong>0</strong>
+          <small>+</small>
+        </button>
+
+        <button type="button" (click)="dialKey('#')">
+          <strong>#</strong>
+        </button>
+
+      </div>
+
+
+      <!-- Dialer Actions -->
+      <div class="dialer-actions">
+
+        <button
+          class="dialer-audio"
+          type="button"
+          (click)="useDialedNumberForCall('audio')"
+        >
+          ☎ Audio
+        </button>
+
+        <button
+          class="dialer-video"
+          type="button"
+          (click)="useDialedNumberForCall('video')"
+        >
+          🎥 Video
+        </button>
+
+      </div>
+
+
+      <!-- Save Contact -->
+      <div class="save-contact-section">
+
+        <div class="save-contact-heading">
+          <strong>Save Number</strong>
+          <span>Name is optional.</span>
+        </div>
+
+        <input
+          type="text"
+          [(ngModel)]="newContactName"
+          placeholder="Contact name (optional)"
+        />
+
+        <button
+          type="button"
+          class="save-contact-button"
+          [disabled]="!dialedNumber"
+          (click)="saveDialedContact()"
+        >
+          Save Contact
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       MESSAGE MODAL
+  ========================== -->
+  <div
+    class="modal-overlay"
+    *ngIf="showMessageBox"
+    (click)="closeMessageBox()"
+  >
+
+    <div
+      class="message-modal"
+      (click)="$event.stopPropagation()"
+    >
+
+      <div class="modal-header">
+
+        <div>
+          <span class="modal-kicker">VOICE MESSAGE</span>
+          <h2>Send Message</h2>
+        </div>
+
+        <button
+          class="modal-close"
+          type="button"
+          (click)="closeMessageBox()"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <div class="message-recipient">
+
+        <div class="contact-avatar">
+          {{ selectedContact ? getInitial(selectedContact) : '?' }}
+        </div>
+
+        <div>
+          <strong>
+            {{ selectedContact ? displayName(selectedContact) : 'No Contact' }}
+          </strong>
+
+          <span *ngIf="selectedContact">
+            {{ selectedContact.number }}
+          </span>
+        </div>
+
+      </div>
+
+
+      <div class="message-language-route">
+
+        <span>
+          {{ getLanguageName(myLanguage) }}
+        </span>
+
+        <strong>→</strong>
+
+        <span>
+          {{ getLanguageName(theirLanguage) }}
+        </span>
+
+      </div>
+
+
+      <div class="voice-message-info">
+
+        <div class="voice-message-icon">
+          🎙
+        </div>
+
+        <div>
+          <strong>Translated Voice Message</strong>
+
+          <p>
+            Record a voice message up to 30 seconds.
+            LANG will translate it for the recipient.
+          </p>
+
+          <small>
+            1 Message Credit per 30 seconds
+          </small>
+        </div>
+
+      </div>
+
+
+      <button
+        class="record-button"
+        type="button"
+        (click)="startVoiceMessage()"
+      >
+        <span>●</span>
+        Hold to Record
+      </button>
+
+
+      <div class="message-limit">
+        Maximum duration: <strong>30 seconds</strong>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- =========================
+       INCOMING CALL
+  ========================== -->
+  <div
+    class="incoming-call-overlay"
+    *ngIf="incomingCallVisible"
+  >
+
+    <div class="incoming-call-card">
+
+      <div class="incoming-kicker">
+        INCOMING {{ incomingCallMode === 'video' ? 'VIDEO' : 'AUDIO' }} CALL
+      </div>
+
+
+      <div class="incoming-avatar">
+        {{ getInitial(incomingCaller) }}
+      </div>
+
+
+      <h2>
+        {{ displayName(incomingCaller) }}
+      </h2>
+
+      <p>
+        {{ incomingCaller.number }}
+      </p>
+
+
+      <div class="incoming-language">
+        {{ getLanguageName(incomingCaller.language) }}
+      </div>
+
+
+      <div class="incoming-actions">
+
+        <button
+          class="reject-button"
+          type="button"
+          (click)="rejectIncomingCall()"
+        >
+          ✕
+          <span>Reject</span>
+        </button>
+
+        <button
+          class="answer-button"
+          type="button"
+          (click)="answerIncomingCall()"
+        >
+          ✓
+          <span>Answer</span>
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
 
 </div>
