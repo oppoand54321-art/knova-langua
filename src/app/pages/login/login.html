@@ -1,0 +1,62 @@
+<div class="login-page">
+  <div class="login-card">
+
+    <div class="brand">LANG</div>
+
+    <h1>Welcome Back</h1>
+    <p class="subtitle">Sign in to your LANG account</p>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input
+        type="email"
+        [value]="email()"
+        (input)="email.set($any($event.target).value)"
+        placeholder="Enter your email"
+        autocomplete="email"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Password</label>
+      <input
+        type="password"
+        [value]="password()"
+        (input)="password.set($any($event.target).value)"
+        placeholder="Enter your password"
+        autocomplete="current-password"
+      />
+    </div>
+
+    @if (error()) {
+      <div class="error">
+        {{ error() }}
+      </div>
+    }
+
+    <button
+      class="login-btn"
+      (click)="onLogin()"
+      [disabled]="loading()"
+    >
+      {{ loading() ? 'Logging in...' : 'Login' }}
+    </button>
+
+    <div class="divider">
+      <span>OR</span>
+    </div>
+
+    <div class="signup-text">
+      Don't have a LANG account?
+    </div>
+
+    <button
+      class="signup-btn"
+      type="button"
+      (click)="onSignup()"
+    >
+      Create Account
+    </button>
+
+  </div>
+</div>
