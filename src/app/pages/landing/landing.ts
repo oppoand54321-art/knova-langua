@@ -367,6 +367,12 @@ export class Landing implements AfterViewInit, OnDestroy {
     }
   }
 
+activeItem: number | null = null;
+
+toggleItem(index: number): void {
+  this.activeItem = this.activeItem === index ? null : index;
+}  
+
   ngOnDestroy(): void {
     cancelAnimationFrame(
       this.animationFrame

@@ -3,143 +3,167 @@
   <canvas #flagCanvas class="flag-canvas"></canvas>
 
   <header class="navbar">
-
-    <div class="brand">
-      LANG
-    </div>
+    <div class="brand">LANG</div>
 
     <nav>
       <a routerLink="/login" class="nav-login">Login</a>
       <a routerLink="/signup" class="nav-signup">Sign Up</a>
     </nav>
-
   </header>
 
 
   <main class="landing-main">
 
-    <!-- ================= LEFT SIDE ================= -->
-
+    <!-- LEFT PANEL -->
     <section class="info-panel left-panel">
 
-      <div class="panel-title">
-        COMMUNICATION
-      </div>
+      <div class="panel-title">COMMUNICATION</div>
 
-      <div class="info-item">
+      <!-- ITEM 01 -->
+      <div class="info-item" (click)="toggleItem(0)">
+
         <div class="item-head">
           <span class="item-number">01</span>
           <span class="item-name">Real-Time Calling</span>
         </div>
 
-        <div class="item-details">
+        <div
+          class="item-details"
+          [class.mobile-active]="activeItem === 0"
+        >
           Voice and video communication designed for real-time connection.
         </div>
+
       </div>
 
-      <div class="info-item">
+
+      <!-- ITEM 02 -->
+      <div class="info-item" (click)="toggleItem(1)">
+
         <div class="item-head">
           <span class="item-number">02</span>
           <span class="item-name">Smart Communication</span>
         </div>
 
-        <div class="item-details">
+        <div
+          class="item-details"
+          [class.mobile-active]="activeItem === 1"
+        >
           Intelligent communication technology built around natural conversations.
         </div>
+
       </div>
 
-      <div class="info-item">
+
+      <!-- ITEM 03 -->
+      <div class="info-item" (click)="toggleItem(2)">
+
         <div class="item-head">
           <span class="item-number">03</span>
           <span class="item-name">Global Connection</span>
         </div>
 
-        <div class="item-details">
+        <div
+          class="item-details"
+          [class.mobile-active]="activeItem === 2"
+        >
           Connect with people across countries and languages.
         </div>
+
       </div>
 
-      <div class="info-item">
+
+      <!-- ITEM 04 -->
+      <div class="info-item" (click)="toggleItem(3)">
+
         <div class="item-head">
           <span class="item-number">04</span>
           <span class="item-name">Secure Accounts</span>
         </div>
 
-        <div class="item-details">
+        <div
+          class="item-details"
+          [class.mobile-active]="activeItem === 3"
+        >
           Secure account access and identity protection.
         </div>
+
       </div>
 
     </section>
 
 
-    <!-- ================= CENTER ================= -->
-
+    <!-- CENTER -->
     <section class="center-stage">
 
       <div class="yellow-line"></div>
 
       <h1>LANG</h1>
 
-      <h2>
-        Speak Freely. Connect Globally.
-      </h2>
+      <h2>Speak Freely. Connect Globally.</h2>
 
       <div class="center-line"></div>
 
     </section>
 
 
-    <!-- ================= RIGHT SIDE ================= -->
-
+    <!-- RIGHT PANEL -->
     <section class="info-panel right-panel">
 
-      <div class="panel-title">
-        TRANSLATION
-      </div>
+      <div class="panel-title">TRANSLATION</div>
 
-      <h3>
-        Talk Without Language Barriers.
-      </h3>
+      <h3>Talk Without Language Barriers.</h3>
 
       <div class="translation-items">
 
-        <div class="info-item">
+        <!-- ITEM 05 -->
+        <div class="info-item" (click)="toggleItem(4)">
 
           <div class="item-head">
             <span class="item-number">01</span>
             <span class="item-name">Speak Naturally</span>
           </div>
 
-          <div class="item-details">
+          <div
+            class="item-details"
+            [class.mobile-active]="activeItem === 4"
+          >
             Speak naturally in your own language while LANG bridges the communication gap.
           </div>
 
         </div>
 
 
-        <div class="info-item">
+        <!-- ITEM 06 -->
+        <div class="info-item" (click)="toggleItem(5)">
 
           <div class="item-head">
             <span class="item-number">02</span>
             <span class="item-name">Real-Time Translation</span>
           </div>
 
-          <div class="item-details">
+          <div
+            class="item-details"
+            [class.mobile-active]="activeItem === 5"
+          >
             Real-time language processing designed for live voice communication.
           </div>
 
         </div>
 
 
-        <div class="info-item">
+        <!-- ITEM 07 -->
+        <div class="info-item" (click)="toggleItem(6)">
 
           <div class="item-head">
             <span class="item-number">03</span>
             <span class="item-name">Global Conversations</span>
           </div>
 
-          <div class="item-details">
+          <div
+            class="item-details"
+            [class.mobile-active]="activeItem === 6"
+          >
             Communicate naturally with people who speak different languages.
           </div>
 
@@ -152,8 +176,7 @@
   </main>
 
 
-  <!-- ================= LANGUAGE MARQUEE ================= -->
-
+  <!-- LANGUAGE MARQUEE -->
   <div class="language-marquee">
 
     <div class="language-marquee-track">
@@ -169,14 +192,12 @@
       <span>Sprechen ohne Sprachbarrieren.</span>
       <span>Parla senza barriere linguistiche.</span>
       <span>Fale sem barreiras linguísticas.</span>
-      <span>Fale sem barreiras de idioma.</span>
       <span>Praat zonder taalbarrières.</span>
       <span>Prata sen lingvaj baroj.</span>
       <span>Говори без езикови бариери.</span>
       <span>Говори без мовних бар'єрів.</span>
       <span>Μιλήστε χωρίς γλωσσικά εμπόδια.</span>
       <span>Konuşun, dil engelleri olmadan.</span>
-      <span>Dil engelleri olmadan konuşun.</span>
       <span>Без језичких баријера.</span>
       <span>Govori bez jezičnih barijera.</span>
       <span>Говорете без јазични бариери.</span>
@@ -186,8 +207,9 @@
       <span>ਭਾਸ਼ਾ ਦੀਆਂ ਰੁਕਾਵਟਾਂ ਤੋਂ ਬਿਨਾਂ ਗੱਲ ਕਰੋ।</span>
       <span>भाषाको बाधाविना कुरा गर्नुहोस्।</span>
       <span>भाषेच्या अडथळ्यांशिवाय संवाद साधा.</span>
-      <span>भाषাৰ বাধা নোহোৱাকৈ কথা পাতক।</span>
+      <span>ভাষাৰ বাধা নোহোৱাকৈ কথা পাতক।</span>
       <span>भाषा बाधाओं के बिना संवाद करें।</span>
+
 
       <!-- SECOND LOOP -->
 
@@ -202,14 +224,12 @@
       <span>Sprechen ohne Sprachbarrieren.</span>
       <span>Parla senza barriere linguistiche.</span>
       <span>Fale sem barreiras linguísticas.</span>
-      <span>Fale sem barreiras de idioma.</span>
       <span>Praat zonder taalbarrières.</span>
       <span>Prata sen lingvaj baroj.</span>
       <span>Говори без езикови бариери.</span>
       <span>Говори без мовних бар'єрів.</span>
       <span>Μιλήστε χωρίς γλωσσικά εμπόδια.</span>
       <span>Konuşun, dil engelleri olmadan.</span>
-      <span>Dil engelleri olmadan konuşun.</span>
       <span>Без језичких баријера.</span>
       <span>Govori bez jezičnih barijera.</span>
       <span>Говорете без јазични бариери.</span>
@@ -227,8 +247,7 @@
   </div>
 
 
-  <!-- ================= BOTTOM MARK ================= -->
-
+  <!-- BOTTOM MARK -->
   <div class="bottom-mark">
     LANG — UNIVERSAL REAL-TIME COMMUNICATION
   </div>

@@ -3,6 +3,7 @@
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  background: #000;
 }
 
 * {
@@ -11,69 +12,55 @@
 
 .landing-page {
   position: relative;
-
   width: 100%;
   height: 100vh;
-
+  min-height: 100vh;
   overflow: hidden;
-
   background: #000;
   color: #fff;
-
-  font-family:
-    Inter,
-    Arial,
-    Helvetica,
-    sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-
-/* =========================
-   ANIMATED CANVAS
-========================= */
+/* =========================================================
+   CANVAS
+   ========================================================= */
 
 .flag-canvas {
   position: absolute;
-
   inset: 0;
-
   width: 100%;
   height: 100%;
-
-  z-index: 0;
-
-  background: #000;
-
+  display: block;
+  z-index: 1;
   pointer-events: none;
 }
 
 
-/* =========================
+/* =========================================================
    NAVBAR
-========================= */
+   ========================================================= */
 
 .navbar {
   position: absolute;
-
   top: 0;
   left: 0;
   right: 0;
 
-  z-index: 20;
-
-  height: 78px;
-
-  padding: 0 42px;
+  height: 82px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  border-bottom:
-    1px solid rgba(255,255,255,0.08);
+  padding: 0 42px;
 
-  background:
-    rgba(0,0,0,0.45);
+  z-index: 30;
+
+  pointer-events: none;
+}
+
+.navbar > * {
+  pointer-events: auto;
 }
 
 .brand {
@@ -85,57 +72,43 @@
   letter-spacing: 6px;
 
   text-shadow: none !important;
+
+  user-select: none;
 }
 
 .navbar nav {
   display: flex;
-
   align-items: center;
-
-  gap: 10px;
+  gap: 14px;
 }
 
-.navbar nav a {
+.navbar a {
   text-decoration: none;
-}
-
-.nav-login,
-.nav-signup {
-  display: inline-flex;
-
-  align-items: center;
-  justify-content: center;
-
-  height: 36px;
-
-  padding: 0 19px;
-
-  border-radius: 3px;
 
   font-size: 11px;
   font-weight: 700;
 
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
 
   transition:
-    background 0.25s ease,
-    color 0.25s ease,
-    border-color 0.25s ease,
-    transform 0.25s ease;
+    color 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .nav-login {
-  color: #fff;
+  color: rgba(255, 255, 255, 0.72);
 
-  border:
-    1px solid rgba(255,255,255,0.3);
+  padding: 10px 14px;
 
-  background:
-    rgba(0,0,0,0.35);
+  border: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 .nav-login:hover {
-  border-color: #fff;
+  color: #fff;
+
+  border-color: rgba(215, 180, 0, 0.55);
 
   transform: translateY(-1px);
 }
@@ -145,73 +118,254 @@
 
   background: #d7b400;
 
+  padding: 10px 17px;
+
   border: 1px solid #d7b400;
 }
 
 .nav-signup:hover {
-  background: #f0ce00;
+  background: #f0cc00;
 
-  border-color: #f0ce00;
+  border-color: #f0cc00;
 
   transform: translateY(-1px);
 }
 
 
-/* =========================
+/* =========================================================
    MAIN
-========================= */
+   ========================================================= */
 
 .landing-main {
-  position: relative;
+  position: absolute;
+  inset: 0;
 
-  z-index: 5;
-
-  width: 100%;
-  height: 100vh;
+  z-index: 10;
 
   display: grid;
 
   grid-template-columns:
     minmax(220px, 1fr)
-    minmax(430px, 1.5fr)
+    minmax(360px, 1.35fr)
     minmax(220px, 1fr);
 
   align-items: center;
 
+  gap: 30px;
+
   padding:
-    78px 38px 90px;
+    90px
+    50px
+    105px;
 }
 
 
-/* =========================
-   CENTER
-========================= */
+/* =========================================================
+   INFORMATION PANELS
+   ========================================================= */
+
+.info-panel {
+  position: relative;
+
+  width: 100%;
+  max-width: 390px;
+
+  z-index: 15;
+}
+
+.left-panel {
+  justify-self: end;
+}
+
+.right-panel {
+  justify-self: start;
+}
+
+.panel-title {
+  margin-bottom: 22px;
+
+  color: rgba(215, 180, 0, 0.82);
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+}
+
+.right-panel h3 {
+  margin: 0 0 25px;
+
+  max-width: 320px;
+
+  color: rgba(255, 255, 255, 0.82);
+
+  font-size: clamp(18px, 1.7vw, 25px);
+
+  line-height: 1.25;
+
+  font-weight: 700;
+}
+
+
+/* =========================================================
+   INFO ITEMS
+   ========================================================= */
+
+.info-item {
+  position: relative;
+
+  padding: 15px 0;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.11);
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.info-item:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.11);
+}
+
+.info-item:hover {
+  border-top-color: rgba(215, 180, 0, 0.45);
+
+  transform: translateX(5px);
+}
+
+.info-item:last-child:hover {
+  border-bottom-color: rgba(215, 180, 0, 0.45);
+}
+
+.item-head {
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  min-height: 22px;
+}
+
+.item-number {
+  width: 22px;
+
+  color: rgba(215, 180, 0, 0.58);
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+}
+
+.item-name {
+  color: rgba(255, 255, 255, 0.76);
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 1.8px;
+
+  text-transform: uppercase;
+
+  transition:
+    color 0.25s ease,
+    letter-spacing 0.25s ease;
+}
+
+.info-item:hover .item-name {
+  color: #d7b400;
+
+  letter-spacing: 2.1px;
+}
+
+
+/* =========================================================
+   DETAILS
+   ========================================================= */
+
+.item-details {
+  max-height: 0;
+
+  overflow: hidden;
+
+  opacity: 0;
+
+  padding-left: 35px;
+
+  color: rgba(255, 255, 255, 0.48);
+
+  font-size: 10px;
+
+  line-height: 1.65;
+
+  transform: translateY(-5px);
+
+  transition:
+    max-height 0.35s ease,
+    opacity 0.3s ease,
+    transform 0.3s ease,
+    padding-top 0.3s ease;
+}
+
+/* Desktop hover */
+
+.info-item:hover .item-details {
+  max-height: 90px;
+
+  opacity: 1;
+
+  padding-top: 9px;
+
+  transform: translateY(0);
+}
+
+/* Mobile / touch */
+
+.item-details.mobile-active {
+  max-height: 100px;
+
+  opacity: 1;
+
+  padding-top: 9px;
+
+  transform: translateY(0);
+}
+
+
+/* =========================================================
+   CENTER STAGE
+   ========================================================= */
 
 .center-stage {
   position: relative;
-
-  z-index: 10;
 
   display: flex;
 
   flex-direction: column;
 
   align-items: center;
-
   justify-content: center;
 
   text-align: center;
 
   min-width: 0;
+
+  z-index: 12;
 }
 
 .yellow-line {
-  width: 65px;
+  width: 55px;
   height: 2px;
 
-  margin-bottom: 23px;
+  margin-bottom: 25px;
 
   background: #d7b400;
+
+  opacity: 0.9;
 }
 
 .center-stage h1 {
@@ -219,8 +373,7 @@
 
   color: #d7b400 !important;
 
-  font-size:
-    clamp(65px, 9vw, 125px);
+  font-size: clamp(65px, 9vw, 125px);
 
   line-height: 0.85;
 
@@ -232,199 +385,34 @@
 }
 
 .center-stage h2 {
-  margin:
-    30px 0 0;
+  margin: 26px 0 0;
 
-  max-width: 620px;
+  max-width: 420px;
 
-  color: #fff;
+  color: rgba(255, 255, 255, 0.78);
 
-  font-size:
-    clamp(20px, 2.5vw, 34px);
+  font-size: clamp(13px, 1.5vw, 19px);
 
-  line-height: 1.2;
+  line-height: 1.4;
 
-  font-weight: 600;
+  font-weight: 400;
 
-  letter-spacing: -0.5px;
+  letter-spacing: 2.2px;
 }
 
 .center-line {
-  width: 110px;
+  width: 115px;
   height: 1px;
 
   margin-top: 28px;
 
-  background:
-    linear-gradient(
-      90deg,
-      transparent,
-      rgba(255,255,255,0.5),
-      transparent
-    );
+  background: rgba(255, 255, 255, 0.24);
 }
 
 
-/* =========================
-   INFO PANELS
-========================= */
-
-.info-panel {
-  position: relative;
-
-  z-index: 12;
-
-  width: 100%;
-
-  max-width: 270px;
-}
-
-.left-panel {
-  justify-self: start;
-
-  margin-left: 20px;
-}
-
-.right-panel {
-  justify-self: end;
-
-  margin-right: 20px;
-}
-
-.panel-title {
-  margin-bottom: 18px;
-
-  color: #d7b400;
-
-  font-size: 9px;
-
-  font-weight: 800;
-
-  letter-spacing: 3px;
-}
-
-.right-panel h3 {
-  margin:
-    0 0 25px;
-
-  max-width: 245px;
-
-  color: #fff;
-
-  font-size: 21px;
-
-  line-height: 1.25;
-
-  font-weight: 700;
-}
-
-
-/* =========================
-   HOVER ITEMS
-========================= */
-
-.info-item {
-  position: relative;
-
-  padding:
-    14px 0;
-
-  border-top:
-    1px solid rgba(255,255,255,0.13);
-
-  cursor: pointer;
-
-  transition:
-    padding 0.25s ease,
-    border-color 0.25s ease,
-    background 0.25s ease;
-}
-
-.info-item:last-child {
-  border-bottom:
-    1px solid rgba(255,255,255,0.13);
-}
-
-.item-head {
-  display: flex;
-
-  align-items: center;
-
-  gap: 11px;
-}
-
-.item-number {
-  flex: 0 0 auto;
-
-  color: #d7b400;
-
-  font-size: 8px;
-
-  letter-spacing: 1px;
-}
-
-.item-name {
-  color:
-    rgba(255,255,255,0.68);
-
-  font-size: 11px;
-
-  font-weight: 600;
-
-  letter-spacing: 1px;
-
-  transition:
-    color 0.25s ease;
-}
-
-.item-details {
-  max-height: 0;
-
-  overflow: hidden;
-
-  opacity: 0;
-
-  margin-top: 0;
-
-  color:
-    rgba(255,255,255,0.52);
-
-  font-size: 10px;
-
-  line-height: 1.65;
-
-  transition:
-    max-height 0.35s ease,
-    opacity 0.3s ease,
-    margin-top 0.3s ease;
-}
-
-.info-item:hover {
-  padding-left: 8px;
-
-  border-color:
-    rgba(0,150,75,0.45);
-
-  background:
-    rgba(0,80,40,0.08);
-}
-
-.info-item:hover .item-name {
-  color: #fff;
-}
-
-.info-item:hover .item-details {
-  max-height: 90px;
-
-  opacity: 1;
-
-  margin-top: 10px;
-}
-
-
-/* =========================
-   LANGUAGE RUNNING STRIP
-========================= */
+/* =========================================================
+   LANGUAGE MARQUEE
+   ========================================================= */
 
 .language-marquee {
   position: absolute;
@@ -469,17 +457,16 @@
 .language-marquee-track span {
   display: inline-block;
 
-  flex-shrink: 0;
-
-  font-size: 11px;
+  font-size: 10px;
 
   font-weight: 800;
 
-  letter-spacing: 0.4px;
+  letter-spacing: 0.8px;
+
+  line-height: 1;
 }
 
 @keyframes languageMarquee {
-
   from {
     transform: translateX(0);
   }
@@ -487,197 +474,589 @@
   to {
     transform: translateX(-50%);
   }
-
 }
 
 
-/* =========================
+/* =========================================================
    BOTTOM MARK
-========================= */
+   ========================================================= */
 
 .bottom-mark {
   position: absolute;
 
   left: 50%;
-
   bottom: 18px;
 
-  transform:
-    translateX(-50%);
+  transform: translateX(-50%);
 
   z-index: 19;
 
-  color:
-    rgba(255,255,255,0.28);
+  color: rgba(255, 255, 255, 0.28);
 
   font-size: 8px;
 
   letter-spacing: 2.5px;
 
   white-space: nowrap;
+
+  text-align: center;
 }
 
 
-/* =========================
+/* =========================================================
    TABLET
-========================= */
+   ========================================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 1000px) {
 
   .landing-main {
     grid-template-columns:
-      minmax(180px, 1fr)
-      minmax(360px, 1.5fr)
-      minmax(180px, 1fr);
-  }
+      minmax(190px, 1fr)
+      minmax(300px, 1.2fr)
+      minmax(190px, 1fr);
 
-  .left-panel {
-    margin-left: 0;
-  }
+    gap: 18px;
 
-  .right-panel {
-    margin-right: 0;
+    padding-left: 25px;
+    padding-right: 25px;
   }
 
   .info-panel {
-    max-width: 210px;
+    max-width: 320px;
   }
 
   .center-stage h1 {
-    font-size: 72px;
+    font-size: clamp(60px, 10vw, 100px);
 
-    letter-spacing: 8px;
+    letter-spacing: 9px;
   }
 
   .center-stage h2 {
-    font-size: 19px;
+    font-size: 13px;
+
+    letter-spacing: 1.5px;
+  }
+
+  .item-name {
+    font-size: 9px;
+
+    letter-spacing: 1.3px;
+  }
+
+  .item-details {
+    font-size: 9px;
   }
 
 }
 
 
-/* =========================
+/* =========================================================
    MOBILE
-========================= */
+   ========================================================= */
 
 @media (max-width: 700px) {
 
-  .navbar {
-    height: 68px;
+  :host {
+    width: 100vw;
+    height: 100dvh;
 
-    padding: 0 18px;
+    min-height: 100dvh;
+
+    overflow: hidden;
+  }
+
+  .landing-page {
+    width: 100vw;
+
+    height: 100dvh;
+
+    min-height: 100dvh;
+
+    overflow: hidden;
+  }
+
+
+  /* -------------------------------------------------------
+     NAVBAR
+     ------------------------------------------------------- */
+
+  .navbar {
+    height: 62px;
+
+    padding:
+      0
+      18px;
   }
 
   .brand {
-    font-size: 20px;
+    font-size: 18px;
 
     letter-spacing: 4px;
   }
 
   .navbar nav {
-    gap: 6px;
+    gap: 7px;
   }
 
-  .nav-login,
-  .nav-signup {
-    height: 34px;
-
-    padding: 0 12px;
-
+  .navbar a {
     font-size: 9px;
+
+    letter-spacing: 1px;
   }
+
+  .nav-login {
+    padding: 7px 9px;
+  }
+
+  .nav-signup {
+    padding: 7px 11px;
+  }
+
+
+  /* -------------------------------------------------------
+     MAIN MOBILE LAYOUT
+     ------------------------------------------------------- */
 
   .landing-main {
+    position: absolute;
+
+    inset: 0;
+
     display: flex;
 
     flex-direction: column;
 
     justify-content: center;
 
+    align-items: stretch;
+
+    gap: 0;
+
     padding:
-      85px 20px 75px;
+      66px
+      18px
+      108px;
+
+    overflow: hidden;
   }
+
+
+  /* -------------------------------------------------------
+     CENTER
+     ------------------------------------------------------- */
 
   .center-stage {
     order: 1;
 
+    flex: 0 0 auto;
+
     width: 100%;
 
-    flex: 0 0 auto;
+    padding:
+      10px
+      0
+      15px;
+  }
+
+  .yellow-line {
+    width: 38px;
+
+    height: 1px;
+
+    margin-bottom: 16px;
   }
 
   .center-stage h1 {
-    font-size: 70px;
+    font-size: clamp(52px, 19vw, 78px);
+
+    line-height: 0.9;
 
     letter-spacing: 7px;
   }
 
   .center-stage h2 {
-    max-width: 330px;
+    margin-top: 16px;
 
-    margin-top: 23px;
+    max-width: 310px;
 
-    font-size: 19px;
+    font-size: 11px;
+
+    line-height: 1.45;
+
+    letter-spacing: 1.25px;
   }
 
-  .left-panel,
+  .center-line {
+    width: 75px;
+
+    margin-top: 17px;
+  }
+
+
+  /* -------------------------------------------------------
+     PANELS
+     ------------------------------------------------------- */
+
+  .info-panel {
+    width: 100%;
+
+    max-width: none;
+
+    margin: 0;
+
+    padding: 0;
+  }
+
+  .left-panel {
+    order: 2;
+
+    justify-self: stretch;
+  }
+
   .right-panel {
-    display: none;
+    order: 3;
+
+    justify-self: stretch;
   }
+
+  .panel-title {
+    margin-bottom: 7px;
+
+    font-size: 7px;
+
+    letter-spacing: 2px;
+  }
+
+  .right-panel h3 {
+    margin:
+      0
+      0
+      7px;
+
+    max-width: 260px;
+
+    font-size: 13px;
+
+    line-height: 1.2;
+  }
+
+
+  /* -------------------------------------------------------
+     MOBILE ITEMS
+     ------------------------------------------------------- */
+
+  .info-item {
+    padding:
+      7px
+      0;
+  }
+
+  .item-head {
+    gap: 8px;
+
+    min-height: 18px;
+  }
+
+  .item-number {
+    width: 17px;
+
+    font-size: 7px;
+  }
+
+  .item-name {
+    font-size: 8px;
+
+    letter-spacing: 1.25px;
+  }
+
+  .info-item:hover {
+    transform: none;
+  }
+
+  .info-item:hover .item-name {
+    letter-spacing: 1.25px;
+  }
+
+
+  /* -------------------------------------------------------
+     MOBILE DETAILS
+     ------------------------------------------------------- */
+
+  .item-details {
+    padding-left: 25px;
+
+    font-size: 8px;
+
+    line-height: 1.45;
+
+    max-height: 0;
+
+    opacity: 0;
+  }
+
+  /*
+   * On mobile hover is disabled visually.
+   * Details open only through Angular tap state.
+   */
+
+  .info-item:hover .item-details {
+    max-height: 0;
+
+    opacity: 0;
+
+    padding-top: 0;
+
+    transform: translateY(-5px);
+  }
+
+  .item-details.mobile-active {
+    max-height: 70px;
+
+    opacity: 1;
+
+    padding-top: 5px;
+
+    transform: translateY(0);
+  }
+
+
+  /* -------------------------------------------------------
+     LANGUAGE MARQUEE
+     ------------------------------------------------------- */
 
   .language-marquee {
-    bottom: 30px;
+    position: absolute;
 
-    height: 38px;
+    left: 0;
+    right: 0;
+
+    bottom: 28px;
+
+    height: 31px;
+
+    z-index: 40;
   }
 
   .language-marquee-track {
-    gap: 45px;
+    gap: 38px;
+
+    padding-left: 100%;
 
     animation-duration: 38s;
   }
 
   .language-marquee-track span {
-    font-size: 9px;
+    font-size: 8px;
+
+    letter-spacing: 0.4px;
   }
 
+
+  /* -------------------------------------------------------
+     BOTTOM MARK
+     ------------------------------------------------------- */
+
   .bottom-mark {
-    bottom: 10px;
+    left: 50%;
+
+    bottom: 9px;
 
     font-size: 6px;
 
-    letter-spacing: 1.5px;
+    letter-spacing: 1.3px;
+
+    width: 100%;
+
+    padding:
+      0
+      10px;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
   }
 
 }
 
 
-/* =========================
+/* =========================================================
    SMALL MOBILE
-========================= */
+   ========================================================= */
 
-@media (max-width: 400px) {
+@media (max-width: 420px) {
+
+  .navbar {
+    padding:
+      0
+      14px;
+  }
+
+  .brand {
+    font-size: 16px;
+
+    letter-spacing: 3px;
+  }
+
+  .navbar a {
+    font-size: 8px;
+  }
+
+  .landing-main {
+    padding:
+      63px
+      15px
+      102px;
+  }
+
+  .center-stage {
+    padding-top: 5px;
+
+    padding-bottom: 9px;
+  }
 
   .center-stage h1 {
-    font-size: 58px;
+    font-size: 56px;
 
     letter-spacing: 5px;
   }
 
   .center-stage h2 {
-    font-size: 17px;
+    margin-top: 12px;
+
+    font-size: 9px;
+
+    letter-spacing: 1px;
   }
 
-  .yellow-line {
-    margin-bottom: 18px;
+  .center-line {
+    margin-top: 13px;
+  }
+
+  .panel-title {
+    margin-bottom: 5px;
+
+    font-size: 6px;
+  }
+
+  .right-panel h3 {
+    margin-bottom: 5px;
+
+    font-size: 11px;
+  }
+
+  .info-item {
+    padding:
+      5px
+      0;
+  }
+
+  .item-name {
+    font-size: 7px;
+
+    letter-spacing: 1px;
+  }
+
+  .item-number {
+    font-size: 6px;
+
+    width: 15px;
+  }
+
+  .item-details {
+    padding-left: 22px;
+
+    font-size: 7px;
+  }
+
+  .item-details.mobile-active {
+    padding-top: 4px;
+  }
+
+  .language-marquee {
+    bottom: 25px;
+
+    height: 28px;
+  }
+
+  .language-marquee-track {
+    gap: 30px;
+
+    animation-duration: 34s;
+  }
+
+  .language-marquee-track span {
+    font-size: 7px;
+  }
+
+  .bottom-mark {
+    bottom: 7px;
+
+    font-size: 5px;
+
+    letter-spacing: 1px;
   }
 
 }
 
 
-/* =========================
+/* =========================================================
+   VERY SMALL HEIGHT DEVICES
+   ========================================================= */
+
+@media (max-width: 700px) and (max-height: 700px) {
+
+  .landing-main {
+    padding-top: 60px;
+
+    padding-bottom: 96px;
+  }
+
+  .center-stage {
+    padding-top: 0;
+
+    padding-bottom: 5px;
+  }
+
+  .center-stage h1 {
+    font-size: 48px;
+  }
+
+  .center-stage h2 {
+    margin-top: 9px;
+
+    font-size: 8px;
+  }
+
+  .center-line {
+    margin-top: 9px;
+  }
+
+  .info-item {
+    padding:
+      4px
+      0;
+  }
+
+  .panel-title {
+    margin-bottom: 4px;
+  }
+
+  .right-panel h3 {
+    margin-bottom: 4px;
+
+    font-size: 10px;
+  }
+
+  .item-details.mobile-active {
+    max-height: 55px;
+  }
+
+}
+
+
+/* =========================================================
    REDUCED MOTION
-========================= */
+   ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
@@ -686,10 +1065,9 @@
   }
 
   .info-item,
-  .item-details,
   .item-name,
-  .nav-login,
-  .nav-signup {
+  .item-details,
+  .navbar a {
     transition: none;
   }
 
