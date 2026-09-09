@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { LangApiService } from '../../core/services/lang-api.service';
 
 type CallMode = 'audio' | 'video' | null;
 type CallState = 'idle' | 'calling' | 'ringing' | 'connected';
@@ -22,12 +23,12 @@ interface Language {
   templateUrl: './home.html',
   styleUrl: './home.css'
 })
-export class Home {
+export class Home implements OnInit {
   activeScreen: 'home' | 'credits' = 'home';
 
   // Identity
   profileName = 'LANG User';
-  myLangNumber = '+92-925-600-000';
+  myLangNumber = 'Loading...';
   verifiedIdentity = true;
 
   // Languages
@@ -125,7 +126,6 @@ export class Home {
     { code: 'prs', name: 'Dari' },
     { code: 'ug', name: 'Uyghur' },
     { code: 'yi', name: 'Yiddish' },
-    { code: 'fa', name: 'Farsi' },
     { code: 'fil', name: 'Filipino' },
     { code: 'tl', name: 'Tagalog' },
     { code: 'jv', name: 'Javanese' },
@@ -138,11 +138,6 @@ export class Home {
     { code: 'fj', name: 'Fijian' },
     { code: 'la', name: 'Latin' },
     { code: 'eo', name: 'Esperanto' },
-    { code: 'af', name: 'Afrikaans' },
-    { code: 'sw', name: 'Swahili' },
-    { code: 'yo', name: 'Yoruba' },
-    { code: 'ig', name: 'Igbo' },
-    { code: 'ha', name: 'Hausa' },
     { code: 'sn', name: 'Shona' },
     { code: 'ny', name: 'Chichewa' },
     { code: 'st', name: 'Sesotho' },
@@ -157,23 +152,15 @@ export class Home {
     { code: 'fy', name: 'Frisian' },
     { code: 'lb', name: 'Luxembourgish' },
     { code: 'mt', name: 'Maltese' },
-    { code: 'cy', name: 'Welsh' },
     { code: 'br', name: 'Breton' },
     { code: 'oc', name: 'Occitan' },
     { code: 'rm', name: 'Romansh' },
-    { code: 'ka', name: 'Georgian' },
     { code: 'be', name: 'Belarusian' },
     { code: 'mo', name: 'Moldovan' },
-    { code: 'jv', name: 'Javanese' },
     { code: 'ht', name: 'Haitian Creole' },
-    { code: 'sw', name: 'Swahili' },
-    { code: 'ps', name: 'Pashto' },
     { code: 'dv', name: 'Dhivehi' },
     { code: 'bo', name: 'Tibetan' },
     { code: 'dz', name: 'Dzongkha' },
-    { code: 'kk', name: 'Kazakh' },
-    { code: 'tk', name: 'Turkmen' },
-    { code: 'uz', name: 'Uzbek' },
     { code: 'tt', name: 'Tatar' },
     { code: 'ba', name: 'Bashkir' },
     { code: 'os', name: 'Ossetian' },
@@ -183,8 +170,6 @@ export class Home {
     { code: 'sah', name: 'Yakut' },
     { code: 'fo', name: 'Faroese' },
     { code: 'gd', name: 'Scottish Gaelic' },
-    { code: 'yi', name: 'Yiddish' },
-    { code: 'am', name: 'Amharic' },
     { code: 'ti', name: 'Tigrinya' },
     { code: 'om', name: 'Oromo' },
     { code: 'arq', name: 'Algerian Arabic' },
@@ -196,56 +181,16 @@ export class Home {
 
   // Contacts
   contacts: Contact[] = [
-    {
-      name: 'Ahmed Khan',
-      number: '+92-925-600-125',
-      language: 'ur'
-    },
-    {
-      name: 'Ali Raza',
-      number: '+92-925-600-126',
-      language: 'ur'
-    },
-    {
-      name: 'Sara Ahmed',
-      number: '+92-925-600-127',
-      language: 'ur'
-    },
-    {
-      name: 'Omar Hassan',
-      number: '+966-925-600-128',
-      language: 'ar'
-    },
-    {
-      name: 'John Smith',
-      number: '+44-925-600-129',
-      language: 'en'
-    },
-    {
-      name: 'Chen Wei',
-      number: '+86-925-600-130',
-      language: 'zh'
-    },
-    {
-      name: 'Yuki Tanaka',
-      number: '+81-925-600-131',
-      language: 'ja'
-    },
-    {
-      name: 'David Miller',
-      number: '+1-925-600-132',
-      language: 'en'
-    },
-    {
-      name: 'Maria Garcia',
-      number: '+34-925-600-133',
-      language: 'es'
-    },
-    {
-      name: 'Pierre Martin',
-      number: '+33-925-600-134',
-      language: 'fr'
-    }
+    { name: 'Ahmed Khan', number: '+92-925-600-125', language: 'ur' },
+    { name: 'Ali Raza', number: '+92-925-600-126', language: 'ur' },
+    { name: 'Sara Ahmed', number: '+92-925-600-127', language: 'ur' },
+    { name: 'Omar Hassan', number: '+966-925-600-128', language: 'ar' },
+    { name: 'John Smith', number: '+44-925-600-129', language: 'en' },
+    { name: 'Chen Wei', number: '+86-925-600-130', language: 'zh' },
+    { name: 'Yuki Tanaka', number: '+81-925-600-131', language: 'ja' },
+    { name: 'David Miller', number: '+1-925-600-132', language: 'en' },
+    { name: 'Maria Garcia', number: '+34-925-600-133', language: 'es' },
+    { name: 'Pierre Martin', number: '+33-925-600-134', language: 'fr' }
   ];
 
   selectedContact: Contact | null = null;
@@ -282,6 +227,72 @@ export class Home {
   incomingCallVisible = false;
   incomingCaller: Contact | null = null;
   incomingCallMode: CallMode = null;
+
+  constructor(
+  private api: LangApiService,
+  private cdr: ChangeDetectorRef
+) {}
+
+  ngOnInit(): void {
+    this.loadPrimaryLangNumber();
+  }
+
+  private extractNumber(res: any): string | null {
+    return (
+      res?.number ||
+      res?.display_number ||
+      res?.data?.number ||
+      res?.data?.display_number ||
+      null
+    );
+  }
+
+  private loadPrimaryLangNumber(): void {
+    this.api.getPrimaryNumber().subscribe({
+      next: (res: any) => {
+        console.log('PRIMARY RESPONSE:', res);
+
+        const number = this.extractNumber(res);
+
+        if (number) {
+  this.myLangNumber = number;
+  this.cdr.detectChanges();
+
+        } else {
+          this.assignFirstLangNumber();
+        }
+      },
+      error: (err) => {
+        if (err?.status === 404) {
+          this.assignFirstLangNumber();
+          return;
+        }
+
+        this.myLangNumber = 'Unavailable';
+        console.error('Failed to load primary LANG number:', err);
+      }
+    });
+  }
+
+  private assignFirstLangNumber(): void {
+    this.api.assignNumber().subscribe({
+      next: (res: any) => {
+        console.log('ASSIGN RESPONSE:', res);
+
+        const number = this.extractNumber(res);
+
+        if (number) {
+          this.myLangNumber = number;
+        } else {
+          this.myLangNumber = 'Assigned';
+        }
+      },
+      error: (err) => {
+        this.myLangNumber = 'Unavailable';
+        console.error('Failed to assign LANG number:', err);
+      }
+    });
+  }
 
   get totalCredits(): number {
     return (
@@ -346,10 +357,6 @@ export class Home {
     return this.displayName(this.selectedContact);
   }
 
-  // -------------------------
-  // Screen
-  // -------------------------
-
   openCredits(): void {
     this.activeScreen = 'credits';
   }
@@ -357,10 +364,6 @@ export class Home {
   closeCredits(): void {
     this.activeScreen = 'home';
   }
-
-  // -------------------------
-  // Contacts
-  // -------------------------
 
   selectContact(contact: Contact): void {
     this.selectedContact = contact;
@@ -372,23 +375,16 @@ export class Home {
 
   displayName(contact: Contact): string {
     const name = contact.name?.trim();
-
     return name || contact.number;
   }
 
   getInitial(contact: Contact): string {
     const name = this.displayName(contact).trim();
-
     if (!name) {
       return '#';
     }
-
     return name.charAt(0).toUpperCase();
   }
-
-  // -------------------------
-  // Dialer
-  // -------------------------
 
   openDialer(): void {
     this.showDialer = true;
@@ -403,7 +399,6 @@ export class Home {
     if (this.dialedNumber.length >= 20) {
       return;
     }
-
     this.dialedNumber += key;
   }
 
@@ -411,7 +406,6 @@ export class Home {
     if (!this.dialedNumber) {
       return;
     }
-
     this.dialedNumber = this.dialedNumber.slice(0, -1);
   }
 
@@ -421,7 +415,6 @@ export class Home {
 
   saveDialedContact(): void {
     const number = this.dialedNumber.trim();
-
     if (!number) {
       return;
     }
@@ -441,7 +434,6 @@ export class Home {
 
       this.showDialer = false;
       this.newContactName = '';
-
       return;
     }
 
@@ -464,7 +456,6 @@ export class Home {
 
   useDialedNumberForCall(mode: 'audio' | 'video'): void {
     const number = this.dialedNumber.trim();
-
     if (!number) {
       return;
     }
@@ -479,7 +470,6 @@ export class Home {
         number,
         language: this.detectLanguageFromNumber(number)
       };
-
       this.contacts.unshift(contact);
     }
 
@@ -496,15 +486,10 @@ export class Home {
     }
   }
 
-  // -------------------------
-  // Language
-  // -------------------------
-
   getLanguageName(code: string): string {
     const language = this.languages.find(
       item => item.code === code
     );
-
     return language?.name || code;
   }
 
@@ -519,117 +504,24 @@ export class Home {
   detectLanguageFromNumber(number: string): string {
     const normalized = number.replace(/\s/g, '');
 
-    if (
-      normalized.startsWith('+92') ||
-      normalized.startsWith('0092')
-    ) {
-      return 'ur';
-    }
-
-    if (
-      normalized.startsWith('+966') ||
-      normalized.startsWith('00966')
-    ) {
-      return 'ar';
-    }
-
-    if (
-      normalized.startsWith('+86') ||
-      normalized.startsWith('0086')
-    ) {
-      return 'zh';
-    }
-
-    if (
-      normalized.startsWith('+81') ||
-      normalized.startsWith('0081')
-    ) {
-      return 'ja';
-    }
-
-    if (
-      normalized.startsWith('+82') ||
-      normalized.startsWith('0082')
-    ) {
-      return 'ko';
-    }
-
-    if (
-      normalized.startsWith('+44') ||
-      normalized.startsWith('0044')
-    ) {
-      return 'en';
-    }
-
-    if (
-      normalized.startsWith('+1') ||
-      normalized.startsWith('001')
-    ) {
-      return 'en';
-    }
-
-    if (
-      normalized.startsWith('+33') ||
-      normalized.startsWith('0033')
-    ) {
-      return 'fr';
-    }
-
-    if (
-      normalized.startsWith('+49') ||
-      normalized.startsWith('0049')
-    ) {
-      return 'de';
-    }
-
-    if (
-      normalized.startsWith('+34') ||
-      normalized.startsWith('0034')
-    ) {
-      return 'es';
-    }
-
-    if (
-      normalized.startsWith('+39') ||
-      normalized.startsWith('0039')
-    ) {
-      return 'it';
-    }
-
-    if (
-      normalized.startsWith('+7') ||
-      normalized.startsWith('007')
-    ) {
-      return 'ru';
-    }
-
-    if (
-      normalized.startsWith('+90') ||
-      normalized.startsWith('0090')
-    ) {
-      return 'tr';
-    }
-
-    if (
-      normalized.startsWith('+91') ||
-      normalized.startsWith('0091')
-    ) {
-      return 'hi';
-    }
-
-    if (
-      normalized.startsWith('+880') ||
-      normalized.startsWith('00880')
-    ) {
-      return 'bn';
-    }
+    if (normalized.startsWith('+92') || normalized.startsWith('0092')) return 'ur';
+    if (normalized.startsWith('+966') || normalized.startsWith('00966')) return 'ar';
+    if (normalized.startsWith('+86') || normalized.startsWith('0086')) return 'zh';
+    if (normalized.startsWith('+81') || normalized.startsWith('0081')) return 'ja';
+    if (normalized.startsWith('+82') || normalized.startsWith('0082')) return 'ko';
+    if (normalized.startsWith('+44') || normalized.startsWith('0044')) return 'en';
+    if (normalized.startsWith('+1') || normalized.startsWith('001')) return 'en';
+    if (normalized.startsWith('+33') || normalized.startsWith('0033')) return 'fr';
+    if (normalized.startsWith('+49') || normalized.startsWith('0049')) return 'de';
+    if (normalized.startsWith('+34') || normalized.startsWith('0034')) return 'es';
+    if (normalized.startsWith('+39') || normalized.startsWith('0039')) return 'it';
+    if (normalized.startsWith('+7') || normalized.startsWith('007')) return 'ru';
+    if (normalized.startsWith('+90') || normalized.startsWith('0090')) return 'tr';
+    if (normalized.startsWith('+91') || normalized.startsWith('0091')) return 'hi';
+    if (normalized.startsWith('+880') || normalized.startsWith('00880')) return 'bn';
 
     return 'en';
   }
-
-  // -------------------------
-  // Calling
-  // -------------------------
 
   startAudioCall(): void {
     this.startCall('audio');
@@ -678,15 +570,10 @@ export class Home {
 
   disconnectCall(): void {
     this.clearCallTimers();
-
     this.callState = 'idle';
     this.callMode = null;
     this.callDuration = 0;
   }
-
-  // -------------------------
-  // Call Timer
-  // -------------------------
 
   private startCallTimer(): void {
     this.stopCallTimer();
@@ -694,10 +581,7 @@ export class Home {
     this.callTimer = setInterval(() => {
       this.callDuration++;
 
-      if (
-        this.callDuration > 0 &&
-        this.callDuration % 30 === 0
-      ) {
+      if (this.callDuration > 0 && this.callDuration % 30 === 0) {
         this.consumeCallCredit();
       }
     }, 1000);
@@ -727,23 +611,14 @@ export class Home {
     const units = this.callMode === 'video' ? 2 : 1;
 
     if (this.currentMode === 'local') {
-      this.localCredits = Math.max(
-        0,
-        this.localCredits - units
-      );
-
+      this.localCredits = Math.max(0, this.localCredits - units);
       if (this.localCredits === 0) {
         this.disconnectCall();
       }
-
       return;
     }
 
-    this.translationCredits = Math.max(
-      0,
-      this.translationCredits - units
-    );
-
+    this.translationCredits = Math.max(0, this.translationCredits - units);
     if (this.translationCredits === 0) {
       this.disconnectCall();
     }
@@ -752,20 +627,10 @@ export class Home {
   private formatCallDuration(seconds: number): string {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-
-    return `${String(mins).padStart(2, '0')}:${String(
-      secs
-    ).padStart(2, '0')}`;
+    return `\( {String(mins).padStart(2, '0')}: \){String(secs).padStart(2, '0')}`;
   }
 
-  // -------------------------
-  // Incoming Calls
-  // -------------------------
-
-  receiveIncomingCall(
-    contact: Contact,
-    mode: 'audio' | 'video'
-  ): void {
+  receiveIncomingCall(contact: Contact, mode: 'audio' | 'video'): void {
     this.incomingCaller = contact;
     this.incomingCallMode = mode;
     this.incomingCallVisible = true;
@@ -803,15 +668,10 @@ export class Home {
     this.callDuration = 0;
   }
 
-  // -------------------------
-  // Messages
-  // -------------------------
-
   openMessageBox(): void {
     if (!this.sendMessageEnabled) {
       return;
     }
-
     this.showMessageBox = true;
   }
 
@@ -823,23 +683,14 @@ export class Home {
     if (!this.sendMessageEnabled) {
       return;
     }
-
-    // Backend / MediaRecorder integration will be added in Phase 2.
-    console.log(
-      'Voice message recording will start here.'
-    );
+    console.log('Voice message recording will start here.');
   }
-
-  // -------------------------
-  // Fixed Quick Messages
-  // -------------------------
 
   sendQuickMessage(message: string): void {
     if (!this.selectedContact) {
       return;
     }
 
-    // These messages are free and do not use AI or credits.
     console.log(
       'Quick message:',
       message,
@@ -847,10 +698,6 @@ export class Home {
       this.selectedContact.number
     );
   }
-
-  // -------------------------
-  // Translation Package Demo
-  // -------------------------
 
   enableTranslationDemo(): void {
     this.hasTranslationPackage = true;

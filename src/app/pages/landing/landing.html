@@ -1,597 +1,147 @@
 <div class="landing-page">
 
-  <!-- ================= NAVBAR ================= -->
+  <canvas #flagCanvas class="flag-canvas"></canvas>
 
   <header class="navbar">
 
-    <div class="brand">LANG</div>
+    <div class="brand">
+      LANG
+    </div>
 
     <nav>
-      <a href="#features">Features</a>
-      <a href="#translation">Translation</a>
-      <a href="#modes">Modes</a>
-      <a href="#plans">Plans</a>
-
-      <a routerLink="/login" class="nav-login">
-        Login
-      </a>
-
-      <a routerLink="/signup" class="nav-signup">
-        Sign Up
-      </a>
+      <a routerLink="/login" class="nav-login">Login</a>
+      <a routerLink="/signup" class="nav-signup">Sign Up</a>
     </nav>
 
   </header>
 
 
-  <main>
+  <main class="landing-main">
 
-    <!-- ================= HERO ================= -->
+    <!-- ================= LEFT SIDE ================= -->
 
-    <section class="hero">
+    <section class="info-panel left-panel">
 
-      <div class="hero-content">
+      <div class="panel-title">
+        COMMUNICATION
+      </div>
 
-        <div class="badge">
-          THE FUTURE OF COMMUNICATION
+      <div class="info-item">
+        <div class="item-head">
+          <span class="item-number">01</span>
+          <span class="item-name">Real-Time Calling</span>
         </div>
 
-        <h1>LANG</h1>
+        <div class="item-details">
+          Voice and video communication designed for real-time connection.
+        </div>
+      </div>
 
-        <h2>
-          Speak Freely. Connect Globally.
-        </h2>
-
-        <p>
-          LANG is a next-generation communication platform built to make
-          calling simple, secure and intelligent — connecting people locally
-          and globally through modern real-time communication technology.
-        </p>
-
-        <div class="hero-buttons">
-
-          <a routerLink="/signup" class="primary-btn">
-            Create Account
-          </a>
-
-          <a routerLink="/login" class="secondary-btn">
-            Login
-          </a>
-
+      <div class="info-item">
+        <div class="item-head">
+          <span class="item-number">02</span>
+          <span class="item-name">Smart Communication</span>
         </div>
 
-        <div class="hero-install">
+        <div class="item-details">
+          Intelligent communication technology built around natural conversations.
+        </div>
+      </div>
 
-          <span>
-            Available for mobile
-          </span>
+      <div class="info-item">
+        <div class="item-head">
+          <span class="item-number">03</span>
+          <span class="item-name">Global Connection</span>
+        </div>
 
-          <div class="install-options">
+        <div class="item-details">
+          Connect with people across countries and languages.
+        </div>
+      </div>
 
-            <a href="#installation" class="install-btn">
-              Android
-            </a>
+      <div class="info-item">
+        <div class="item-head">
+          <span class="item-number">04</span>
+          <span class="item-name">Secure Accounts</span>
+        </div>
 
-            <a href="#installation" class="install-btn">
-              iPhone / iOS
-            </a>
+        <div class="item-details">
+          Secure account access and identity protection.
+        </div>
+      </div>
 
+    </section>
+
+
+    <!-- ================= CENTER ================= -->
+
+    <section class="center-stage">
+
+      <div class="yellow-line"></div>
+
+      <h1>LANG</h1>
+
+      <h2>
+        Speak Freely. Connect Globally.
+      </h2>
+
+      <div class="center-line"></div>
+
+    </section>
+
+
+    <!-- ================= RIGHT SIDE ================= -->
+
+    <section class="info-panel right-panel">
+
+      <div class="panel-title">
+        TRANSLATION
+      </div>
+
+      <h3>
+        Talk Without Language Barriers.
+      </h3>
+
+      <div class="translation-items">
+
+        <div class="info-item">
+
+          <div class="item-head">
+            <span class="item-number">01</span>
+            <span class="item-name">Speak Naturally</span>
           </div>
 
-        </div>
-
-      </div>
-
-      <div class="hero-glow glow-one"></div>
-      <div class="hero-glow glow-two"></div>
-
-    </section>
-
-
-    <!-- ================= INTRO ================= -->
-
-    <section class="intro-section">
-
-      <div class="section-heading">
-
-        <span>WELCOME TO LANG</span>
-
-        <h2>
-          Communication Without Borders.
-        </h2>
-
-        <p>
-          LANG is designed around one simple idea:
-          people should be able to communicate naturally,
-          wherever they are and whatever language they speak.
-        </p>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= FEATURES ================= -->
-
-    <section id="features" class="features-section">
-
-      <div class="section-heading">
-
-        <span>WHY LANG</span>
-
-        <h2>
-          Communication, Reimagined.
-        </h2>
-
-        <p>
-          Everything you need for a smarter communication experience.
-        </p>
-
-      </div>
-
-
-      <div class="features-grid">
-
-        <article class="feature-card">
-
-          <div class="feature-icon">☎</div>
-
-          <h3>
-            Real-Time Calling
-          </h3>
-
-          <p>
-            Connect with people through a fast and modern real-time
-            calling experience.
-          </p>
-
-        </article>
-
-
-        <article class="feature-card">
-
-          <div class="feature-icon">◉</div>
-
-          <h3>
-            Smart Communication
-          </h3>
-
-          <p>
-            Built for natural conversations with intelligent communication
-            technology.
-          </p>
-
-        </article>
-
-
-        <article class="feature-card">
-
-          <div class="feature-icon">⌁</div>
-
-          <h3>
-            Global Connection
-          </h3>
-
-          <p>
-            Connect across borders and communicate without unnecessary
-            complexity.
-          </p>
-
-        </article>
-
-
-        <article class="feature-card">
-
-          <div class="feature-icon">🔒</div>
-
-          <h3>
-            Secure Accounts
-          </h3>
-
-          <p>
-            Your account and communication experience are protected with
-            modern authentication.
-          </p>
-
-        </article>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= TRANSLATION MODE ================= -->
-
-    <section id="translation" class="translation-section">
-
-      <div class="translation-content">
-
-        <div class="section-heading">
-
-          <span>
-            TRANSLATION MODE
-          </span>
-
-          <h2>
-            Talk Without Language Barriers.
-          </h2>
-
-          <p>
-            LANG is being built to enable real-time communication between
-            people who speak different languages.
-          </p>
+          <div class="item-details">
+            Speak naturally in your own language while LANG bridges the communication gap.
+          </div>
 
         </div>
 
 
-        <div class="translation-grid">
+        <div class="info-item">
 
-          <article class="translation-card">
-
-            <h3>
-              Speak Naturally
-            </h3>
-
-            <p>
-              Speak in your own language while LANG works toward delivering
-              the conversation naturally in the other person's language.
-            </p>
-
-          </article>
-
-
-          <article class="translation-card">
-
-            <h3>
-              Real-Time Translation
-            </h3>
-
-            <p>
-              The LANG Translation Engine is designed for real-time voice
-              communication and intelligent language processing.
-            </p>
-
-          </article>
-
-
-          <article class="translation-card">
-
-            <h3>
-              Global Conversations
-            </h3>
-
-            <p>
-              Connect with people around the world without making language
-              the barrier to communication.
-            </p>
-
-          </article>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= MODES ================= -->
-
-    <section id="modes" class="modes-section">
-
-      <div class="section-heading">
-
-        <span>
-          LANG MODES
-        </span>
-
-        <h2>
-          Choose How You Communicate.
-        </h2>
-
-        <p>
-          LANG is designed around two communication experiences.
-        </p>
-
-      </div>
-
-
-      <div class="modes-grid">
-
-        <article class="mode-card local-mode">
-
-          <div class="mode-label">
-            MODE 01
+          <div class="item-head">
+            <span class="item-number">02</span>
+            <span class="item-name">Real-Time Translation</span>
           </div>
 
-          <h3>
-            Local Mode
-          </h3>
-
-          <p>
-            Connect and communicate normally with people using LANG.
-            Local Mode provides the core calling and communication
-            experience.
-          </p>
-
-          <ul>
-            <li>Real-Time Calling</li>
-            <li>Contact Communication</li>
-            <li>Secure Account</li>
-            <li>Fast Connection</li>
-          </ul>
-
-        </article>
-
-
-        <article class="mode-card translation-mode">
-
-          <div class="mode-label">
-            MODE 02
-          </div>
-
-          <h3>
-            Translation Mode
-          </h3>
-
-          <p>
-            A future-focused communication experience designed to allow
-            people speaking different languages to communicate naturally
-            through real-time voice translation.
-          </p>
-
-          <ul>
-            <li>Real-Time Voice Translation</li>
-            <li>Multiple Languages</li>
-            <li>Intelligent Audio Processing</li>
-            <li>Global Communication</li>
-          </ul>
-
-        </article>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= INSTALLATION ================= -->
-
-    <section id="installation" class="installation-section">
-
-      <div class="installation-box">
-
-        <span>
-          INSTALL LANG
-        </span>
-
-        <h2>
-          LANG Goes With You.
-        </h2>
-
-        <p>
-          Install LANG on your mobile device and stay connected wherever
-          you go.
-        </p>
-
-
-        <div class="installation-grid">
-
-          <div class="platform-card">
-
-            <div class="platform-icon">
-              Android
-            </div>
-
-            <h3>
-              Android
-            </h3>
-
-            <p>
-              Install the LANG mobile application on Android devices.
-            </p>
-
-            <button
-              type="button"
-              class="download-btn"
-            >
-              Android App
-            </button>
-
-          </div>
-
-
-          <div class="platform-card">
-
-            <div class="platform-icon">
-              iOS
-            </div>
-
-            <h3>
-              iPhone / iOS
-            </h3>
-
-            <p>
-              Install LANG on iPhone and supported iOS devices.
-            </p>
-
-            <button
-              type="button"
-              class="download-btn"
-            >
-              iOS App
-            </button>
-
+          <div class="item-details">
+            Real-time language processing designed for live voice communication.
           </div>
 
         </div>
 
-        <small>
-          Mobile application distribution links will be connected when
-          the production builds are published.
-        </small>
 
-      </div>
+        <div class="info-item">
 
-    </section>
-
-
-    <!-- ================= PLANS ================= -->
-
-    <section id="plans" class="plans-section">
-
-      <div class="section-heading">
-
-        <span>
-          PLANS
-        </span>
-
-        <h2>
-          Choose Your Experience.
-        </h2>
-
-        <p>
-          Flexible plans designed for different communication needs.
-        </p>
-
-      </div>
-
-
-      <div class="plans-grid">
-
-        <article class="plan-card">
-
-          <h3>
-            Free
-          </h3>
-
-          <div class="price">
-            $0
+          <div class="item-head">
+            <span class="item-number">03</span>
+            <span class="item-name">Global Conversations</span>
           </div>
 
-          <p>
-            For getting started with LANG.
-          </p>
-
-          <ul>
-            <li>Basic Calling</li>
-            <li>LANG Account</li>
-            <li>Secure Login</li>
-            <li>Local Mode</li>
-          </ul>
-
-          <a
-            routerLink="/signup"
-            class="plan-btn"
-          >
-            Get Started
-          </a>
-
-        </article>
-
-
-        <article class="plan-card featured">
-
-          <div class="popular">
-            POPULAR
+          <div class="item-details">
+            Communicate naturally with people who speak different languages.
           </div>
-
-          <h3>
-            Pro
-          </h3>
-
-          <div class="price">
-            $9<span>/month</span>
-          </div>
-
-          <p>
-            For regular LANG users.
-          </p>
-
-          <ul>
-            <li>Extended Calling</li>
-            <li>Advanced Features</li>
-            <li>Priority Experience</li>
-            <li>Future Translation Features</li>
-          </ul>
-
-          <a
-            routerLink="/signup"
-            class="plan-btn"
-          >
-            Choose Pro
-          </a>
-
-        </article>
-
-
-        <article class="plan-card">
-
-          <h3>
-            Premium
-          </h3>
-
-          <div class="price">
-            $19<span>/month</span>
-          </div>
-
-          <p>
-            For users who want the full experience.
-          </p>
-
-          <ul>
-            <li>Premium Calling</li>
-            <li>Advanced Communication</li>
-            <li>Priority Features</li>
-            <li>Future LANG Features</li>
-          </ul>
-
-          <a
-            routerLink="/signup"
-            class="plan-btn"
-          >
-            Choose Premium
-          </a>
-
-        </article>
-
-      </div>
-
-    </section>
-
-
-    <!-- ================= FINAL CTA ================= -->
-
-    <section class="cta-section">
-
-      <div class="cta-box">
-
-        <span>
-          READY TO CONNECT?
-        </span>
-
-        <h2>
-          Start With LANG.
-        </h2>
-
-        <p>
-          Create your account, install LANG on your mobile device,
-          and experience a new generation of communication.
-        </p>
-
-        <div class="cta-buttons">
-
-          <a
-            routerLink="/signup"
-            class="primary-btn"
-          >
-            Create Account
-          </a>
-
-          <a
-            routerLink="/login"
-            class="secondary-btn"
-          >
-            Login
-          </a>
 
         </div>
 
@@ -602,22 +152,85 @@
   </main>
 
 
-  <!-- ================= FOOTER ================= -->
+  <!-- ================= LANGUAGE MARQUEE ================= -->
 
-  <footer>
+  <div class="language-marquee">
 
-    <div class="footer-brand">
-      LANG
+    <div class="language-marquee-track">
+
+      <span>Talk Without Language Barriers.</span>
+      <span>زبان کی رکاوٹوں کے بغیر بات کریں۔</span>
+      <span>تحدث دون حواجز لغوية.</span>
+      <span>跨越语言障碍，自由交流。</span>
+      <span>भाषा की बाधाओं के बिना बात करें।</span>
+      <span>Без языковых барьеров.</span>
+      <span>Parlez sans barrières linguistiques.</span>
+      <span>Habla sin barreras lingüísticas.</span>
+      <span>Sprechen ohne Sprachbarrieren.</span>
+      <span>Parla senza barriere linguistiche.</span>
+      <span>Fale sem barreiras linguísticas.</span>
+      <span>Fale sem barreiras de idioma.</span>
+      <span>Praat zonder taalbarrières.</span>
+      <span>Prata sen lingvaj baroj.</span>
+      <span>Говори без езикови бариери.</span>
+      <span>Говори без мовних бар'єрів.</span>
+      <span>Μιλήστε χωρίς γλωσσικά εμπόδια.</span>
+      <span>Konuşun, dil engelleri olmadan.</span>
+      <span>Dil engelleri olmadan konuşun.</span>
+      <span>Без језичких баријера.</span>
+      <span>Govori bez jezičnih barijera.</span>
+      <span>Говорете без јазични бариери.</span>
+      <span>語言の壁を越えて話しましょう。</span>
+      <span>언어 장벽 없이 소통하세요.</span>
+      <span>भाषेच्या अडथळ्यांशिवाय बोला.</span>
+      <span>ਭਾਸ਼ਾ ਦੀਆਂ ਰੁਕਾਵਟਾਂ ਤੋਂ ਬਿਨਾਂ ਗੱਲ ਕਰੋ।</span>
+      <span>भाषाको बाधाविना कुरा गर्नुहोस्।</span>
+      <span>भाषेच्या अडथळ्यांशिवाय संवाद साधा.</span>
+      <span>भाषাৰ বাধা নোহোৱাকৈ কথা পাতক।</span>
+      <span>भाषा बाधाओं के बिना संवाद करें।</span>
+
+      <!-- SECOND LOOP -->
+
+      <span>Talk Without Language Barriers.</span>
+      <span>زبان کی رکاوٹوں کے بغیر بات کریں۔</span>
+      <span>تحدث دون حواجز لغوية.</span>
+      <span>跨越语言障碍，自由交流。</span>
+      <span>भाषा की बाधाओं के बिना बात करें।</span>
+      <span>Без языковых барьеров.</span>
+      <span>Parlez sans barrières linguistiques.</span>
+      <span>Habla sin barreras lingüísticas.</span>
+      <span>Sprechen ohne Sprachbarrieren.</span>
+      <span>Parla senza barriere linguistiche.</span>
+      <span>Fale sem barreiras linguísticas.</span>
+      <span>Fale sem barreiras de idioma.</span>
+      <span>Praat zonder taalbarrières.</span>
+      <span>Prata sen lingvaj baroj.</span>
+      <span>Говори без езикови бариери.</span>
+      <span>Говори без мовних бар'єрів.</span>
+      <span>Μιλήστε χωρίς γλωσσικά εμπόδια.</span>
+      <span>Konuşun, dil engelleri olmadan.</span>
+      <span>Dil engelleri olmadan konuşun.</span>
+      <span>Без језичких баријера.</span>
+      <span>Govori bez jezičnih barijera.</span>
+      <span>Говорете без јазични бариери.</span>
+      <span>語言の壁を越えて話しましょう。</span>
+      <span>언어 장벽 없이 소통하세요.</span>
+      <span>भाषेच्या अडथळ्यांशिवाय बोला.</span>
+      <span>ਭਾਸ਼ਾ ਦੀਆਂ ਰੁਕਾਵਟਾਂ ਤੋਂ ਬਿਨਾਂ ਗੱਲ ਕਰੋ।</span>
+      <span>भाषाको बाधाविना कुरा गर्नुहोस्।</span>
+      <span>भाषेच्या अडथळ्यांशिवाय संवाद साधा.</span>
+      <span>ভাষাৰ বাধা নোহোৱাকৈ কথা পাতক।</span>
+      <span>भाषा बाधाओं के बिना संवाद करें।</span>
+
     </div>
 
-    <p>
-      Speak Freely. Connect Globally.
-    </p>
+  </div>
 
-    <p>
-      © 2026 LANG. All rights reserved.
-    </p>
 
-  </footer>
+  <!-- ================= BOTTOM MARK ================= -->
+
+  <div class="bottom-mark">
+    LANG — UNIVERSAL REAL-TIME COMMUNICATION
+  </div>
 
 </div>

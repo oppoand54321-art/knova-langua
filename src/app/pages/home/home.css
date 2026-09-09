@@ -71,11 +71,20 @@ button:disabled {
 }
 
 .brand-main {
+  display: inline-block;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+
   font-size: 22px;
   line-height: 1;
   font-weight: 800;
   letter-spacing: 0.08em;
-  color: #ffffff;
+
+  color: #ffd600;
+  text-shadow: none;
+  box-shadow: none;
+  background: transparent;
 }
 
 .brand-by {
