@@ -2194,3 +2194,96 @@
   }
 
 }
+/* =========================================================
+   MOBILE INSTALL POSITION
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .install-area {
+    width: 100%;
+
+    margin-top: 18px;
+
+    padding-top: 8px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-start;
+  }
+
+  .install-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 36px;
+
+    padding:
+      9px
+      14px;
+
+    border:
+      1px solid rgba(255,255,255,0.38);
+
+    background:
+      rgba(255,255,255,0.06);
+
+    color: rgba(255,255,255,0.88);
+
+    box-shadow:
+      0 0 14px rgba(255,255,255,0.04);
+  }
+
+}
+
+
+@media (max-width: 420px) {
+
+  .install-area {
+    margin-top: 14px;
+
+    padding-top: 6px;
+  }
+
+  .install-button {
+    min-height: 34px;
+
+    padding:
+      8px
+      13px;
+
+    border-color:
+      rgba(255,255,255,0.42);
+
+    font-size: 8px;
+
+    letter-spacing: 1.2px;
+  }
+
+}
+
+
+/* =========================================================
+   TOUCH — NO HOVER EFFECT
+   ========================================================= */
+
+@media (hover: none) {
+
+  .install-button:hover {
+    transform: none;
+
+    background:
+      rgba(255,255,255,0.06);
+
+    border-color:
+      rgba(255,255,255,0.38);
+
+    color:
+      rgba(255,255,255,0.88);
+  }
+
+}

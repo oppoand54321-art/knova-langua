@@ -1,8 +1,8 @@
 <div class="landing-page">
 
-  <!-- =======================================================
-       CINEMATIC SPACE FIELD
-       ======================================================= -->
+  <!-- =====================================================
+       CINEMATIC SPACE BACKGROUND
+       ===================================================== -->
 
   <div class="space-field" aria-hidden="true">
 
@@ -21,9 +21,9 @@
   </div>
 
 
-  <!-- =======================================================
+  <!-- =====================================================
        NAVBAR
-       ======================================================= -->
+       ===================================================== -->
 
   <header class="navbar">
 
@@ -63,16 +63,16 @@
   </header>
 
 
-  <!-- =======================================================
+  <!-- =====================================================
        MAIN
-       ======================================================= -->
+       ===================================================== -->
 
   <main class="landing-main">
 
 
-    <!-- =====================================================
+    <!-- ===================================================
          LEFT PANEL
-         ===================================================== -->
+         =================================================== -->
 
     <section class="info-panel left-panel">
 
@@ -105,7 +105,8 @@
           class="item-details"
           [class.mobile-active]="activeItem === 0"
         >
-          Same-language voice and video communication without translation.
+          Talk directly with another LANG user.
+          No translation required for same-language calls.
         </div>
 
       </div>
@@ -135,19 +136,21 @@
           class="item-details"
           [class.mobile-active]="activeItem === 1"
         >
-          Live communication across different languages with real-time translation.
+          Speak naturally in your own language while
+          LANG bridges the communication gap.
         </div>
 
       </div>
 
 
-      <!-- INSTALLATION -->
+      <!-- INSTALL -->
 
       <div class="install-area">
 
         <button
           type="button"
           class="install-button"
+          (click)="installApp()"
         >
           Install LANG
         </button>
@@ -157,16 +160,18 @@
     </section>
 
 
-    <!-- =====================================================
+    <!-- ===================================================
          CENTER
-         ===================================================== -->
+         =================================================== -->
 
     <section class="center-stage">
 
       <div class="center-orbit">
 
         <div class="orbit-ring orbit-ring-one"></div>
+
         <div class="orbit-ring orbit-ring-two"></div>
+
         <div class="orbit-ring orbit-ring-three"></div>
 
       </div>
@@ -187,9 +192,9 @@
     </section>
 
 
-    <!-- =====================================================
+    <!-- ===================================================
          RIGHT PANEL
-         ===================================================== -->
+         =================================================== -->
 
     <section class="info-panel right-panel">
 
@@ -206,7 +211,7 @@
       <div class="translation-items">
 
 
-        <!-- ITEM 03 -->
+        <!-- SPEAK NATURALLY -->
 
         <div
           class="info-item"
@@ -230,13 +235,14 @@
             class="item-details"
             [class.mobile-active]="activeItem === 4"
           >
-            Speak naturally in your own language while LANG bridges the communication gap.
+            Speak naturally in your own language while
+            LANG bridges the communication gap.
           </div>
 
         </div>
 
 
-        <!-- ITEM 04 -->
+        <!-- REAL-TIME TRANSLATION -->
 
         <div
           class="info-item"
@@ -260,13 +266,14 @@
             class="item-details"
             [class.mobile-active]="activeItem === 5"
           >
-            Real-time language processing designed for live voice communication.
+            Real-time language processing designed
+            for live voice communication.
           </div>
 
         </div>
 
 
-        <!-- ITEM 05 -->
+        <!-- GLOBAL CONVERSATIONS -->
 
         <div
           class="info-item"
@@ -290,7 +297,8 @@
             class="item-details"
             [class.mobile-active]="activeItem === 6"
           >
-            Communicate naturally with people who speak different languages.
+            Communicate naturally with people who
+            speak different languages.
           </div>
 
         </div>
@@ -302,9 +310,9 @@
   </main>
 
 
-  <!-- =======================================================
+  <!-- =====================================================
        LANGUAGE MARQUEE
-       ======================================================= -->
+       ===================================================== -->
 
   <div class="language-marquee">
 
@@ -333,9 +341,8 @@
       <span>語言の壁を越えて話しましょう。</span>
       <span>언어 장벽 없이 소통하세요.</span>
       <span>भाषेच्या अडथळ्यांशिवाय बोला.</span>
-      <span>ਭਾਸ਼ਾ ਦੀਆਂ ਰੁਕਾਵਟਾਂ ਤੋਂ ਬਿਨਾਂ ਗੱਲ ਕਰੋ।</span>
+      <span>ਭਾਸ਼ਾ ਦੀਆਂ ਰੁਕਾਵਟਾਂ ਤੋਂ ਬਿਨਾਂ ਗੱਲ ਕਰੋ۔</span>
       <span>भाषाको बाधाविना कुरा गर्नुहोस्।</span>
-      <span>भाषेच्या अडथळ्यांशिवाय संवाद साधा.</span>
       <span>ভাষাৰ বাধা নোহোৱাকৈ কথা পাতক।</span>
       <span>भाषा बाधाओं के बिना संवाद करें।</span>
 
@@ -355,7 +362,7 @@
       <span>Fale sem barreiras linguísticas.</span>
       <span>Praat zonder taalbarrières.</span>
       <span>Prata sen lingvaj baroj.</span>
-      <span>Говори без езикових бариери.</span>
+      <span>Говори без езикови бариери.</span>
       <span>Говори без мовних бар'єрів.</span>
       <span>Μιλήστε χωρίς γλωσσικά εμπόδια.</span>
       <span>Konuşun, dil engelleri olmadan.</span>
@@ -365,20 +372,19 @@
       <span>語言の壁を越えて話しましょう。</span>
       <span>언어 장벽 없이 소통하세요.</span>
       <span>भाषेच्या अडथळ्यांशिवाय बोला.</span>
-      <span>ਭਾਸ਼ਾ ਦੀਆਂ ਰੁਕਾਵਟਾਂ ਤੋਂ ਬਿਨਾਂ ਗੱਲ ਕਰੋ।</span>
+      <span>ਭਾਸ਼ਾ ਦੀਆਂ ਰੁਕਾਵਟਾਂ ਤੋਂ ਬਿਨਾਂ ਗੱਲ ਕਰੋ۔</span>
       <span>भाषाको बाधाविना कुरा गर्नुहोस्।</span>
-      <span>भाषेच्या अडथळ्यांशिवाय संवाद साधा.</span>
       <span>ভাষাৰ বাধা নোহোৱাকৈ কথা পাতক।</span>
-      <span>भाषা बाधाओं के बिना संवाद करें।</span>
+      <span>भाषा बाधाओं के बिना संवाद करें।</span>
 
     </div>
 
   </div>
 
 
-  <!-- =======================================================
+  <!-- =====================================================
        BOTTOM MARK
-       ======================================================= -->
+       ===================================================== -->
 
   <div class="bottom-mark">
     LANG — UNIVERSAL REAL-TIME COMMUNICATION
