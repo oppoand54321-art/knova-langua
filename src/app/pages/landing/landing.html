@@ -183,76 +183,7 @@
 
   </main>
 
-    <section class="info-panel left-panel">
-
-      <div class="panel-title">
-        COMMUNICATION
-      </div>
-
-
-      <!-- LOCAL CALL -->
-
-      <div
-        class="info-item"
-        (click)="toggleItem(0)"
-      >
-
-        <div class="item-head">
-
-          <span class="item-number">
-            01
-          </span>
-
-          <span class="item-name">
-            Local Call
-          </span>
-
-        </div>
-
-
-        <div
-          class="item-details"
-          [class.mobile-active]="activeItem === 0"
-        >
-          Talk directly with another LANG user.
-          No translation required for same-language calls.
-        </div>
-
-      </div>
-
-
-      <!-- TRANSLATION CALL -->
-
-      <div
-        class="info-item"
-        (click)="toggleItem(1)"
-      >
-
-        <div class="item-head">
-
-          <span class="item-number">
-            02
-          </span>
-
-          <span class="item-name">
-            Translation Call
-          </span>
-
-        </div>
-
-
-        <div
-          class="item-details"
-          [class.mobile-active]="activeItem === 1"
-        >
-          Speak naturally in your own language while
-          LANG bridges the communication gap.
-        </div>
-
-      </div>
-
-    </section>
-
+    
 
     <!-- ===================================================
          CENTER
