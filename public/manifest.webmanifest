@@ -1,9 +1,9 @@
 {
-  "name": "frontend",
-  "short_name": "frontend",
+  "name": "Knova Lang",
+  "short_name": "lang",
   "display": "standalone",
   "scope": "./",
-  "start_url": "./",
+  "start_url": "index.html",
   "icons": [
     {
       "src": "icons/icon-72x72.png",
