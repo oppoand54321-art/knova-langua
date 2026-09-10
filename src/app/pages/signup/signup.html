@@ -1,100 +1,182 @@
 <div class="signup-page">
-  <div class="signup-card"><div class="brand">LANG</div>
+  <div class="signup-card">
 
-<h1>Create Account</h1>
-<p class="subtitle">Join LANG and connect globally</p>
+    <div class="brand">LANG</div>
 
-<div class="form-group">
-  <label>Full Name</label>
-  <input
-    type="text"
-    [value]="fullName()"
-    (input)="fullName.set($any($event.target).value)"
-    placeholder="Enter your full name"
-    autocomplete="name"
-  />
-</div>
+    @if (!otpMode()) {
 
-<div class="form-group">
-  <label>Email</label>
-  <input
-    type="email"
-    [value]="email()"
-    (input)="email.set($any($event.target).value)"
-    placeholder="Enter your email"
-    autocomplete="email"
-  />
-</div>
+      <h1>Create Account</h1>
+      <p class="subtitle">Join LANG and connect globally</p>
 
-<div class="form-group">
-  <label>Phone Number</label>
-  <input
-    type="tel"
-    [value]="phoneNumber()"
-    (input)="phoneNumber.set($any($event.target).value)"
-    placeholder="Enter your phone number"
-    autocomplete="tel"
-  />
-</div>
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input
+          id="fullName"
+          type="text"
+          [value]="fullName()"
+          (input)="fullName.set($any($event.target).value)"
+          placeholder="Enter your full name"
+          autocomplete="name"
+        />
+      </div>
 
-<div class="form-group">
-  <label>Password</label>
-  <input
-    type="password"
-    [value]="password()"
-    (input)="password.set($any($event.target).value)"
-    placeholder="Create a password"
-    autocomplete="new-password"
-  />
-</div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          [value]="email()"
+          (input)="email.set($any($event.target).value)"
+          placeholder="Enter your email"
+          autocomplete="email"
+        />
+      </div>
 
-<div class="form-group">
-  <label>Confirm Password</label>
-  <input
-    type="password"
-    [value]="confirmPassword()"
-    (input)="confirmPassword.set($any($event.target).value)"
-    placeholder="Confirm your password"
-    autocomplete="new-password"
-  />
-</div>
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number</label>
+        <input
+          id="phoneNumber"
+          type="tel"
+          [value]="phoneNumber()"
+          (input)="phoneNumber.set($any($event.target).value)"
+          placeholder="Enter your phone number"
+          autocomplete="tel"
+        />
+      </div>
 
-@if (error()) {
-  <div class="error">
-    {{ error() }}
-  </div>
-}
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          [value]="password()"
+          (input)="password.set($any($event.target).value)"
+          placeholder="Create a password"
+          autocomplete="new-password"
+        />
+      </div>
 
-@if (success()) {
-  <div class="success">
-    {{ success() }}
-  </div>
-}
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          id="confirmPassword"
+          type="password"
+          [value]="confirmPassword()"
+          (input)="confirmPassword.set($any($event.target).value)"
+          placeholder="Confirm your password"
+          autocomplete="new-password"
+        />
+      </div>
 
-<button
-  class="signup-btn"
-  type="button"
-  (click)="onSignup()"
-  [disabled]="loading()"
->
-  {{ loading() ? 'Creating Account...' : 'Create Account' }}
-</button>
+      @if (error()) {
+        <div class="error">
+          {{ error() }}
+        </div>
+      }
 
-<div class="divider">
-  <span>OR</span>
-</div>
+      @if (success()) {
+        <div class="success">
+          {{ success() }}
+        </div>
+      }
 
-<div class="login-text">
-  Already have a LANG account?
-</div>
+      <button
+        class="signup-btn"
+        type="button"
+        (click)="onSignup()"
+        [disabled]="loading()"
+      >
+        {{ loading() ? 'Creating Account...' : 'Create Account' }}
+      </button>
 
-<button
-  class="login-btn"
-  type="button"
-  (click)="onLogin()"
->
-  Login
-</button>
+      <div class="divider">
+        <span>OR</span>
+      </div>
+
+      <div class="login-text">
+        Already have a LANG account?
+      </div>
+
+      <button
+        class="login-btn"
+        type="button"
+        (click)="onLogin()"
+      >
+        Login
+      </button>
+
+    } @else {
+
+      <div class="otp-section">
+
+        <h1>Verify Email</h1>
+
+        <p class="subtitle">
+          We sent a verification code to
+          <strong>{{ email() }}</strong>
+        </p>
+
+        <div class="otp-label">
+          Enter Verification Code
+        </div>
+
+        <input
+          class="otp-input"
+          type="text"
+          inputmode="numeric"
+          maxlength="6"
+          autocomplete="one-time-code"
+          [value]="otpCode()"
+          (input)="onOtpInput($any($event.target).value)"
+          placeholder="000000"
+        />
+
+        @if (error()) {
+          <div class="error">
+            {{ error() }}
+          </div>
+        }
+
+        @if (success()) {
+          <div class="success">
+            {{ success() }}
+          </div>
+        }
+
+        <button
+          class="signup-btn"
+          type="button"
+          (click)="verifyEmail()"
+          [disabled]="loading()"
+        >
+          {{ loading() ? 'Verifying...' : 'Verify Email' }}
+        </button>
+
+        <button
+          class="resend-btn"
+          type="button"
+          (click)="resendOtp()"
+          [disabled]="loading() || resendCountdown() > 0"
+        >
+          @if (resendCountdown() > 0) {
+            Resend Code in {{ resendCountdown() }}s
+          } @else {
+            Resend Verification Code
+          }
+        </button>
+
+        <button
+          class="back-btn"
+          type="button"
+          (click)="backToSignup()"
+          [disabled]="loading()"
+        >
+          Back
+        </button>
+
+      </div>
+
+    }
 
   </div>
 </div>

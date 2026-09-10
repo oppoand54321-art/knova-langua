@@ -1,11 +1,21 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
 .signup-page {
   min-height: 100dvh;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
   background:
-    radial-gradient(circle at top, rgba(255, 215, 0, 0.12), transparent 35%),
+    radial-gradient(
+      circle at top,
+      rgba(255, 215, 0, 0.12),
+      transparent 35%
+    ),
     #050505;
   color: #fff;
 }
@@ -13,6 +23,7 @@
 .signup-card {
   width: 100%;
   max-width: 430px;
+  box-sizing: border-box;
   padding: 42px 34px;
   border: 1px solid rgba(255, 215, 0, 0.22);
   border-radius: 24px;
@@ -39,12 +50,21 @@ h1 {
   margin: 0;
   text-align: center;
   font-size: 30px;
+  line-height: 1.2;
 }
 
 .subtitle {
   margin: 8px 0 30px;
   text-align: center;
   color: #999;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.subtitle strong {
+  color: #ffd700;
+  font-weight: 600;
+  word-break: break-word;
 }
 
 .form-group {
@@ -71,14 +91,21 @@ input {
   transition: 0.2s ease;
 }
 
+input::placeholder {
+  color: #666;
+}
+
 input:focus {
   border-color: #ffd700;
   box-shadow: 0 0 12px rgba(255, 215, 0, 0.12);
 }
 
 .signup-btn,
-.login-btn {
+.login-btn,
+.resend-btn,
+.back-btn {
   width: 100%;
+  box-sizing: border-box;
   padding: 14px;
   border-radius: 10px;
   font-size: 16px;
@@ -143,6 +170,7 @@ input:focus {
   padding: 11px 13px;
   border-radius: 8px;
   font-size: 14px;
+  line-height: 1.4;
 }
 
 .error {
@@ -157,12 +185,93 @@ input:focus {
   color: #70e090;
 }
 
+/* OTP */
+
+.otp-section {
+  width: 100%;
+}
+
+.otp-label {
+  margin-bottom: 10px;
+  text-align: center;
+  color: #ccc;
+  font-size: 14px;
+}
+
+.otp-input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 17px 12px;
+  margin-bottom: 18px;
+  border: 1px solid #333;
+  border-radius: 12px;
+  outline: none;
+  background: #080808;
+  color: #ffd700;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 10px;
+  text-align: center;
+}
+
+.otp-input:focus {
+  border-color: #ffd700;
+  box-shadow: 0 0 18px rgba(255, 215, 0, 0.15);
+}
+
+.resend-btn {
+  margin-top: 12px;
+  border: 1px solid #444;
+  background: transparent;
+  color: #ffd700;
+}
+
+.resend-btn:hover:not(:disabled) {
+  border-color: #ffd700;
+  background: rgba(255, 215, 0, 0.06);
+}
+
+.resend-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.back-btn {
+  margin-top: 10px;
+  border: none;
+  background: transparent;
+  color: #777;
+}
+
+.back-btn:hover:not(:disabled) {
+  color: #fff;
+}
+
 @media (max-width: 480px) {
   .signup-page {
     padding: 15px;
+    align-items: flex-start;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    overflow-y: auto;
   }
 
   .signup-card {
     padding: 32px 22px;
+    border-radius: 20px;
+  }
+
+  .brand {
+    font-size: 36px;
+  }
+
+  h1 {
+    font-size: 27px;
+  }
+
+  .otp-input {
+    font-size: 24px;
+    letter-spacing: 7px;
   }
 }

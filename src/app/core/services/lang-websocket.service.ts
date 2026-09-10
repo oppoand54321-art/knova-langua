@@ -19,7 +19,7 @@ export class LangWebSocketService {
       return;
     }
 
-    const wsUrl = `\( {environment.wsUrl}/api/v1/ws?token= \){token}`;
+    const wsUrl = `$( {environment.wsUrl}/api/v1/ws?token= $){token}`;
     // environment.wsUrl = ws://localhost:8000
 
     this.socket = new WebSocket(wsUrl);
