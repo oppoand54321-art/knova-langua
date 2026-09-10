@@ -3,256 +3,109 @@
   <!-- =====================================================
        CINEMATIC SPACE BACKGROUND
        ===================================================== -->
-
   <div class="space-field" aria-hidden="true">
-
     <div class="space-glow"></div>
-
     <div class="stars stars-one"></div>
     <div class="stars stars-two"></div>
     <div class="stars stars-three"></div>
-
     <div class="planet planet-one"></div>
     <div class="planet planet-two"></div>
     <div class="planet planet-three"></div>
-
     <div class="green-vision"></div>
-
   </div>
-
 
   <!-- =====================================================
        NAVBAR
        ===================================================== -->
-
   <header class="navbar">
-
     <div class="brand-mark">
-
       <span class="brand">LANG</span>
-
-      <span
-        class="phone-mark"
-        aria-label="Telephone"
-        aria-hidden="true"
-      >
-        <!-- نیا ٹیلی فون آئیکن جو آپ کی تصویر کے مطابق ہے -->
+      <span class="phone-mark" aria-label="Telephone" aria-hidden="true">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="display: inline-block; vertical-align: middle;">
           <path d="M6.62 10.79C8.06 13.62 10.38 15.94 13.21 17.38L15.41 15.18C15.69 14.9 16.08 14.82 16.43 14.93C17.55 15.3 18.75 15.5 20 15.5C20.55 15.5 21 15.95 21 16.5V20C21 20.55 20.55 21 20 21C10.61 21 3 13.39 3 4C3 3.45 3.45 3 4 3H7.5C8.05 3 8.5 3.45 8.5 4C8.5 5.25 8.7 6.45 9.07 7.57C9.18 7.92 9.1 8.31 8.82 8.59L6.62 10.79Z" fill="#F4C430"/>
         </svg>
       </span>
-
     </div>
 
-
     <nav>
-
-      <a
-        routerLink="/login"
-        class="nav-login"
-      >
-        Login
-      </a>
-
-      <a
-        routerLink="/signup"
-        class="nav-signup"
-      >
-        Sign Up
-      </a>
-
+      <a routerLink="/login" class="nav-login">Login</a>
+      <a routerLink="/signup" class="nav-signup">Sign Up</a>
     </nav>
-
   </header>
 
-
   <!-- =====================================================
-       MAIN
+       MAIN WRAPPER (CENTER STAGE + LEFT PANEL)
        ===================================================== -->
-
   <main class="landing-main">
 
-
-    
- <h3>
-        Talk Without Language Barriers.
-      </h3>
-
-
-      <div class="translation-items">
-
-
-        <!-- SPEAK NATURALLY -->
-
-        <div
-          class="info-item"
-          (click)="toggleItem(4)"
-        >
-
-          <div class="item-head">
-
-            <span class="item-number">
-              01
-            </span>
-
-            <span class="item-name">
-              Speak Naturally
-            </span>
-
-          </div>
-
-
-          <div
-            class="item-details"
-            [class.mobile-active]="activeItem === 4"
-          >
-            Speak naturally in your own language while
-            LANG bridges the communication gap.
-          </div>
-
-        </div>
-
-
-        <!-- REAL-TIME TRANSLATION -->
-
-        <div
-          class="info-item"
-          (click)="toggleItem(5)"
-        >
-
-          <div class="item-head">
-
-            <span class="item-number">
-              02
-            </span>
-
-            <span class="item-name">
-              Real-Time Translation
-            </span>
-
-          </div>
-
-
-          <div
-            class="item-details"
-            [class.mobile-active]="activeItem === 5"
-          >
-            Real-time language processing designed
-            for live voice communication.
-          </div>
-
-        </div>
-
-
-        <!-- GLOBAL CONVERSATIONS -->
-
-        <div
-          class="info-item"
-          (click)="toggleItem(6)"
-        >
-
-          <div class="item-head">
-
-            <span class="item-number">
-              03
-            </span>
-
-            <span class="item-name">
-              Global Conversations
-            </span>
-
-          </div>
-
-
-          <div
-            class="item-details"
-            [class.mobile-active]="activeItem === 6"
-          >
-            Communicate naturally with people who
-            speak different languages.
-          </div>
-
-        </div>
-
+    <!-- LEFT / INFO PANEL -->
+    <section class="info-panel left-panel">
+      <div class="left-top-heading">
+        <h3>Talk Without Language Barriers.</h3>
       </div>
+      <div class="panel-title">TRANSLATION</div>
+      
+      <div class="translation-items">
+        <div class="info-item" (click)="toggleItem(4)">
+          <div class="item-head">
+            <span class="item-number">01</span>
+            <span class="item-name">Speak Naturally</span>
+          </div>
+          <div class="item-details" [class.mobile-active]="activeItem === 4">
+            Speak naturally in your own language while LANG bridges the communication gap.
+          </div>
+        </div>
 
+        <div class="info-item" (click)="toggleItem(5)">
+          <div class="item-head">
+            <span class="item-number">02</span>
+            <span class="item-name">Real-Time Translation</span>
+          </div>
+          <div class="item-details" [class.mobile-active]="activeItem === 5">
+            Real-time language processing designed for live voice communication.
+          </div>
+        </div>
 
+        <div class="info-item" (click)="toggleItem(6)">
+          <div class="item-head">
+            <span class="item-number">03</span>
+            <span class="item-name">Global Conversations</span>
+          </div>
+          <div class="item-details" [class.mobile-active]="activeItem === 6">
+            Communicate naturally with people who speak different languages.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CENTER STAGE (BIG LANG) -->
+    <section class="center-stage">
+      <div class="center-orbit">
+        <div class="orbit-ring orbit-ring-one"></div>
+        <div class="orbit-ring orbit-ring-two"></div>
+        <div class="orbit-ring orbit-ring-three"></div>
+      </div>
+      <h1>LANG</h1>
+      <h2>Speak Freely. Connect Globally.</h2>
+      <div class="center-line"></div>
+    </section>
 
   </main>
 
-    
-
-    <!-- ===================================================
-         CENTER
-         =================================================== -->
-
-    <section class="center-stage">
-
-      <div class="center-orbit">
-
-        <div class="orbit-ring orbit-ring-one"></div>
-
-        <div class="orbit-ring orbit-ring-two"></div>
-
-        <div class="orbit-ring orbit-ring-three"></div>
-
-      </div>
-
-
-      <h1>
-        LANG
-      </h1>
-
-
-      <h2>
-        Speak Freely. Connect Globally.
-      </h2>
-
-
-      <div class="center-line"></div>
-
-    </section>
-
-
-    <!-- ===================================================
-         RIGHT PANEL
-         =================================================== -->
-
-    <section class="info-panel right-panel">
-
-      <div class="panel-title">
-        TRANSLATION
-      </div>
-
-
-     
-
-
   <!-- =====================================================
-       GLOBAL INSTALL AREA (BOTTOM FIXED / ABOVE MARQUEE)
+       GLOBAL INSTALL AREA
        ===================================================== -->
-
   <div class="install-area global-install-bottom">
-
-    <button
-      type="button"
-      class="install-button"
-      (click)="installApp()"
-    >
+    <button type="button" class="install-button" (click)="installApp()">
       Install LANG
     </button>
-
   </div>
-
 
   <!-- =====================================================
        LANGUAGE MARQUEE
        ===================================================== -->
-
   <div class="language-marquee">
-
     <div class="language-marquee-track">
-
       <span>Talk Without Language Barriers.</span>
       <span>زبان کی رکاوٹوں کے بغیر بات کریں۔</span>
       <span>تحدث دون حواجز لغوية.</span>
@@ -265,25 +118,7 @@
       <span>Parla senza barriere linguistiche.</span>
       <span>Fale sem barreiras linguísticas.</span>
       <span>Praat zonder taalbarrières.</span>
-      <span>Prata sen lingvaj baroj.</span>
-      <span>Говори без езикови бариери.</span>
-      <span>Говори без мовних бар'єрів.</span>
-      <span>Μιλήστε χωρίς γλωσσικά εμπόδια.</span>
-      <span>Konuşun, dil engelleri olmadan.</span>
-      <span>Без језичких баријера.</span>
-      <span>Govori bez jezičnih barijera.</span>
-      <span>Говорете без јазични бариери.</span>
-      <span>語言の壁を越えて話しましょう。</span>
-      <span>언어 장벽 없이 소통하세요.</span>
-      <span>भाषेच्या अडथळ्यांशिवाय बोला.</span>
-      <span>ਭਾਸ਼ਾ ਦੀਆਂ ਰੁਕਾਵਟਾਂ ਤੋਂ ਬਿਨਾਂ ਗੱਲ ਕਰੋ۔</span>
-      <span>भाषाको बाधाविना कुरा गर्नुहोस्।</span>
-      <span>ভাষাৰ বাধা নোহোৱাকৈ কথা পাতক।</span>
-      <span>भाषा बाधाओं के बिना संवाद करें।</span>
-
-
       <!-- SECOND LOOP -->
-
       <span>Talk Without Language Barriers.</span>
       <span>زبان کی رکاوٹوں کے بغیر بات کریں۔</span>
       <span>تحدث دون حواجز لغوية.</span>
@@ -296,32 +131,14 @@
       <span>Parla senza barriere linguistiche.</span>
       <span>Fale sem barreiras linguísticas.</span>
       <span>Praat zonder taalbarrières.</span>
-      <span>Prata sen lingvaj baroj.</span>
-      <span>Говори без езикови бариери.</span>
-      <span>Говори без мовних бар'єрів.</span>
-      <span>Μιλήστε χωρίς γλωσσικά εμπόδια.</span>
-      <span>Konuşun, dil engelleri olmadan.</span>
-      <span>Без језичких баријера.</span>
-      <span>Govori bez jezičnih barijera.</span>
-      <span>Говорете без јазични бариери.</span>
-      <span>語言の壁を越えて話しましょう。</span>
-      <span>언어 장벽 없이 소통하세요.</span>
-      <span>भाषेच्या अडथळ्यांशिवाय बोला.</span>
-      <span>ਭਾਸ਼ਾ ਦੀਆਂ ਰੁਕਾਵਟਾਂ ਤੋਂ ਬਿਨਾਂ ਗੱਲ ਕਰੋ۔</span>
-      <span>भाषाको बाधाविना कुरा गर्नुहोस्।</span>
-      <span>ভাষাৰ বাধা নোহোৱাকৈ কথা পাতক।</span>
-      <span>भाषा बाधाओं के बिना संवाद करें।</span>
-
     </div>
-
   </div>
-
 
   <!-- =====================================================
        BOTTOM MARK
        ===================================================== -->
-
   <div class="bottom-mark">
     LANG — UNIVERSAL REAL-TIME COMMUNICATION
   </div>
 
+</div>
