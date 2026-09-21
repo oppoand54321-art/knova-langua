@@ -1487,9 +1487,12 @@ button:disabled {
     font-size: 9px;
   }
 
-  .lang-number {
-    display: none;
-  }
+ .lang-number {
+  display: inline-block;
+  font-size: 8px;
+  color: #8290a7;
+  white-space: nowrap;
+}
 
   .verified-badge {
     padding: 2px 5px;
