@@ -88,7 +88,7 @@ button:disabled {
 }
 
 .brand-by {
-  font-size: 10px;
+  font-size: 11px;
   color: #8b98ad;
   white-space: nowrap;
 }
@@ -118,7 +118,7 @@ button:disabled {
 }
 
 .lang-number {
-  font-size: 11px;
+  font-size: 12px;
   color: #8290a7;
   white-space: nowrap;
 }
@@ -148,7 +148,7 @@ button:disabled {
 }
 
 .credits-button span {
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .credits-button strong {
@@ -179,7 +179,7 @@ button:disabled {
 }
 
 .language-label {
-  font-size: 9px;
+  font-size: 10px;
   color: #7e8ba0;
   white-space: nowrap;
 }
@@ -193,7 +193,7 @@ button:disabled {
   outline: none;
   color: #dce6f6;
   background: #101a2a;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .language-select:focus {
@@ -215,7 +215,7 @@ button:disabled {
   border-radius: 999px;
   color: #7fd9aa;
   background: rgba(69, 196, 129, 0.08);
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.05em;
   white-space: nowrap;
@@ -312,7 +312,7 @@ button:disabled {
   margin: 0 auto 15px;
   max-width: 290px;
   color: #7f8da2;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.5;
 }
 
@@ -322,14 +322,14 @@ button:disabled {
   border-radius: 7px;
   color: #ffffff;
   background: #315fbb;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
 }
 
 .selected-number {
   margin-top: -1px;
   color: #7f8ca1;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .call-status {
@@ -353,7 +353,7 @@ button:disabled {
   align-items: center;
   gap: 6px;
   color: #78dca8;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .status-dot {
@@ -366,7 +366,7 @@ button:disabled {
 .translation-status {
   margin-top: 9px;
   color: #8795aa;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 
@@ -391,7 +391,7 @@ button:disabled {
   border-radius: 8px;
   color: #dce5f3;
   background: rgba(17, 27, 43, 0.92);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   transition: transform 0.15s ease, background 0.15s ease;
 }
@@ -445,7 +445,7 @@ button:disabled {
   border-radius: 7px;
   color: #7d8ba0;
   background: rgba(8, 14, 24, 0.52);
-  font-size: 9px;
+  font-size: 10px;
 }
 
 
@@ -475,7 +475,7 @@ button:disabled {
 .section-heading p {
   margin: 3px 0 0;
   color: #748197;
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .quick-message-grid {
@@ -491,7 +491,7 @@ button:disabled {
   border-radius: 6px;
   color: #aebbd0;
   background: rgba(17, 26, 41, 0.8);
-  font-size: 9px;
+  font-size: 10px;
 }
 
 
@@ -529,7 +529,7 @@ button:disabled {
   display: block;
   margin-top: 2px;
   color: #6f7d91;
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .add-contact-button {
@@ -610,7 +610,7 @@ button:disabled {
   border-radius: 50%;
   color: #d9e5fa;
   background: #1b2c48;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
 }
 
@@ -625,7 +625,7 @@ button:disabled {
   text-overflow: ellipsis;
   white-space: nowrap;
   color: #dce5f2;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
 }
 
@@ -635,13 +635,13 @@ button:disabled {
   text-overflow: ellipsis;
   white-space: nowrap;
   color: #75849a;
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .contact-info small {
   margin-top: 2px;
   color: #617087;
-  font-size: 8px;
+  font-size: 9px;
 }
 
 .contact-actions {
@@ -661,7 +661,7 @@ button:disabled {
   border-radius: 6px;
   color: #a9c4ef;
   background: rgba(24, 37, 58, 0.9);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .empty-contacts {
@@ -679,12 +679,12 @@ button:disabled {
 .empty-contacts strong {
   display: block;
   color: #a7b4c7;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .empty-contacts p {
   margin: 4px 0;
-  font-size: 9px;
+  font-size: 10px;
 }
 
 
@@ -735,7 +735,7 @@ button:disabled {
   display: block;
   margin-bottom: 3px;
   color: #66758b;
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.12em;
 }
@@ -786,7 +786,7 @@ button:disabled {
 
 .dialer-placeholder {
   color: #5f6d82;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .dialer-backspace {
@@ -835,7 +835,7 @@ button:disabled {
 .dialer-keypad small {
   margin-top: 3px;
   color: #66758a;
-  font-size: 7px;
+  font-size: 8px;
   letter-spacing: 0.08em;
 }
 
@@ -850,7 +850,7 @@ button:disabled {
 .dialer-video {
   min-height: 37px;
   border-radius: 7px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
 }
 
@@ -882,12 +882,12 @@ button:disabled {
 
 .save-contact-heading strong {
   color: #aebbd0;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .save-contact-heading span {
   color: #617086;
-  font-size: 8px;
+  font-size: 9px;
 }
 
 .save-contact-section input {
@@ -899,7 +899,7 @@ button:disabled {
   outline: none;
   color: #dce5f2;
   background: rgba(5, 10, 17, 0.62);
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .save-contact-button {
@@ -910,7 +910,7 @@ button:disabled {
   border-radius: 7px;
   color: #aebbd0;
   background: rgba(255, 255, 255, 0.04);
-  font-size: 9px;
+  font-size: 10px;
 }
 
 
@@ -943,14 +943,14 @@ button:disabled {
 .message-recipient strong {
   display: block;
   color: #dce5f2;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .message-recipient span {
   display: block;
   margin-top: 3px;
   color: #6f7d91;
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .message-language-route {
@@ -962,7 +962,7 @@ button:disabled {
   border-radius: 7px;
   color: #8fa0b7;
   background: rgba(7, 12, 20, 0.65);
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .message-language-route strong {
@@ -991,19 +991,19 @@ button:disabled {
 
 .voice-message-info strong {
   color: #b9c9e4;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .voice-message-info p {
   margin: 4px 0;
   color: #75849a;
-  font-size: 9px;
+  font-size: 10px;
   line-height: 1.45;
 }
 
 .voice-message-info small {
   color: #8da9d8;
-  font-size: 8px;
+  font-size: 9px;
 }
 
 .record-button {
@@ -1014,7 +1014,7 @@ button:disabled {
   border-radius: 8px;
   color: #aac5ef;
   background: rgba(62, 104, 177, 0.13);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
 }
 
@@ -1087,13 +1087,13 @@ button:disabled {
 .incoming-call-card p {
   margin: 4px 0 0;
   color: #718096;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .incoming-language {
   margin-top: 7px;
   color: #8492a8;
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .incoming-actions {
@@ -1107,7 +1107,7 @@ button:disabled {
 .answer-button {
   min-height: 40px;
   border-radius: 8px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
 }
 
@@ -1151,7 +1151,7 @@ button:disabled {
   border-radius: 7px;
   color: #9eacc0;
   background: rgba(255, 255, 255, 0.04);
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .credits-page-header h1 {
@@ -1163,7 +1163,7 @@ button:disabled {
 .credits-page-header p {
   margin: 4px 0 0;
   color: #718096;
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .credits-total-card {
@@ -1181,7 +1181,7 @@ button:disabled {
 .credits-card-label {
   display: block;
   color: #8190a7;
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .credits-total-card > div:first-child strong {
@@ -1195,7 +1195,7 @@ button:disabled {
 .credits-total-card > div:first-child small {
   margin-left: 5px;
   color: #74839a;
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .credits-total-status {
@@ -1205,21 +1205,21 @@ button:disabled {
 .credits-total-status span {
   display: block;
   color: #728198;
-  font-size: 8px;
+  font-size: 9px;
 }
 
 .credits-total-status strong {
   display: block;
   margin-top: 3px;
   color: #b9c9e3;
-  font-size: 10px;
+  font-size: 11px;
 }
 
 .credits-total-status small {
   display: block;
   margin-top: 3px;
   color: #66758b;
-  font-size: 8px;
+  font-size: 9px;
 }
 
 .balance-grid {
@@ -1246,7 +1246,7 @@ button:disabled {
 .balance-label {
   display: block;
   color: #8290a6;
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .balance-card strong {
@@ -1260,7 +1260,7 @@ button:disabled {
   display: block;
   margin-top: 3px;
   color: #627087;
-  font-size: 8px;
+  font-size: 9px;
 }
 
 .credits-section {
@@ -1283,14 +1283,14 @@ button:disabled {
 .usage-item strong {
   display: block;
   color: #aebbd0;
-  font-size: 9px;
+  font-size: 10px;
 }
 
 .usage-item span {
   display: block;
   margin-top: 4px;
   color: #69778c;
-  font-size: 8px;
+  font-size: 9px;
   line-height: 1.35;
 }
 
@@ -1315,7 +1315,7 @@ button:disabled {
 
 .package-tag {
   color: #718096;
-  font-size: 7px;
+  font-size: 8px;
   font-weight: 800;
   letter-spacing: 0.12em;
 }
@@ -1332,7 +1332,7 @@ button:disabled {
   border-radius: 999px;
   color: #8ee0b2;
   background: rgba(60, 179, 111, 0.1);
-  font-size: 7px;
+  font-size: 8px;
   font-weight: 700;
 }
 
@@ -1340,7 +1340,7 @@ button:disabled {
   min-height: 36px;
   margin: 9px 0;
   color: #6e7c91;
-  font-size: 8px;
+  font-size: 9px;
   line-height: 1.45;
 }
 
@@ -1360,7 +1360,7 @@ button:disabled {
 
 .package-credit-line span {
   color: #718096;
-  font-size: 8px;
+  font-size: 9px;
 }
 
 .package-card ul {
@@ -1378,7 +1378,7 @@ button:disabled {
   border-radius: 7px;
   color: #9ebcff;
   background: rgba(61, 105, 178, 0.12);
-  font-size: 9px;
+  font-size: 10px;
   font-weight: 600;
 }
 
@@ -1395,13 +1395,13 @@ button:disabled {
 
 .backend-note strong {
   color: #8b9bb1;
-  font-size: 8px;
+  font-size: 9px;
   white-space: nowrap;
 }
 
 .backend-note span {
   color: #5f6e83;
-  font-size: 8px;
+  font-size: 9px;
 }
 
 
@@ -1471,7 +1471,7 @@ button:disabled {
   }
 
   .brand-by {
-    font-size: 8px;
+    font-size: 9px;
   }
 
   .identity-area {
@@ -1484,19 +1484,19 @@ button:disabled {
 
   .profile-name {
     max-width: 75px;
-    font-size: 9px;
+    font-size: 10px;
   }
 
  .lang-number {
   display: inline-block;
-  font-size: 8px;
+  font-size: 9px;
   color: #8290a7;
   white-space: nowrap;
 }
 
   .verified-badge {
     padding: 2px 5px;
-    font-size: 7px;
+    font-size: 9px;
   }
 
   .credits-button {
@@ -1506,11 +1506,11 @@ button:disabled {
   }
 
   .credits-button span {
-    font-size: 8px;
+    font-size: 9px;
   }
 
   .credits-button strong {
-    font-size: 10px;
+    font-size: 11px;
   }
 
 
@@ -1530,13 +1530,13 @@ button:disabled {
   .language-label {
     display: block;
     margin-bottom: 3px;
-    font-size: 7px;
+    font-size: 8px;
   }
 
   .language-select {
     min-height: 28px;
     padding: 3px 22px 3px 7px;
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .language-arrow {
@@ -1550,7 +1550,7 @@ button:disabled {
     width: 100%;
     padding: 4px 7px;
     text-align: center;
-    font-size: 7px;
+    font-size: 8px;
   }
 
 
@@ -1597,7 +1597,7 @@ button:disabled {
 
   .call-placeholder p {
     margin-bottom: 11px;
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .call-status {
@@ -1621,7 +1621,7 @@ button:disabled {
     flex-direction: column;
     gap: 2px;
     border-radius: 7px;
-    font-size: 7px;
+    font-size: 8px;
   }
 
   .button-icon {
@@ -1631,7 +1631,7 @@ button:disabled {
 
   .call-info-bar {
     gap: 5px 10px;
-    font-size: 7px;
+    font-size: 8px;
   }
 
 
@@ -1755,7 +1755,7 @@ button:disabled {
 
   .dialer-keypad small {
     margin-top: 2px;
-    font-size: 6px;
+    font-size: 7px;
   }
 
   .dialer-actions {
@@ -1766,7 +1766,7 @@ button:disabled {
   .dialer-audio,
   .dialer-video {
     min-height: 34px;
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .save-contact-section {
@@ -1776,7 +1776,7 @@ button:disabled {
 
   .save-contact-section input {
     height: 31px;
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .save-contact-button {
@@ -1812,7 +1812,7 @@ button:disabled {
   }
 
   .credits-page-header p {
-    font-size: 8px;
+    font-size: 9px;
   }
 
   .credits-total-card {
@@ -1824,7 +1824,7 @@ button:disabled {
   }
 
   .credits-total-status strong {
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .balance-grid {
@@ -1833,7 +1833,7 @@ button:disabled {
 
   .balance-card {
     min-height: 100px;
-    padding: 8px;
+    padding: 9px;
   }
 
   .balance-icon {
@@ -1842,7 +1842,7 @@ button:disabled {
   }
 
   .balance-label {
-    font-size: 7px;
+    font-size: 8px;
   }
 
   .balance-card strong {
@@ -1850,7 +1850,7 @@ button:disabled {
   }
 
   .balance-card small {
-    font-size: 6px;
+    font-size: 7px;
   }
 
   .usage-grid {
@@ -1859,15 +1859,15 @@ button:disabled {
   }
 
   .usage-item {
-    padding: 7px;
+    padding: 8px;
   }
 
   .usage-item strong {
-    font-size: 8px;
+    font-size: 9px;
   }
 
   .usage-item span {
-    font-size: 7px;
+    font-size: 8px;
   }
 
   .packages-grid {
@@ -1880,16 +1880,16 @@ button:disabled {
   }
 
   .package-card h3 {
-    font-size: 10px;
+    font-size: 11px;
   }
 
   .package-card > p {
     min-height: auto;
-    font-size: 7px;
+    font-size: 8px;
   }
 
   .package-card ul {
-    font-size: 7px;
+    font-size: 8px;
   }
 
   .backend-note {
@@ -1935,15 +1935,15 @@ button:disabled {
 
   .call-button {
     min-height: 36px;
-    font-size: 6.5px;
+    font-size: 7.5px;
   }
 
   .button-icon {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .quick-message-grid button {
-    font-size: 6.5px;
+    font-size: 7.5px;
   }
 
   .contacts-panel {
