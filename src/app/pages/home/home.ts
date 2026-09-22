@@ -32,13 +32,11 @@ interface Language {
 export class Home implements OnInit, OnDestroy {
   activeScreen: 'home' | 'credits' = 'home';
 
-  // Identity
   profileName = 'LANG User';
   myLangNumber = 'Loading...';
   verifiedIdentity = true;
   private myUserId: number | null = null;
 
-  // Languages
   myLanguage = 'ur';
   theirLanguage = 'ur';
 
@@ -186,21 +184,17 @@ export class Home implements OnInit, OnDestroy {
     { code: 'apc', name: 'Levantine Arabic' }
   ];
 
-  // Real contacts only
   contacts: Contact[] = [];
 
   selectedContact: Contact | null = null;
   searchTerm = '';
 
-  // Dialer
   showDialer = false;
   dialedNumber = '';
   newContactName = '';
 
-  // Message box
   showMessageBox = false;
 
-  // Credits / Packages
   hasLocalPackage = true;
   hasTranslationPackage = false;
 
@@ -211,20 +205,17 @@ export class Home implements OnInit, OnDestroy {
   packageName = 'Local Annual Package';
   packageExpiry = 'Not connected to backend yet';
 
-  // Call
   callState: CallState = 'idle';
   callMode: CallMode = null;
   callDuration = 0;
 
   private callTimer: ReturnType<typeof setInterval> | null = null;
 
-  // Backend call
   private activeCallId: number | null = null;
   private remoteUserId: number | null = null;
   private callStartedByMe = false;
   private acceptingIncomingCall = false;
 
-  // WebRTC
   private peerConnection: RTCPeerConnection | null = null;
   private localStream: MediaStream | null = null;
   private remoteStream: MediaStream | null = null;
@@ -235,7 +226,6 @@ export class Home implements OnInit, OnDestroy {
 
   private iceServers: RTCIceServer[] = [];
 
-  // Incoming call
   incomingCallVisible = false;
   incomingCaller: Contact | null = null;
   incomingCallMode: CallMode = null;
@@ -329,6 +319,14 @@ export class Home implements OnInit, OnDestroy {
       return;
     }
 
+    if (this.callStartedByMe) {
+      return;
+    }
+
+    if (this.myUserId && callerUserId === this.myUserId) {
+      return;
+    }
+
     if (this.activeCallId && this.activeCallId !== callId) {
       return;
     }
@@ -366,7 +364,6 @@ export class Home implements OnInit, OnDestroy {
     this.callStartedByMe = false;
     this.acceptingIncomingCall = false;
 
-    // Receiver's language is the target language selected by caller.
     if (message.target_language) {
       this.theirLanguage = message.source_language || this.myLanguage;
     }
@@ -555,11 +552,8 @@ export class Home implements OnInit, OnDestroy {
     }
 
     await this.loadWebRTCConfig();
-
     await this.prepareLocalMedia();
-
     this.createPeerConnection();
-
     this.addLocalTracks();
   }
 
@@ -569,11 +563,8 @@ export class Home implements OnInit, OnDestroy {
     }
 
     await this.loadWebRTCConfig();
-
     await this.prepareLocalMedia();
-
     this.createPeerConnection();
-
     this.addLocalTracks();
   }
 
@@ -583,7 +574,6 @@ export class Home implements OnInit, OnDestroy {
     }
 
     const response: any = await this.api.getWebRTCConfig().toPromise();
-
     const servers = response?.ice_servers || response?.iceServers || [];
 
     this.iceServers = servers
@@ -648,9 +638,7 @@ export class Home implements OnInit, OnDestroy {
     };
 
     this.peerConnection.oniceconnectionstatechange = () => {
-      if (
-        this.peerConnection?.iceConnectionState === 'failed'
-      ) {
+      if (this.peerConnection?.iceConnectionState === 'failed') {
         console.error('WebRTC ICE connection failed');
 
         if (this.activeCallId && this.remoteUserId) {
@@ -676,10 +664,7 @@ export class Home implements OnInit, OnDestroy {
 
     for (const track of this.localStream.getTracks()) {
       if (!senders.includes(track.id)) {
-        this.peerConnection.addTrack(
-          track,
-          this.localStream
-        );
+        this.peerConnection.addTrack(track, this.localStream);
       }
     }
   }
@@ -769,11 +754,9 @@ export class Home implements OnInit, OnDestroy {
     }
 
     const video = document.createElement('video');
-
     video.autoplay = true;
     video.muted = true;
     video.playsInline = true;
-
     video.style.position = 'fixed';
     video.style.right = '20px';
     video.style.bottom = '100px';
@@ -783,9 +766,7 @@ export class Home implements OnInit, OnDestroy {
     video.style.borderRadius = '14px';
     video.style.zIndex = '9998';
     video.style.background = '#000';
-
     document.body.appendChild(video);
-
     this.localVideoElement = video;
   }
 
@@ -795,10 +776,8 @@ export class Home implements OnInit, OnDestroy {
     }
 
     const video = document.createElement('video');
-
     video.autoplay = true;
     video.playsInline = true;
-
     video.style.position = 'fixed';
     video.style.inset = '0';
     video.style.width = '100vw';
@@ -806,9 +785,7 @@ export class Home implements OnInit, OnDestroy {
     video.style.objectFit = 'cover';
     video.style.zIndex = '9997';
     video.style.background = '#000';
-
     document.body.appendChild(video);
-
     this.remoteVideoElement = video;
   }
 
@@ -818,52 +795,32 @@ export class Home implements OnInit, OnDestroy {
     }
 
     const audio = document.createElement('audio');
-
     audio.autoplay = true;
     audio.style.display = 'none';
-
     document.body.appendChild(audio);
-
     this.remoteAudioElement = audio;
   }
 
   private attachLocalVideo(): void {
-    if (
-      this.localVideoElement &&
-      this.localStream
-    ) {
-      this.localVideoElement.srcObject =
-        this.localStream;
-
+    if (this.localVideoElement && this.localStream) {
+      this.localVideoElement.srcObject = this.localStream;
       this.localVideoElement.play().catch(() => {});
     }
   }
 
   private attachRemoteVideo(): void {
-    if (
-      this.remoteVideoElement &&
-      this.remoteStream
-    ) {
-      const videoTracks =
-        this.remoteStream.getVideoTracks();
-
+    if (this.remoteVideoElement && this.remoteStream) {
+      const videoTracks = this.remoteStream.getVideoTracks();
       if (videoTracks.length > 0) {
-        this.remoteVideoElement.srcObject =
-          this.remoteStream;
-
+        this.remoteVideoElement.srcObject = this.remoteStream;
         this.remoteVideoElement.play().catch(() => {});
       }
     }
   }
 
   private attachRemoteAudio(): void {
-    if (
-      this.remoteAudioElement &&
-      this.remoteStream
-    ) {
-      this.remoteAudioElement.srcObject =
-        this.remoteStream;
-
+    if (this.remoteAudioElement && this.remoteStream) {
+      this.remoteAudioElement.srcObject = this.remoteStream;
       this.remoteAudioElement.play().catch(() => {});
     }
   }
@@ -874,24 +831,17 @@ export class Home implements OnInit, OnDestroy {
       this.peerConnection.ontrack = null;
       this.peerConnection.onconnectionstatechange = null;
       this.peerConnection.oniceconnectionstatechange = null;
-
       this.peerConnection.close();
       this.peerConnection = null;
     }
 
     if (this.localStream) {
-      this.localStream.getTracks().forEach(track => {
-        track.stop();
-      });
-
+      this.localStream.getTracks().forEach(track => track.stop());
       this.localStream = null;
     }
 
     if (this.remoteStream) {
-      this.remoteStream.getTracks().forEach(track => {
-        track.stop();
-      });
-
+      this.remoteStream.getTracks().forEach(track => track.stop());
       this.remoteStream = null;
     }
   }
@@ -938,21 +888,13 @@ export class Home implements OnInit, OnDestroy {
           'LANG User';
 
         if (res?.primary_language_code) {
-          this.myLanguage =
-            res.primary_language_code;
+          this.myLanguage = res.primary_language_code;
         }
 
-        this.verifiedIdentity =
-          !!(
-            res?.is_verified ||
-            res?.email_verified
-          );
-
+        this.verifiedIdentity = !!(res?.is_verified || res?.email_verified);
         this.cdr.detectChanges();
       },
-      error: () => {
-        // Profile is optional for UI.
-      }
+      error: () => {}
     });
   }
 
@@ -969,13 +911,8 @@ export class Home implements OnInit, OnDestroy {
   private loadPrimaryLangNumber(): void {
     this.api.getPrimaryNumber().subscribe({
       next: (res: any) => {
-        console.log(
-          'PRIMARY RESPONSE:',
-          res
-        );
-
-        const number =
-          this.extractNumber(res);
+        console.log('PRIMARY RESPONSE:', res);
+        const number = this.extractNumber(res);
 
         if (number) {
           this.myLangNumber = number;
@@ -984,7 +921,6 @@ export class Home implements OnInit, OnDestroy {
           this.assignFirstLangNumber();
         }
       },
-
       error: (err) => {
         if (err?.status === 404) {
           this.assignFirstLangNumber();
@@ -993,11 +929,7 @@ export class Home implements OnInit, OnDestroy {
 
         this.myLangNumber = 'Unavailable';
         this.cdr.detectChanges();
-
-        console.error(
-          'Failed to load primary LANG number:',
-          err
-        );
+        console.error('Failed to load primary LANG number:', err);
       }
     });
   }
@@ -1005,47 +937,25 @@ export class Home implements OnInit, OnDestroy {
   private assignFirstLangNumber(): void {
     this.api.assignNumber().subscribe({
       next: (res: any) => {
-        console.log(
-          'ASSIGN RESPONSE:',
-          res
-        );
-
-        const number =
-          this.extractNumber(res);
-
-        if (number) {
-          this.myLangNumber = number;
-        } else {
-          this.myLangNumber = 'Assigned';
-        }
-
+        console.log('ASSIGN RESPONSE:', res);
+        const number = this.extractNumber(res);
+        this.myLangNumber = number || 'Assigned';
         this.cdr.detectChanges();
       },
-
       error: (err) => {
         this.myLangNumber = 'Unavailable';
         this.cdr.detectChanges();
-
-        console.error(
-          'Failed to assign LANG number:',
-          err
-        );
+        console.error('Failed to assign LANG number:', err);
       }
     });
   }
 
   get totalCredits(): number {
-    return (
-      this.localCredits +
-      this.translationCredits +
-      this.messageCredits
-    );
+    return this.localCredits + this.translationCredits + this.messageCredits;
   }
 
   get currentMode(): 'local' | 'translation' {
-    return this.myLanguage === this.theirLanguage
-      ? 'local'
-      : 'translation';
+    return this.myLanguage === this.theirLanguage ? 'local' : 'translation';
   }
 
   get sendMessageEnabled(): boolean {
@@ -1057,20 +967,15 @@ export class Home implements OnInit, OnDestroy {
   }
 
   get filteredContacts(): Contact[] {
-    const term =
-      this.searchTerm.trim().toLowerCase();
+    const term = this.searchTerm.trim().toLowerCase();
 
     if (!term) {
       return this.contacts;
     }
 
     return this.contacts.filter(contact =>
-      (contact.name || '')
-        .toLowerCase()
-        .includes(term) ||
-      contact.number
-        .toLowerCase()
-        .includes(term)
+      (contact.name || '').toLowerCase().includes(term) ||
+      contact.number.toLowerCase().includes(term)
     );
   }
 
@@ -1078,32 +983,24 @@ export class Home implements OnInit, OnDestroy {
     switch (this.callState) {
       case 'calling':
         return 'Calling...';
-
       case 'ringing':
         return 'Ringing...';
-
       case 'connected':
         return 'Connected';
-
       default:
         return 'Ready';
     }
   }
 
   get formattedCallDuration(): string {
-    return this.formatCallDuration(
-      this.callDuration
-    );
+    return this.formatCallDuration(this.callDuration);
   }
 
   get selectedContactName(): string {
     if (!this.selectedContact) {
       return 'No contact selected';
     }
-
-    return this.displayName(
-      this.selectedContact
-    );
+    return this.displayName(this.selectedContact);
   }
 
   openCredits(): void {
@@ -1116,28 +1013,21 @@ export class Home implements OnInit, OnDestroy {
 
   selectContact(contact: Contact): void {
     this.selectedContact = contact;
-
     if (contact.language) {
-      this.theirLanguage =
-        contact.language;
+      this.theirLanguage = contact.language;
     }
   }
 
   displayName(contact: Contact): string {
-    const name =
-      contact.name?.trim();
-
+    const name = contact.name?.trim();
     return name || contact.number;
   }
 
   getInitial(contact: Contact): string {
-    const name =
-      this.displayName(contact).trim();
-
+    const name = this.displayName(contact).trim();
     if (!name) {
       return '#';
     }
-
     return name.charAt(0).toUpperCase();
   }
 
@@ -1154,7 +1044,6 @@ export class Home implements OnInit, OnDestroy {
     if (this.dialedNumber.length >= 20) {
       return;
     }
-
     this.dialedNumber += key;
   }
 
@@ -1162,9 +1051,7 @@ export class Home implements OnInit, OnDestroy {
     if (!this.dialedNumber) {
       return;
     }
-
-    this.dialedNumber =
-      this.dialedNumber.slice(0, -1);
+    this.dialedNumber = this.dialedNumber.slice(0, -1);
   }
 
   clearDialer(): void {
@@ -1172,99 +1059,61 @@ export class Home implements OnInit, OnDestroy {
   }
 
   saveDialedContact(): void {
-    const number =
-      this.dialedNumber.trim();
-
+    const number = this.dialedNumber.trim();
     if (!number) {
       return;
     }
 
-    const existing =
-      this.contacts.find(
-        contact =>
-          contact.number === number
-      );
+    const existing = this.contacts.find(contact => contact.number === number);
 
     if (existing) {
       if (this.newContactName.trim()) {
-        existing.name =
-          this.newContactName.trim();
+        existing.name = this.newContactName.trim();
       }
 
       this.selectedContact = existing;
-
       this.theirLanguage =
-        existing.language ||
-        this.detectLanguageFromNumber(
-          number
-        );
-
+        existing.language || this.detectLanguageFromNumber(number);
       this.showDialer = false;
       this.newContactName = '';
-
       return;
     }
 
-    const language =
-      this.detectLanguageFromNumber(
-        number
-      );
-
+    const language = this.detectLanguageFromNumber(number);
     const contact: Contact = {
-      name:
-        this.newContactName.trim() ||
-        number,
+      name: this.newContactName.trim() || number,
       number,
       language
     };
 
     this.contacts.unshift(contact);
-
     this.selectedContact = contact;
     this.theirLanguage = language;
-
     this.showDialer = false;
     this.dialedNumber = '';
     this.newContactName = '';
   }
 
-  useDialedNumberForCall(
-    mode: 'audio' | 'video'
-  ): void {
-    const number =
-      this.dialedNumber.trim();
-
+  useDialedNumberForCall(mode: 'audio' | 'video'): void {
+    const number = this.dialedNumber.trim();
     if (!number) {
       return;
     }
 
-    let contact =
-      this.contacts.find(
-        item =>
-          item.number === number
-      );
+    let contact = this.contacts.find(item => item.number === number);
 
     if (!contact) {
       contact = {
         name: number,
         number,
-        language:
-          this.detectLanguageFromNumber(
-            number
-          )
+        language: this.detectLanguageFromNumber(number)
       };
-
       this.contacts.unshift(contact);
     }
 
     this.selectedContact = contact;
-
     this.theirLanguage =
-      contact.language ||
-      this.detectLanguageFromNumber(
-        number
-      );
-
+      contact.language || this.detectLanguageFromNumber(number);
     this.showDialer = false;
 
     if (mode === 'audio') {
@@ -1275,11 +1124,7 @@ export class Home implements OnInit, OnDestroy {
   }
 
   getLanguageName(code: string): string {
-    const language =
-      this.languages.find(
-        item => item.code === code
-      );
-
+    const language = this.languages.find(item => item.code === code);
     return language?.name || code;
   }
 
@@ -1291,127 +1136,25 @@ export class Home implements OnInit, OnDestroy {
     this.theirLanguage = code;
   }
 
-  detectLanguageFromNumber(
-    number: string
-  ): string {
-    const normalized =
-      number.replace(/\s/g, '');
+  detectLanguageFromNumber(number: string): string {
+    const normalized = number.replace(/\s/g, '');
 
-    if (
-      normalized.startsWith('+92') ||
-      normalized.startsWith('0092')
-    ) {
-      return 'ur';
-    }
+    if (normalized.startsWith('+92') || normalized.startsWith('0092')) return 'ur';
+    if (normalized.startsWith('+966') || normalized.startsWith('00966')) return 'ar';
+    if (normalized.startsWith('+86') || normalized.startsWith('0086')) return 'zh';
+    if (normalized.startsWith('+81') || normalized.startsWith('0081')) return 'ja';
+    if (normalized.startsWith('+82') || normalized.startsWith('0082')) return 'ko';
+    if (normalized.startsWith('+44') || normalized.startsWith('0044')) return 'en';
+    if (normalized.startsWith('+1') || normalized.startsWith('001')) return 'en';
+    if (normalized.startsWith('+33') || normalized.startsWith('0033')) return 'fr';
+    if (normalized.startsWith('+49') || normalized.startsWith('0049')) return 'de';
+    if (normalized.startsWith('+34') || normalized.startsWith('0034')) return 'es';
+    if (normalized.startsWith('+39') || normalized.startsWith('0039')) return 'it';
+    if (normalized.startsWith('+7') || normalized.startsWith('007')) return 'ru';
+    if (normalized.startsWith('+90') || normalized.startsWith('0090')) return 'tr';
+    if (normalized.startsWith('+91') || normalized.startsWith('0091')) return 'hi';
+    if (normalized.startsWith('+880') || normalized.startsWith('00880')) return 'bn';
 
-    if (
-      normalized.startsWith('+966') ||
-      normalized.startsWith('00966')
-    ) {
-      return 'ar';
-    }
-
-    if (
-      normalized.startsWith('+86') ||
-      normalized.startsWith('0086')
-    ) {
-      return 'zh';
-    }
-
-    if (
-      normalized.startsWith('+81') ||
-      normalized.startsWith('0081')
-    ) {
-      return 'ja';
-    }
-
-    if (
-      normalized.startsWith('+82') ||
-      normalized.startsWith('0082')
-    ) {
-      return 'ko';
-    }
-
-    if (
-      normalized.startsWith('+44') ||
-      normalized.startsWith('0044')
-    ) {
-      return 'en';
-    }
-
-    if (
-      normalized.startsWith('+1') ||
-      normalized.startsWith('001')
-    ) {
-      return 'en';
-    }
-
-    if (
-      normalized.startsWith('+33') ||
-      normalized.startsWith('0033')
-    ) {
-      return 'fr';
-    }
-
-    if (
-      normalized.startsWith('+49') ||
-      normalized.startsWith('0049')
-    ) {
-      return 'de';
-    }
-
-    if (
-      normalized.startsWith('+34') ||
-      normalized.startsWith('0034')
-    ) {
-      return 'es';
-    }
-
-    if (
-      normalized.startsWith('+39') ||
-      normalized.startsWith('0039')
-    ) {
-      return 'it';
-    }
-
-    if (
-      normalized.startsWith('+7') ||
-      normalized.startsWith('007')
-    ) {
-      return 'ru';
-    }
-
-    if (
-      normalized.startsWith('+90') ||
-      normalized.startsWith('0090')
-    ) {
-      return 'tr';
-    }
-
-    if (
-      normalized.startsWith('+91') ||
-      normalized.startsWith('0091')
-    ) {
-      return 'hi';
-    }
-
-    if (
-      normalized.startsWith('+880') ||
-      normalized.startsWith('00880')
-    ) {
-      return 'bn';
-    }
-
-    /*
-     * LANG internal numbers such as:
-     * 234500004
-     *
-     * are not country-code numbers.
-     *
-     * For the current Local-to-Local testing,
-     * use the selected/current language rather
-     * than incorrectly changing Urdu to English.
-     */
     return this.myLanguage || 'ur';
   }
 
@@ -1423,9 +1166,7 @@ export class Home implements OnInit, OnDestroy {
     this.startCall('video');
   }
 
-  private startCall(
-    mode: 'audio' | 'video'
-  ): void {
+  private startCall(mode: 'audio' | 'video'): void {
     if (!this.selectedContact) {
       this.openDialer();
       return;
@@ -1436,15 +1177,11 @@ export class Home implements OnInit, OnDestroy {
     }
 
     if (!this.canStartCall()) {
-      console.warn(
-        'Call cannot start: package/credits unavailable.'
-      );
+      console.warn('Call cannot start: package/credits unavailable.');
       return;
     }
 
-    const receiverNumber =
-      this.selectedContact.number.trim();
-
+    const receiverNumber = this.selectedContact.number.trim();
     if (!receiverNumber) {
       return;
     }
@@ -1459,121 +1196,62 @@ export class Home implements OnInit, OnDestroy {
     this.callStartedByMe = true;
     this.incomingCallVisible = false;
 
-    this.api
-      .initiateCall(
-        receiverNumber,
-        mode
-      )
-      .subscribe({
-        next: async (response: any) => {
-          const callId =
-            Number(
-              response?.id ??
-              response?.call_id ??
-              response?.data?.id ??
-              response?.data?.call_id
-            );
+    this.api.initiateCall(receiverNumber, mode).subscribe({
+      next: async (response: any) => {
+        const callId = Number(
+          response?.id ??
+          response?.call_id ??
+          response?.data?.id ??
+          response?.data?.call_id
+        );
 
-          if (!callId) {
-            console.error(
-              'Call initiated but no call ID returned:',
-              response
-            );
-
-            this.failCurrentCall(
-              'missing-call-id'
-            );
-
-            return;
-          }
-
-          this.activeCallId = callId;
-
-          this.remoteUserId =
-            Number(
-              response?.receiver_id ??
-              response?.data?.receiver_id ??
-              0
-            ) || null;
-
-          console.log(
-            'LANG call initiated:',
-            response
-          );
-
-          this.api
-            .ringCall(callId)
-            .subscribe({
-              next: () => {
-                this.callState = 'calling';
-                this.cdr.detectChanges();
-              },
-
-              error: (err) => {
-                console.error(
-                  'Failed to ring call:',
-                  err
-                );
-
-                this.failCurrentCall(
-                  'ring-failed'
-                );
-              }
-            });
-        },
-
-        error: (err) => {
-          console.error(
-            'Failed to initiate call:',
-            err
-          );
-
-          this.failCurrentCall(
-            'initiate-failed'
-          );
+        if (!callId) {
+          console.error('Call initiated but no call ID returned:', response);
+          this.failCurrentCall('missing-call-id');
+          return;
         }
-      });
+
+        this.activeCallId = callId;
+        this.remoteUserId =
+          Number(response?.receiver_id ?? response?.data?.receiver_id ?? 0) || null;
+
+        console.log('LANG call initiated:', response);
+
+        this.api.ringCall(callId).subscribe({
+          next: () => {
+            this.callState = 'calling';
+            this.cdr.detectChanges();
+          },
+          error: (err) => {
+            console.error('Failed to ring call:', err);
+            this.failCurrentCall('ring-failed');
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Failed to initiate call:', err);
+        this.failCurrentCall('initiate-failed');
+      }
+    });
   }
 
   private canStartCall(): boolean {
     if (this.currentMode === 'local') {
-      return (
-        this.hasLocalPackage &&
-        this.localCredits > 0
-      );
+      return this.hasLocalPackage && this.localCredits > 0;
     }
 
-    return (
-      this.hasTranslationPackage &&
-      this.translationCredits > 0
-    );
+    return this.hasTranslationPackage && this.translationCredits > 0;
   }
 
   disconnectCall(): void {
-    const callId =
-      this.activeCallId;
-
+    const callId = this.activeCallId;
     this.clearCallTimers();
 
     if (callId) {
-      this.api
-        .endCall(callId)
-        .subscribe({
-          next: () => {
-            console.log(
-              'LANG call ended:',
-              callId
-            );
-          },
-
-          error: (err) => {
-            console.error(
-              'Failed to end call:',
-              err
-            );
-          }
-        });
-
+      this.api.endCall(callId).subscribe({
+        next: () => console.log('LANG call ended:', callId),
+        error: (err) => console.error('Failed to end call:', err)
+      });
       this.ws.sendHangup(callId);
     }
 
@@ -1588,31 +1266,22 @@ export class Home implements OnInit, OnDestroy {
     this.callState = 'idle';
     this.callMode = null;
     this.callDuration = 0;
-
     this.activeCallId = null;
     this.remoteUserId = null;
     this.callStartedByMe = false;
     this.acceptingIncomingCall = false;
-
     this.incomingCallVisible = false;
     this.incomingCaller = null;
     this.incomingCallMode = null;
     this.incomingCallId = null;
     this.incomingCallerUserId = null;
-
     this.cdr.detectChanges();
   }
 
-  private failCurrentCall(
-    reason: string
-  ): void {
-    console.error(
-      'LANG call failed:',
-      reason
-    );
+  private failCurrentCall(reason: string): void {
+    console.error('LANG call failed:', reason);
 
-    const callId =
-      this.activeCallId;
+    const callId = this.activeCallId;
 
     if (callId) {
       this.ws.send({
@@ -1621,11 +1290,9 @@ export class Home implements OnInit, OnDestroy {
         reason
       });
 
-      this.api
-        .endCall(callId)
-        .subscribe({
-          error: () => {}
-        });
+      this.api.endCall(callId).subscribe({
+        error: () => {}
+      });
     }
 
     this.clearCurrentCallState();
@@ -1634,19 +1301,15 @@ export class Home implements OnInit, OnDestroy {
   private startCallTimer(): void {
     this.stopCallTimer();
 
-    this.callTimer =
-      setInterval(() => {
-        this.callDuration++;
+    this.callTimer = setInterval(() => {
+      this.callDuration++;
 
-        if (
-          this.callDuration > 0 &&
-          this.callDuration % 30 === 0
-        ) {
-          this.consumeCallCredit();
-        }
+      if (this.callDuration > 0 && this.callDuration % 30 === 0) {
+        this.consumeCallCredit();
+      }
 
-        this.cdr.detectChanges();
-      }, 1000);
+      this.cdr.detectChanges();
+    }, 1000);
   }
 
   private stopCallTimer(): void {
@@ -1665,56 +1328,29 @@ export class Home implements OnInit, OnDestroy {
       return;
     }
 
-    const units =
-      this.callMode === 'video'
-        ? 2
-        : 1;
+    const units = this.callMode === 'video' ? 2 : 1;
 
-    if (
-      this.currentMode === 'local'
-    ) {
-      this.localCredits =
-        Math.max(
-          0,
-          this.localCredits - units
-        );
-
+    if (this.currentMode === 'local') {
+      this.localCredits = Math.max(0, this.localCredits - units);
       if (this.localCredits === 0) {
         this.disconnectCall();
       }
-
       return;
     }
 
-    this.translationCredits =
-      Math.max(
-        0,
-        this.translationCredits - units
-      );
-
-    if (
-      this.translationCredits === 0
-    ) {
+    this.translationCredits = Math.max(0, this.translationCredits - units);
+    if (this.translationCredits === 0) {
       this.disconnectCall();
     }
   }
 
-  private formatCallDuration(
-    seconds: number
-  ): string {
-    const mins =
-      Math.floor(seconds / 60);
-
-    const secs =
-      seconds % 60;
-
+  private formatCallDuration(seconds: number): string {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
     return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
   }
 
-  receiveIncomingCall(
-    contact: Contact,
-    mode: 'audio' | 'video'
-  ): void {
+  receiveIncomingCall(contact: Contact, mode: 'audio' | 'video'): void {
     this.incomingCaller = contact;
     this.incomingCallMode = mode;
     this.incomingCallVisible = true;
@@ -1722,91 +1358,53 @@ export class Home implements OnInit, OnDestroy {
   }
 
   answerIncomingCall(): void {
-    if (
-      !this.incomingCaller ||
-      !this.incomingCallId ||
-      !this.incomingCallerUserId
-    ) {
+    if (!this.incomingCaller || !this.incomingCallId || !this.incomingCallerUserId) {
       return;
     }
 
-    const callId =
-      this.incomingCallId;
+    const callId = this.incomingCallId;
 
-    this.selectedContact =
-      this.incomingCaller;
+    this.selectedContact = this.incomingCaller;
 
-    if (
-      this.incomingCaller.language
-    ) {
-      this.theirLanguage =
-        this.incomingCaller.language;
+    if (this.incomingCaller.language) {
+      this.theirLanguage = this.incomingCaller.language;
     }
 
-    this.callMode =
-      this.incomingCallMode;
-
+    this.callMode = this.incomingCallMode;
     this.callDuration = 0;
     this.callState = 'ringing';
-
     this.acceptingIncomingCall = true;
     this.callStartedByMe = false;
     this.activeCallId = callId;
-    this.remoteUserId =
-      this.incomingCallerUserId;
+    this.remoteUserId = this.incomingCallerUserId;
 
-    this.api
-      .acceptCall(callId)
-      .subscribe({
-        next: async () => {
-          this.incomingCallVisible = false;
+    this.api.acceptCall(callId).subscribe({
+      next: async () => {
+        this.incomingCallVisible = false;
 
-          try {
-            await this.prepareIncomingPeerConnection();
-
-            this.callState = 'ringing';
-
-            this.cdr.detectChanges();
-          } catch (err) {
-            console.error(
-              'Failed to prepare incoming WebRTC:',
-              err
-            );
-
-            this.failCurrentCall(
-              'incoming-media-failed'
-            );
-          }
-        },
-
-        error: (err) => {
-          console.error(
-            'Failed to accept call:',
-            err
-          );
-
-          this.failCurrentCall(
-            'accept-failed'
-          );
+        try {
+          await this.prepareIncomingPeerConnection();
+          this.callState = 'ringing';
+          this.cdr.detectChanges();
+        } catch (err) {
+          console.error('Failed to prepare incoming WebRTC:', err);
+          this.failCurrentCall('incoming-media-failed');
         }
-      });
+      },
+      error: (err) => {
+        console.error('Failed to accept call:', err);
+        this.failCurrentCall('accept-failed');
+      }
+    });
   }
 
   rejectIncomingCall(): void {
-    const callId =
-      this.incomingCallId;
+    const callId = this.incomingCallId;
 
     if (callId) {
-      this.api
-        .rejectCall(callId)
-        .subscribe({
-          error: (err) => {
-            console.error(
-              'Failed to reject call:',
-              err
-            );
-          }
-        });
+      this.api.rejectCall(callId).subscribe({
+        error: (err) => console.error('Failed to reject call:', err)
+      });
     }
 
     this.clearCallTimers();
@@ -1818,17 +1416,13 @@ export class Home implements OnInit, OnDestroy {
     this.incomingCallMode = null;
     this.incomingCallId = null;
     this.incomingCallerUserId = null;
-
     this.activeCallId = null;
     this.remoteUserId = null;
-
     this.callState = 'idle';
     this.callMode = null;
     this.callDuration = 0;
-
     this.callStartedByMe = false;
     this.acceptingIncomingCall = false;
-
     this.cdr.detectChanges();
   }
 
@@ -1836,7 +1430,6 @@ export class Home implements OnInit, OnDestroy {
     if (!this.sendMessageEnabled) {
       return;
     }
-
     this.showMessageBox = true;
   }
 
@@ -1848,36 +1441,22 @@ export class Home implements OnInit, OnDestroy {
     if (!this.sendMessageEnabled) {
       return;
     }
-
-    console.log(
-      'Voice message recording will start here.'
-    );
+    console.log('Voice message recording will start here.');
   }
 
   sendQuickMessage(message: string): void {
     if (!this.selectedContact) {
       return;
     }
-
-    console.log(
-      'Quick message:',
-      message,
-      'to:',
-      this.selectedContact.number
-    );
+    console.log('Quick message:', message, 'to:', this.selectedContact.number);
   }
 
   enableTranslationDemo(): void {
     this.hasTranslationPackage = true;
     this.translationCredits = 100;
     this.messageCredits = 10;
-
-    this.packageName =
-      'Translation Demo Package';
-
-    this.packageExpiry =
-      'Demo balance';
-
+    this.packageName = 'Translation Demo Package';
+    this.packageExpiry = 'Demo balance';
     this.showMessageBox = false;
   }
 }
