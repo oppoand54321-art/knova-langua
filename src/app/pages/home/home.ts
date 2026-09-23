@@ -350,7 +350,7 @@ export class Home implements OnInit, OnDestroy {
       contact = {
         name: callerNumber,
         number: callerNumber,
-        language: message.source_language || 'ur'
+        language: this.myLanguage
       };
 
       this.contacts.unshift(contact);
