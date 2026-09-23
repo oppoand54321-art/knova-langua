@@ -368,9 +368,9 @@ export class Home implements OnInit, OnDestroy {
     this.callStartedByMe = false;
     this.acceptingIncomingCall = false;
 
-    if (message.target_language) {
-      this.theirLanguage = message.source_language || this.myLanguage;
-    }
+    if (message.is_same_language) {
+  this.theirLanguage = this.myLanguage;
+}
   }
 
   private handleCallAccepted(message: any): void {
@@ -1374,9 +1374,7 @@ export class Home implements OnInit, OnDestroy {
 
     this.selectedContact = this.incomingCaller;
 
-    if (this.incomingCaller.language) {
-      this.theirLanguage = this.incomingCaller.language;
-    }
+    
 
     this.callMode = this.incomingCallMode;
     this.callDuration = 0;
