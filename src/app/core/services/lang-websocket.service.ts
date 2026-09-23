@@ -9,6 +9,9 @@ export class LangWebSocketService {
 
   private socket: WebSocket | null = null;
   private messageSubject = new Subject<any>();
+  private pingTimer: ReturnType<typeof setInterval> | null = null;
+  private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  private shouldReconnect = true;
 
   public messages$: Observable<any> = this.messageSubject.asObservable();
 
@@ -19,13 +22,18 @@ export class LangWebSocketService {
       return;
     }
 
-    const wsUrl = `${environment.wsUrl}/api/v1/ws?token=${token}`;
-    // environment.wsUrl = ws://localhost:8000
+    this.shouldReconnect = true;
 
+    if (this.socket && (this.socket.readyState === WebSocket.OPEN || this.socket.readyState === WebSocket.CONNECTING)) {
+      return;
+    }
+
+    const wsUrl = `${environment.wsUrl}/api/v1/ws?token=${token}`;
     this.socket = new WebSocket(wsUrl);
 
     this.socket.onopen = () => {
       console.log('LANG WebSocket connected');
+      this.startPing();
     };
 
     this.socket.onmessage = (event) => {
@@ -35,12 +43,44 @@ export class LangWebSocketService {
 
     this.socket.onclose = () => {
       console.log('LANG WebSocket closed');
-      // Optional: auto reconnect logic
+      this.stopPing();
+      this.socket = null;
+      this.scheduleReconnect();
     };
 
     this.socket.onerror = (err) => {
       console.error('WebSocket error', err);
     };
+  }
+
+  private startPing() {
+    this.stopPing();
+    this.pingTimer = setInterval(() => {
+      this.send({ type: 'ping' });
+    }, 15000);
+  }
+
+  private stopPing() {
+    if (this.pingTimer) {
+      clearInterval(this.pingTimer);
+      this.pingTimer = null;
+    }
+  }
+
+  private scheduleReconnect() {
+    if (!this.shouldReconnect) {
+      return;
+    }
+
+    if (this.reconnectTimer) {
+      return;
+    }
+
+    this.reconnectTimer = setTimeout(() => {
+      this.reconnectTimer = null;
+      console.log('LANG WebSocket reconnecting...');
+      this.connect();
+    }, 2000);
   }
 
   send(data: any) {
@@ -49,7 +89,6 @@ export class LangWebSocketService {
     }
   }
 
-  // Convenience methods
   sendOffer(callId: number, toUserId: number, sdp: string) {
     this.send({ type: 'offer', call_id: callId, to_user_id: toUserId, sdp });
   }
@@ -82,6 +121,14 @@ export class LangWebSocketService {
   }
 
   disconnect() {
+    this.shouldReconnect = false;
+    this.stopPing();
+
+    if (this.reconnectTimer) {
+      clearTimeout(this.reconnectTimer);
+      this.reconnectTimer = null;
+    }
+
     this.socket?.close();
     this.socket = null;
   }

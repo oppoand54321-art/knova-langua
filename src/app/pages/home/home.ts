@@ -287,6 +287,10 @@ export class Home implements OnInit, OnDestroy {
         this.handleCallEnded(message);
         break;
 
+      case 'webrtc-failure':
+        this.handleCallEnded(message);
+        break;
+
       case 'offer':
         this.handleOffer(message);
         break;
@@ -379,8 +383,10 @@ export class Home implements OnInit, OnDestroy {
     if (!this.callStartedByMe) {
       return;
     }
-this.remoteUserId =
-  Number(message.from_user_id) || this.remoteUserId;
+
+    this.remoteUserId =
+      Number(message.from_user_id) || this.remoteUserId;
+
     this.callState = 'calling';
 
     this.prepareOutgoingPeerConnection()
@@ -422,7 +428,7 @@ this.remoteUserId =
   private handleCallEnded(message: any): void {
     const callId = Number(message.call_id);
 
-    if (this.activeCallId !== callId) {
+    if (this.activeCallId && this.activeCallId !== callId) {
       return;
     }
 
@@ -437,6 +443,7 @@ this.remoteUserId =
     this.activeCallId = null;
     this.remoteUserId = null;
     this.callStartedByMe = false;
+    this.acceptingIncomingCall = false;
 
     this.incomingCallVisible = false;
     this.incomingCaller = null;
