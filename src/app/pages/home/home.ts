@@ -379,7 +379,8 @@ export class Home implements OnInit, OnDestroy {
     if (!this.callStartedByMe) {
       return;
     }
-
+this.remoteUserId =
+  Number(message.from_user_id) || this.remoteUserId;
     this.callState = 'calling';
 
     this.prepareOutgoingPeerConnection()
