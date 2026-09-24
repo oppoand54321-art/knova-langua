@@ -4,7 +4,7 @@
     <div class="brand">LANG</div>
 
     <h1>WhatsApp se login</h1>
-    <p class="subtitle">Number likho. Code WhatsApp pe aayega. Password nahi.</p>
+    <p class="subtitle">Number likho. Code WhatsApp pe aayega.</p>
 
     @if (step() === 'phone') {
       <div class="form-group">
@@ -63,6 +63,37 @@
         Number change
       </button>
     }
+
+    <hr />
+
+    <h1>Email se (test)</h1>
+    <p class="subtitle">3 testers. WhatsApp template ke baad yeh hata dena.</p>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input
+        type="email"
+        autocomplete="username"
+        placeholder="email"
+        [value]="email()"
+        (input)="onEmailInput($event)"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>Password</label>
+      <input
+        type="password"
+        autocomplete="current-password"
+        placeholder="password"
+        [value]="password()"
+        (input)="onPasswordInput($event)"
+      />
+    </div>
+
+    <button class="login-btn" type="button" (click)="loginEmail()" [disabled]="loading()">
+      {{ loading() ? '...' : 'Email login' }}
+    </button>
 
   </div>
 </div>

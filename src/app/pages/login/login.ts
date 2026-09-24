@@ -14,6 +14,8 @@ export class Login implements OnDestroy {
   step = signal<'phone' | 'otp'>('phone');
   phone = signal('');
   code = signal('');
+  email = signal('');
+  password = signal('');
   loading = signal(false);
   error = signal('');
   info = signal('');
@@ -56,6 +58,14 @@ export class Login implements OnDestroy {
   onCodeInput(event: Event): void {
     const v = (event.target as HTMLInputElement).value.replace(/\D/g, '').slice(0, 6);
     this.code.set(v);
+  }
+
+  onEmailInput(event: Event): void {
+    this.email.set((event.target as HTMLInputElement).value);
+  }
+
+  onPasswordInput(event: Event): void {
+    this.password.set((event.target as HTMLInputElement).value);
   }
 
   sendOtp(): void {
@@ -118,6 +128,31 @@ export class Login implements OnDestroy {
       error: (err) => {
         this.loading.set(false);
         this.error.set(err.error?.detail || 'Galat code');
+      }
+    });
+  }
+
+  loginEmail(): void {
+    this.error.set('');
+    if (!this.email() || !this.password()) {
+      this.error.set('Email aur password likho');
+      return;
+    }
+    this.loading.set(true);
+    this.api.login({
+      email: this.email().trim().toLowerCase(),
+      password: this.password()
+    }).subscribe({
+      next: (res: any) => {
+        localStorage.setItem('access_token', res.access_token);
+        if (res.refresh_token) {
+          localStorage.setItem('refresh_token', res.refresh_token);
+        }
+        this.goHome();
+      },
+      error: (err) => {
+        this.loading.set(false);
+        this.error.set(err.error?.detail || 'Login fail');
       }
     });
   }
