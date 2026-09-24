@@ -3,7 +3,7 @@ import {
   OnDestroy
 } from '@angular/core';
 
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 interface BeforeInstallPromptEvent extends Event {
   readonly platforms: string[];
@@ -44,8 +44,11 @@ export class Landing implements OnDestroy {
 
     };
 
+  constructor(private router: Router) {
 
-  constructor() {
+    if (localStorage.getItem('access_token')) {
+      this.router.navigate(['/home']);
+    }
 
     window.addEventListener(
       'beforeinstallprompt',
@@ -59,7 +62,6 @@ export class Landing implements OnDestroy {
 
   }
 
-
   toggleItem(index: number): void {
 
     this.activeItem =
@@ -68,7 +70,6 @@ export class Landing implements OnDestroy {
         : index;
 
   }
-
 
   async installApp(): Promise<void> {
 
@@ -82,12 +83,10 @@ export class Landing implements OnDestroy {
 
     }
 
-
     const prompt =
       this.deferredInstallPrompt;
 
     this.deferredInstallPrompt = null;
-
 
     try {
 
@@ -120,7 +119,6 @@ export class Landing implements OnDestroy {
     }
 
   }
-
 
   ngOnDestroy(): void {
 

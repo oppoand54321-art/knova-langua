@@ -51,6 +51,27 @@ export class LangApiService {
     );
   }
 
+  resendOtp(data: {
+    phone_number?: string;
+    email?: string;
+    channel: 'whatsapp' | 'email';
+  }) {
+    return this.http.post(
+      `${this.baseUrl}/auth/resend-otp`,
+      data
+    );
+  }
+
+  verifyWhatsapp(data: {
+    phone_number: string;
+    code: string;
+  }) {
+    return this.http.post(
+      `${this.baseUrl}/auth/verify-whatsapp`,
+      data
+    );
+  }
+
   // ========== LANG NUMBERS ==========
 
   getPrimaryNumber() {

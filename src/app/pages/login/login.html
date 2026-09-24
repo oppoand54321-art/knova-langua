@@ -3,60 +3,66 @@
 
     <div class="brand">LANG</div>
 
-    <h1>Welcome Back</h1>
-    <p class="subtitle">Sign in to your LANG account</p>
+    <h1>WhatsApp se login</h1>
+    <p class="subtitle">Number likho. Code WhatsApp pe aayega. Password nahi.</p>
 
-    <div class="form-group">
-      <label>Email</label>
-      <input
-        type="email"
-        [value]="email()"
-        (input)="email.set($any($event.target).value)"
-        placeholder="Enter your email"
-        autocomplete="email"
-      />
-    </div>
-
-    <div class="form-group">
-      <label>Password</label>
-      <input
-        type="password"
-        [value]="password()"
-        (input)="password.set($any($event.target).value)"
-        placeholder="Enter your password"
-        autocomplete="current-password"
-      />
-    </div>
-
-    @if (error()) {
-      <div class="error">
-        {{ error() }}
+    @if (step() === 'phone') {
+      <div class="form-group">
+        <label>WhatsApp number</label>
+        <input
+          type="tel"
+          inputmode="tel"
+          autocomplete="tel"
+          placeholder="+92 300 1234567"
+          [value]="phone()"
+          (input)="onPhoneInput($event)"
+        />
       </div>
+
+      @if (error()) {
+        <div class="error">{{ error() }}</div>
+      }
+
+      <button class="login-btn" type="button" (click)="sendOtp()" [disabled]="loading()">
+        {{ loading() ? 'Bhej rahe...' : 'Code bhejo' }}
+      </button>
+    } @else {
+      <p class="subtitle">{{ info() }} · {{ phone() }}</p>
+
+      <div class="form-group">
+        <label>6-digit code</label>
+        <input
+          type="text"
+          inputmode="numeric"
+          maxlength="6"
+          autocomplete="one-time-code"
+          placeholder="------"
+          [value]="code()"
+          (input)="onCodeInput($event)"
+        />
+      </div>
+
+      @if (error()) {
+        <div class="error">{{ error() }}</div>
+      }
+
+      <button class="login-btn" type="button" (click)="verify()" [disabled]="loading()">
+        {{ loading() ? 'Check...' : 'Verify' }}
+      </button>
+
+      <button
+        class="ghost-btn"
+        type="button"
+        [disabled]="resendIn() > 0 || loading()"
+        (click)="sendOtp()"
+      >
+        {{ resendIn() > 0 ? 'Dobara ' + resendIn() + 's' : 'Code dobara bhejo' }}
+      </button>
+
+      <button class="ghost-btn" type="button" (click)="backToPhone()">
+        Number change
+      </button>
     }
-
-    <button
-      class="login-btn"
-      (click)="onLogin()"
-      [disabled]="loading()"
-    >
-      {{ loading() ? 'Logging in...' : 'Login' }}
-    </button>
-
-    <div class="divider">
-      <span>OR</span>
-    </div>
-
-    <div class="signup-text">
-      Don't have a LANG account?
-    </div>
-
-    <button
-      class="signup-btn"
-      type="button"
-      (click)="onSignup()"
-    >
-      Create Account
-    </button>
 
   </div>
 </div>
