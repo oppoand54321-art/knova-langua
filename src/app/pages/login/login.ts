@@ -72,7 +72,7 @@ export class Login implements OnDestroy {
     this.error.set('');
     const phone = this.e164(this.phone());
     if (this.digits(phone).length < 10) {
-      this.error.set('Sahi WhatsApp number likho');
+      this.error.set('Enter a valid WhatsApp number');
       return;
     }
     this.phone.set(phone);
@@ -85,12 +85,12 @@ export class Login implements OnDestroy {
       next: () => {
         this.loading.set(false);
         this.step.set('otp');
-        this.info.set('Code WhatsApp pe bhej diya');
+        this.info.set('Code sent on WhatsApp');
         this.startResendCountdown();
       },
       error: (err) => {
         this.loading.set(false);
-        this.error.set(err.error?.detail || 'OTP nahi gaya');
+        this.error.set(err.error?.detail || 'Could not send OTP');
       }
     });
   }
@@ -99,7 +99,7 @@ export class Login implements OnDestroy {
     this.error.set('');
     const code = this.code();
     if (code.length !== 6) {
-      this.error.set('6 digit code likho');
+      this.error.set('Enter the 6-digit code');
       return;
     }
     this.loading.set(true);
@@ -117,7 +117,7 @@ export class Login implements OnDestroy {
         }
         if (!res?.access_token) {
           this.loading.set(false);
-          this.error.set('Verify ho gaya lekin session token nahi aaya');
+          this.error.set('Verified but no session token received');
           return;
         }
         this.api.assignNumber().subscribe({
@@ -127,7 +127,7 @@ export class Login implements OnDestroy {
       },
       error: (err) => {
         this.loading.set(false);
-        this.error.set(err.error?.detail || 'Galat code');
+        this.error.set(err.error?.detail || 'Invalid code');
       }
     });
   }
@@ -135,7 +135,7 @@ export class Login implements OnDestroy {
   loginEmail(): void {
     this.error.set('');
     if (!this.email() || !this.password()) {
-      this.error.set('Email aur password likho');
+      this.error.set('Enter email and password');
       return;
     }
     this.loading.set(true);
@@ -152,7 +152,7 @@ export class Login implements OnDestroy {
       },
       error: (err) => {
         this.loading.set(false);
-        this.error.set(err.error?.detail || 'Login fail');
+        this.error.set(err.error?.detail || 'Login failed');
       }
     });
   }
@@ -184,5 +184,9 @@ export class Login implements OnDestroy {
     this.code.set('');
     this.error.set('');
     this.info.set('');
+  }
+
+  goToSignup(): void {
+    this.router.navigate(['/signup']);
   }
 }

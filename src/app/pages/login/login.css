@@ -106,3 +106,17 @@ input:focus {
   color: #f4c430;
   margin-bottom: 16px;
 }
+
+.signup-text {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.signup-link {
+  color: #6366f1;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: underline;
+}
