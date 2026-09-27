@@ -4,38 +4,46 @@
        HEADER
   ====================================================== -->
 
-  <header class="lingua-header">
+ <header class="lingua-header">
 
-    <div class="brand">
-      <span class="brand-main">LANG</span>
-      <span class="brand-by">by KNova.work</span>
+  <div class="brand">
+    <span class="brand-main">LANG</span>
+    <span class="brand-by">by KNova.work</span>
+  </div>
+
+  <div class="identity-area">
+
+    <div class="identity-info">
+      <span class="profile-name">{{ profileName }}</span>
+      <span class="lang-number">{{ myLangNumber }}</span>
+
+      @if (verifiedIdentity) {
+        <span class="verified-badge">✓ Verified</span>
+      }
     </div>
 
-    <div class="identity-area">
+    <button
+      type="button"
+      class="credits-button"
+      (click)="openCredits()"
+      title="Credits & Packages"
+    >
+      <span>Credits</span>
+      <strong>{{ totalCredits }}</strong>
+    </button>
 
-      <div class="identity-info">
-        <span class="profile-name">{{ profileName }}</span>
-        <span class="lang-number">{{ myLangNumber }}</span>
+    <button
+      type="button"
+      class="logout-button"
+      (click)="logout()"
+      title="Logout"
+    >
+      Logout
+    </button>
 
-        @if (verifiedIdentity) {
-          <span class="verified-badge">✓ Verified</span>
-        }
-      </div>
+  </div>
 
-      <button
-        type="button"
-        class="credits-button"
-        (click)="openCredits()"
-        title="Credits & Packages"
-      >
-        <span>Credits</span>
-        <strong>{{ totalCredits }}</strong>
-      </button>
-
-    </div>
-
-  </header>
-
+</header>
 
   <!-- =====================================================
        CREDITS SCREEN

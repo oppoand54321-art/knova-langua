@@ -5,6 +5,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { LangApiService } from '../../core/services/lang-api.service';
 import { LangWebSocketService } from '../../core/services/lang-websocket.service';
 
@@ -236,7 +237,8 @@ export class Home implements OnInit, OnDestroy {
   constructor(
     private api: LangApiService,
     private ws: LangWebSocketService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -1464,5 +1466,12 @@ export class Home implements OnInit, OnDestroy {
     this.packageName = 'Translation Demo Package';
     this.packageExpiry = 'Demo balance';
     this.showMessageBox = false;
+  }
+
+  logout(): void {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    this.ws.disconnect();
+    this.router.navigate(['/login']);
   }
 }
