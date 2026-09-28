@@ -1229,10 +1229,14 @@ export class Home implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.callState !== 'idle') {
+      if (this.callState === 'connected') {
       return;
     }
 
+    if (this.callState !== 'idle') {
+      this.clearCurrentCallState();
+    }
+    
     if (!this.canStartCall()) {
       console.warn('Call cannot start: package/credits unavailable.');
       return;
