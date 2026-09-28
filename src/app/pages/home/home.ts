@@ -1418,6 +1418,10 @@ export class Home implements OnInit, OnDestroy {
     if (!this.incomingCaller || !this.incomingCallId || !this.incomingCallerUserId) {
       return;
     }
+        if (this.acceptingIncomingCall) {
+      return;
+    }
+    this.acceptingIncomingCall = true;
 
     const callId = this.incomingCallId;
 
