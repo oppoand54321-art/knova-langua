@@ -210,6 +210,7 @@ export class Home implements OnInit, OnDestroy {
   callDuration = 0;
 
   private callTimer: ReturnType<typeof setInterval> | null = null;
+  private connectingTimer: ReturnType<typeof setTimeout> | null = null;
 
   private activeCallId: number | null = null;
   private remoteUserId: number | null = null;
@@ -398,7 +399,8 @@ export class Home implements OnInit, OnDestroy {
     this.remoteUserId =
       Number(message.from_user_id) || this.remoteUserId;
 
-    this.callState = 'calling';
+        this.callState = 'connecting';
+    this.startConnectingTimeout();
 
     this.prepareOutgoingPeerConnection()
       .then(() => this.createAndSendOffer())
@@ -763,6 +765,7 @@ export class Home implements OnInit, OnDestroy {
     }
 
     this.callState = 'connected';
+        this.clearConnectingTimeout();
 
     if (!this.callTimer) {
       this.callDuration = 0;
@@ -779,6 +782,7 @@ export class Home implements OnInit, OnDestroy {
 
     if (state === 'connected') {
       this.callState = 'connected';
+          this.clearConnectingTimeout();
 
       if (!this.callTimer) {
         this.callDuration = 0;
@@ -1236,7 +1240,7 @@ export class Home implements OnInit, OnDestroy {
     if (this.callState !== 'idle') {
       this.clearCurrentCallState();
     }
-    
+
     if (!this.canStartCall()) {
       console.warn('Call cannot start: package/credits unavailable.');
       return;
@@ -1320,6 +1324,7 @@ export class Home implements OnInit, OnDestroy {
   }
 
   private clearCurrentCallState(): void {
+  this.clearConnectingTimeout();  
     this.clearCallTimers();
     this.destroyPeerConnection();
     this.removeMediaElements();
@@ -1357,6 +1362,23 @@ export class Home implements OnInit, OnDestroy {
     }
 
     this.clearCurrentCallState();
+  }
+
+    private startConnectingTimeout(): void {
+    this.clearConnectingTimeout();
+    this.connectingTimer = setTimeout(() => {
+      if (this.callState === 'connecting') {
+        console.warn('LANG connecting timeout');
+        this.failCurrentCall('connecting-timeout');
+      }
+    }, 12000);
+  }
+
+  private clearConnectingTimeout(): void {
+    if (this.connectingTimer) {
+      clearTimeout(this.connectingTimer);
+      this.connectingTimer = null;
+    }
   }
 
   private startCallTimer(): void {
@@ -1434,6 +1456,7 @@ export class Home implements OnInit, OnDestroy {
     this.callMode = this.incomingCallMode;
     this.callDuration = 0;
     this.callState = 'connecting';
+        this.startConnectingTimeout();
     this.acceptingIncomingCall = true;
     this.callStartedByMe = false;
     this.activeCallId = callId;
@@ -1446,6 +1469,7 @@ export class Home implements OnInit, OnDestroy {
         try {
           await this.prepareIncomingPeerConnection();
           this.callState = 'connecting';
+              this.startConnectingTimeout();
           this.cdr.detectChanges();
         } catch (err) {
           console.error('Failed to prepare incoming WebRTC:', err);
