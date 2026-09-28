@@ -10,8 +10,7 @@ import { LangApiService } from '../../core/services/lang-api.service';
 import { LangWebSocketService } from '../../core/services/lang-websocket.service';
 
 type CallMode = 'audio' | 'video' | null;
-type CallState = 'idle' | 'calling' | 'ringing' | 'connected';
-
+type CallState = 'idle' | 'calling' | 'ringing' | 'connecting' | 'connected';
 interface Contact {
   name?: string;
   number: string;
@@ -326,7 +325,7 @@ export class Home implements OnInit, OnDestroy {
       return;
     }
 
-    if (this.callStartedByMe) {
+        if (this.callStartedByMe && this.callState !== 'idle') {
       return;
     }
 
@@ -335,7 +334,16 @@ export class Home implements OnInit, OnDestroy {
     }
 
     if (this.activeCallId && this.activeCallId !== callId) {
-      return;
+      if (this.callState === 'connected' || this.callState === 'connecting') {
+        return;
+      }
+      this.clearCallTimers();
+      this.destroyPeerConnection();
+      this.removeMediaElements();
+      this.activeCallId = null;
+      this.remoteUserId = null;
+      this.incomingCallId = null;
+      this.incomingCallerUserId = null;
     }
 
     this.activeCallId = callId;
@@ -1031,6 +1039,9 @@ export class Home implements OnInit, OnDestroy {
         return 'Calling...';
       case 'ringing':
         return 'Ringing...';
+
+              case 'connecting':
+        return 'Connecting...';
       case 'connected':
         return 'Connected';
       default:
@@ -1414,7 +1425,7 @@ export class Home implements OnInit, OnDestroy {
 
     this.callMode = this.incomingCallMode;
     this.callDuration = 0;
-    this.callState = 'ringing';
+    this.callState = 'connecting';
     this.acceptingIncomingCall = true;
     this.callStartedByMe = false;
     this.activeCallId = callId;
@@ -1426,7 +1437,7 @@ export class Home implements OnInit, OnDestroy {
 
         try {
           await this.prepareIncomingPeerConnection();
-          this.callState = 'ringing';
+          this.callState = 'connecting';
           this.cdr.detectChanges();
         } catch (err) {
           console.error('Failed to prepare incoming WebRTC:', err);
