@@ -246,6 +246,11 @@ export class Home implements OnInit, OnDestroy {
     this.loadPrimaryLangNumber();
     this.loadProfile();
     this.connectWebSocket();
+        document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        this.ws.connect();
+      }
+    });
   }
 
   ngOnDestroy(): void {
