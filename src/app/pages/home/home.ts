@@ -220,6 +220,7 @@ export class Home implements OnInit, OnDestroy {
   private peerConnection: RTCPeerConnection | null = null;
   private localStream: MediaStream | null = null;
   private remoteStream: MediaStream | null = null;
+  private pendingIceCandidates: RTCIceCandidateInit[] = [];
 
   private localVideoElement: HTMLVideoElement | null = null;
   private remoteVideoElement: HTMLVideoElement | null = null;
@@ -371,8 +372,8 @@ export class Home implements OnInit, OnDestroy {
     this.acceptingIncomingCall = false;
 
     if (message.is_same_language) {
-  this.theirLanguage = this.myLanguage;
-}
+      this.theirLanguage = this.myLanguage;
+    }
   }
 
   private handleCallAccepted(message: any): void {
@@ -487,6 +488,8 @@ export class Home implements OnInit, OnDestroy {
         })
       );
 
+      await this.flushPendingIceCandidates();
+
       const answer = await this.peerConnection.createAnswer();
 
       await this.peerConnection.setLocalDescription(answer);
@@ -525,6 +528,8 @@ export class Home implements OnInit, OnDestroy {
           sdp
         })
       );
+
+      await this.flushPendingIceCandidates();
     } catch (err) {
       console.error('Failed to set WebRTC answer:', err);
       this.failCurrentCall('webrtc-answer-description-failed');
@@ -543,7 +548,9 @@ export class Home implements OnInit, OnDestroy {
       return;
     }
 
-    if (!this.peerConnection) {
+    if (!this.peerConnection || !this.peerConnection.remoteDescription) {
+      this.pendingIceCandidates.push(candidate);
+      console.log('ICE queued');
       return;
     }
 
@@ -551,8 +558,29 @@ export class Home implements OnInit, OnDestroy {
       await this.peerConnection.addIceCandidate(
         new RTCIceCandidate(candidate)
       );
+      console.log('ICE added');
     } catch (err) {
       console.error('Failed to add remote ICE candidate:', err);
+    }
+  }
+
+  private async flushPendingIceCandidates(): Promise<void> {
+    if (!this.peerConnection) {
+      return;
+    }
+
+    const queued = [...this.pendingIceCandidates];
+    this.pendingIceCandidates = [];
+
+    for (const candidate of queued) {
+      try {
+        await this.peerConnection.addIceCandidate(
+          new RTCIceCandidate(candidate)
+        );
+        console.log('ICE flushed');
+      } catch (err) {
+        console.error('Failed to flush ICE candidate:', err);
+      }
     }
   }
 
@@ -648,7 +676,10 @@ export class Home implements OnInit, OnDestroy {
     };
 
     this.peerConnection.oniceconnectionstatechange = () => {
-      if (this.peerConnection?.iceConnectionState === 'failed') {
+      const iceState = this.peerConnection?.iceConnectionState;
+      console.log('WebRTC ICE connection state:', iceState);
+
+      if (iceState === 'failed') {
         console.error('WebRTC ICE connection failed');
 
         if (this.activeCallId && this.remoteUserId) {
@@ -806,6 +837,7 @@ export class Home implements OnInit, OnDestroy {
 
     const audio = document.createElement('audio');
     audio.autoplay = true;
+    audio.setAttribute('playsinline', 'true');
     audio.style.display = 'none';
     document.body.appendChild(audio);
     this.remoteAudioElement = audio;
@@ -831,11 +863,15 @@ export class Home implements OnInit, OnDestroy {
   private attachRemoteAudio(): void {
     if (this.remoteAudioElement && this.remoteStream) {
       this.remoteAudioElement.srcObject = this.remoteStream;
-      this.remoteAudioElement.play().catch(() => {});
+      this.remoteAudioElement.play().catch((err) => {
+        console.error('Remote audio play failed:', err);
+      });
     }
   }
 
   private destroyPeerConnection(): void {
+    this.pendingIceCandidates = [];
+
     if (this.peerConnection) {
       this.peerConnection.onicecandidate = null;
       this.peerConnection.ontrack = null;
@@ -1375,8 +1411,6 @@ export class Home implements OnInit, OnDestroy {
     const callId = this.incomingCallId;
 
     this.selectedContact = this.incomingCaller;
-
-    
 
     this.callMode = this.incomingCallMode;
     this.callDuration = 0;
