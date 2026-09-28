@@ -334,7 +334,7 @@ export class Home implements OnInit, OnDestroy {
     }
 
     if (this.activeCallId && this.activeCallId !== callId) {
-      if (this.callState === 'connected' || this.callState === 'connecting') {
+      if (this.callState === 'connected') {
         return;
       }
       this.clearCallTimers();
